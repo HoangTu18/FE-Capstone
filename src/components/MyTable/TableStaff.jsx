@@ -91,7 +91,7 @@ const TableStaff = (props) => {
       {popupDelete ? (
         <ConfirmPopup
           closeModel={setPopupDelete}
-          title={"Bạn có muốn xoá nhân viên này không?"}
+          title={"Bạn có muốn huỷ kích hoạt nhân viên này không?"}
           btnYes={"Có"}
           btnNo={"Không"}
           confirm={setConfirm}
