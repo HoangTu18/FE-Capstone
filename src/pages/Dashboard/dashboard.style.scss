@@ -1,0 +1,66 @@
+.dashboard {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__left {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    width: 320px;
+    height: 100%;
+    padding: 50px 40px;
+    padding-bottom: 80px;
+
+    &__logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 50px;
+
+      h3 {
+        font-size: 24px;
+        font-weight: 500;
+        margin-left: 10px;
+      }
+    }
+
+    &__items {
+      flex: 1;
+    }
+
+    .footer {
+      width: 75%;
+      position: absolute;
+      bottom: 0;
+    }
+    hr {
+      background-color: #c4c4c4;
+    }
+
+    .logout {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      cursor: pointer;
+
+      >button {
+        margin-left: 10px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+      }
+    }
+  }
+
+  &__right {
+    background-color: #c4c4c4;
+    flex: 1;
+    height: 100%;
+  }
+}

@@ -1,0 +1,91 @@
+.admin-page {
+  background-color: rgba(196, 196, 196, 1);
+  &__header {
+    background-color: #fff;
+    margin: 0 0 0 20px;
+    padding: 20px 30px;
+    border-radius: 0px 0px 0px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h4 {
+      font-weight: 400;
+    }
+
+    >div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 200px;
+
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 10px;
+      }
+
+      .avatar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        i {
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+
+  &__body {
+    padding: 30px 50px;
+  }
+}
+
+.toptable {
+  background-color: rgba(255, 255, 255, 0.4);
+  padding: 5px;
+  border-radius: 5px 5px 0px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--topnav-height);
+}
+
+.topnav__search {
+  position: relative;
+  height: 50px;
+  background-color: var(--main-bg);
+  display: flex;
+  align-items: center;
+  box-shadow: var(--box-shadow);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.topnav__search>input {
+  height: 100%;
+  width: 100%;
+  padding: 10px 60px 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  color: var(--txt-color);
+  background-color: var(--main-bg);
+}
+
+.topnav__search>i {
+  font-size: 1.5rem;
+  position: absolute;
+  right: 20px;
+}
+
+.topnav__right {
+  display: flex;
+  align-items: center;
+}
+
+.topnav__right-item~.topnav__right-item {
+  margin-left: 15px;
+}
