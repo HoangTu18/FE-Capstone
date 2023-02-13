@@ -60,7 +60,7 @@ const TableFood = (props) => {
               </tr>
             </thead>
           ) : null}
-          {props.bodyData && props.renderBody ? (
+          {props.bodyData? (
             <>
               {dataShow.map((item, index) => (
                 <tbody key={index}>
@@ -68,7 +68,7 @@ const TableFood = (props) => {
                     <td>#{item.id}</td>
                     <td>{item.foodName === null ? "null" : item.foodName}</td>
                     <td>{item.price === null ? "null" : item.price}</td>
-                    <td>{item.foodName === null ? "null" : item.foodName}</td>
+                    <td></td>
                     {item.status ? (
                       <td className="status green">Hoạt động</td>
                     ) : (

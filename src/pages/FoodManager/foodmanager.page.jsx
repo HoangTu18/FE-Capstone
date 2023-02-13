@@ -35,7 +35,11 @@ function FoodManager() {
   );
 
   const [dataFoods, setDataFoods] = useState([]);
-
+  const [query, setQuery] = useState("");
+  console.log(dataFoods);
+  const searchByName = (data) => {
+    return data?.filter((item) => item.foodName?.includes(query) || item.id.toString().toLowerCase().includes(query));
+  };
   useEffect(() => {
     const fetchApi = async () => {
       //loading = true
@@ -80,7 +84,11 @@ function FoodManager() {
                   </div>
                   <div className="topnav__right-item">
                     <div className="topnav__search">
-                      <input type="text" placeholder="" />
+                      <input
+                        type="text"
+                        placeholder=""
+                        onChange={(e) => setQuery(e.target.value)}
+                      />
                       <i className="bx bx-search"></i>
                     </div>
                   </div>
@@ -92,10 +100,10 @@ function FoodManager() {
                   <div className="card">
                     <div className="card__body">
                       <TableFood
-                        limit="5"
+                        limit="10"
                         headData={foodTableHeadTab1}
                         renderHead={(item, index) => renderHead(item, index)}
-                        bodyData={dataFoods}
+                        bodyData={searchByName(dataFoods)}
                         renderBody={(item, index) => renderBody(item, index)}
                       />
                     </div>
@@ -127,7 +135,7 @@ function FoodManager() {
                         limit="5"
                         headData={foodTableHeadTab2}
                         renderHead={(item, index) => renderHead(item, index)}
-                        bodyData={dataFoods}
+                        bodyData={searchByName(dataFoods)}
                         renderBody={(item, index) => renderBody(item, index)}
                       />
                     </div>

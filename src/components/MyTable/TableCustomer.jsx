@@ -7,7 +7,7 @@ import "./table.scss";
 
 const TableCustomer = (props) => {
   const [dataShow, setDataShow] = useState([]);
-
+  console.log(props.bodyData);
   useEffect(() => {
     const initDataShow =
       props.limit && props.bodyData

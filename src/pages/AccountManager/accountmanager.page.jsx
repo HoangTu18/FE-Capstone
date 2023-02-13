@@ -29,7 +29,14 @@ function AccountManager() {
 
   const [staffs, setStaffs] = useState([]);
   const [createPopup, setCreatePopup] = useState(false);
-
+  const [query, setQuery] = useState("");
+  const searchByName = (data) => {
+    return data.filter(
+      (item) =>
+        item.staffFullName?.includes(query) ||
+        item.staffId?.toString().includes(query)
+    );
+  };
   useEffect(() => {
     const fetchApi = async () => {
       //loading = true
@@ -59,7 +66,11 @@ function AccountManager() {
             </div>
             <div className="topnav__right-item">
               <div className="topnav__search">
-                <input type="text" placeholder="" />
+                <input
+                  type="text"
+                  placeholder=""
+                  onChange={(e) => setQuery(e.target.value)}
+                />
                 <i className="bx bx-search"></i>
               </div>
             </div>
@@ -74,7 +85,7 @@ function AccountManager() {
                   limit="5"
                   headData={staffTableHead}
                   renderHead={(item, index) => renderHead(item, index)}
-                  bodyData={staffs}
+                  bodyData={searchByName(staffs)}
                   renderBody={(item, index) => renderBody(item, index)}
                 />
               </div>

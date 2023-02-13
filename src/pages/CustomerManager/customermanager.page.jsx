@@ -18,7 +18,7 @@ function CustomerManager() {
   const renderBody = (item, index) => (
     <tr key={index}>
       <td>{item.id}</td>
-      <td>{item.name}</td>
+      <td>{item.customerName}</td>
       <td>{item.phone}</td>
       <td>{item.address}</td>
       <td>{item.email}</td>
@@ -27,7 +27,10 @@ function CustomerManager() {
   );
 
   const [dataCustomer, setDataCustomer] = useState([]);
-
+  const [query, setQuery] = useState("");
+  const searchByName = (data) => {
+    return data?.filter((item) => item.customerName?.includes(query) || item.customerId.toString().toLowerCase().includes(query));
+  };
   useEffect(() => {
     const fetchApi = async () => {
       //loading = true
@@ -47,7 +50,11 @@ function CustomerManager() {
             <div className="topnav__right">
               <div className="topnav__right-item">
                 <div className="topnav__search">
-                  <input type="text" placeholder="" />
+                  <input
+                    type="text"
+                    placeholder=""
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
                   <i className="bx bx-search"></i>
                 </div>
               </div>
@@ -62,7 +69,7 @@ function CustomerManager() {
                     limit="5"
                     headData={customerTableHead}
                     renderHead={(item, index) => renderHead(item, index)}
-                    bodyData={dataCustomer}
+                    bodyData={searchByName(dataCustomer)}
                     renderBody={(item, index) => renderBody(item, index)}
                   />
                 </div>
