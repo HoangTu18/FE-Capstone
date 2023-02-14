@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import DashboardItem from "../../components/DashboardItem/dashboarditem.component";
 import "./dashboard.style.scss";
@@ -17,7 +17,7 @@ function Dashboard() {
       <div className="dashboard__left">
         <div className="dashboard__left__logo">
           <img src="/images/logo.png" alt="" />
-          <h3>Tên hệ thống</h3>
+          <h3>TFS System</h3>
         </div>
 
         <div className="dashboard__left__items">
@@ -42,6 +42,14 @@ function Dashboard() {
             url={"food"}
             text={"Danh sách món"}
             icon={<i className="fa fa-utensils"></i>}
+          />
+          <DashboardItem
+            isActive={
+              location.pathname.split("/")[2] === "restaurant" ? true : false
+            }
+            url={"restaurant"}
+            text={"Quản lý nhà hàng"}
+            icon={<i className="fa-regular fa-user-chef"></i>}
           />
         </div>
         <div className="footer">

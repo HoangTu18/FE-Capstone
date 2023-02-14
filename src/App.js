@@ -4,6 +4,7 @@ import CustomerManager from "./pages/CustomerManager/customermanager.page";
 import Dashboard from "./pages/Dashboard/dashboard.component";
 import FoodManager from "./pages/FoodManager/foodmanager.page";
 import Login from "./pages/Login/login.page";
+import RestaurantManager from "./pages/RestaurantManager/restaurantmanager.page";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="employee" element={<AccountManager />} />
           <Route path="customer" element={<CustomerManager />} />
           <Route path="food" element={<FoodManager />} />
+          <Route path="restaurant" element={<RestaurantManager />} />
         </Route>
         <Route path="/" element={<Login />} />
       </Routes>
