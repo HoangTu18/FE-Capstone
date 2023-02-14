@@ -38,7 +38,11 @@ function FoodManager() {
   const [query, setQuery] = useState("");
   console.log(dataFoods);
   const searchByName = (data) => {
-    return data?.filter((item) => item.foodName?.includes(query) || item.id.toString().toLowerCase().includes(query));
+    return data?.filter(
+      (item) =>
+        item.foodName?.toLowerCase().includes(query.toLowerCase()) ||
+        item.id.toString().toLowerCase().includes(query)
+    );
   };
   useEffect(() => {
     const fetchApi = async () => {

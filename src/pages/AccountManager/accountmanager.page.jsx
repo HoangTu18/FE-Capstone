@@ -31,10 +31,14 @@ function AccountManager() {
   const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
   const searchByName = (data) => {
-    return data.filter(
-      (item) =>
-        item.staffFullName?.includes(query) ||
-        item.staffId?.toString().includes(query)
+    return data.filter((item) =>
+      query.toLowerCase() === "hoạt động"
+        ? item.staffStatus?.toString().includes(true)
+        : query.toLowerCase() === "không hoạt động"
+        ? item.staffStatus.toString().includes(false)
+        : item.staffFullName?.toLowerCase().includes(query.toLowerCase()) ||
+          item.theAccountForStaff?.phoneNumber.includes(query) ||
+          item.staffId?.toString().includes(query)
     );
   };
   useEffect(() => {
