@@ -29,7 +29,17 @@ function CustomerManager() {
   const [dataCustomer, setDataCustomer] = useState([]);
   const [query, setQuery] = useState("");
   const searchByName = (data) => {
-    return data?.filter((item) => item.customerName?.includes(query) || item.customerId.toString().toLowerCase().includes(query));
+    return data?.filter((item) =>
+      query.toLowerCase() === "hoạt động"
+        ? item.theAccount?.status.toString().includes(true)
+        : query.toLowerCase() === "không hoạt động"
+        ? item.theAccount?.status.toString().includes(false)
+        : item.customerName?.toLowerCase().includes(query.toLowerCase()) ||
+          item.email?.toLowerCase().includes(query) ||
+          item.customerId?.toString().includes(query) ||
+          item.theAccount?.phoneNumber.includes(query) ||
+          item.address?.toLowerCase().includes(query)
+    );
   };
   useEffect(() => {
     const fetchApi = async () => {

@@ -1,39 +1,29 @@
 import React, { Fragment, useState } from "react";
 import { useEffect } from "react";
+import ReactPaginate from "react-paginate";
 import CustomerEdit from "../Customer/customeredit.component";
-
 
 import "./table.scss";
 
 const TableCustomer = (props) => {
   const [dataShow, setDataShow] = useState([]);
-  console.log(props.bodyData);
+  //Handle paging
+  const [itemOffset, setItemOffset] = useState(0);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const itemsPerPage = 5;
+
   useEffect(() => {
-    const initDataShow =
-      props.limit && props.bodyData
-        ? props.bodyData.slice(0, Number(props.limit))
-        : props.bodyData;
-    setDataShow(initDataShow);
-  }, [props.bodyData, props.limit]);
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(props.bodyData.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(props.bodyData.length / itemsPerPage));
+  }, [props.bodyData, itemOffset, itemsPerPage]);
 
-  let pages = 1;
-
-  let range = [];
-
-  let page = Math.floor(props.bodyData.length / Number(props.limit));
-  pages = props.bodyData.length % Number(props.limit) === 0 ? page : page + 1;
-
-  range = [...Array(pages).keys()];
-
-  const [currPage, setCurrPage] = useState(0);
-
-  const selectPage = (page) => {
-    const start = Number(props.limit) * page;
-    const end = start + Number(props.limit);
-    setDataShow(props.bodyData.slice(start, end));
-    setCurrPage(page);
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % props.bodyData.length;
+    setItemOffset(newOffset);
   };
-
+  
   const [showModelEdit, setModelEdit] = useState(false);
   const [dataCustomer, setDataCustomer] = useState();
 
@@ -47,7 +37,6 @@ const TableCustomer = (props) => {
     <div>
       {showModelEdit ? (
         <CustomerEdit closeModel={setModelEdit} data={dataCustomer} />
-  
       ) : (
         Fragment
       )}
@@ -62,9 +51,9 @@ const TableCustomer = (props) => {
               </tr>
             </thead>
           ) : null}
-          {props.bodyData && props.renderBody ? (
+          {currentItems? (
             <>
-              {dataShow.map((item, index) => (
+              {currentItems.map((item, index) => (
                 <tbody key={index} onClick={() => showEdit(item)}>
                   <tr>
                     <td>#{item.customerId}</td>
@@ -92,21 +81,20 @@ const TableCustomer = (props) => {
           ) : null}
         </table>
       </div>
-      {pages > 1 ? (
-        <div className="table__pagination">
-          {range.map((item, index) => (
-            <div
-              key={index}
-              className={`table__pagination-item ${
-                currPage === index ? "active" : ""
-              }`}
-              onClick={() => selectPage(index)}
-            >
-              {item + 1}
-            </div>
-          ))}
-        </div>
-      ) : null}
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel=" >"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={5}
+        pageCount={pageCount}
+        previousLabel="< "
+        renderOnZeroPageCount={null}
+        containerClassName="pagination"
+        pageLinkClassName="page-num"
+        previousLinkClassName="page-num"
+        nextLinkClassName="page-num"
+        activeLinkClassName="active"
+      />
     </div>
   );
 };

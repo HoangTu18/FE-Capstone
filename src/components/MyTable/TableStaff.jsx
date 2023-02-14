@@ -5,41 +5,57 @@ import UserEdit from "../User/useredit.component";
 import ConfirmPopup from "../Confirm/ConfirmPopup";
 import * as deleteStaffs from "../../api/Staff/deleteStaff";
 import * as getRole from "../../api/Role/getRole";
-
+import ReactPaginate from "react-paginate"
 const TableStaff = (props) => {
   const [dataShow, setDataShow] = useState([]);
 
+  //Handle paging
+  const [itemOffset, setItemOffset] = useState(0);
+  const [currentItems,setCurrentItems] = useState([])
+  const [pageCount,setPageCount] = useState(0)
+  const itemsPerPage = 7
+  
+   
   useEffect(() => {
-    const initDataShow =
-      props.limit && props.bodyData
-        ? props.bodyData.slice(0, Number(props.limit))
-        : props.bodyData;
-    setDataShow(initDataShow);
-  }, [props.bodyData, props.limit]);
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(props.bodyData.slice(itemOffset, endOffset))
+    setPageCount(Math.ceil(props.bodyData.length / itemsPerPage))
+    // const initDataShow =
+    //   props.limit && props.bodyData
+    //     ? props.bodyData.slice(0, Number(props.limit))
+    //     : props.bodyData;
+    // setDataShow(initDataShow);
+  }, [props.bodyData,itemOffset,itemsPerPage]);
 
-  let pages = 1;
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % props.bodyData.length;
+    setItemOffset(newOffset);
+  };
 
-  let range = [];
 
-  let page = Math.floor(props.bodyData.length / Number(props.limit));
-  pages = props.bodyData.length % Number(props.limit) === 0 ? page : page + 1;
+  // let pages = 1;
 
-  range = [...Array(pages).keys()];
+  // let range = [];
 
-  const [currPage, setCurrPage] = useState(0);
+  // let page = Math.floor(props.bodyData.length / Number(props.limit));
+  // pages = props.bodyData.length % Number(props.limit) === 0 ? page : page + 1;
+
+  // range = [...Array(pages).keys()];
+
+  // const [currPage, setCurrPage] = useState(0);
   const [popupEdit, setPopupEdit] = useState(false);
   const [popupDelete, setPopupDelete] = useState(false);
   const [newId, setNewId] = useState("");
   const [confirm, setConfirm] = useState(false);
   const [dataRole, setDataRole] = useState([]);
 
-  const selectPage = (page) => {
-    const start = Number(props.limit) * page;
+  // const selectPage = (page) => {
+  //   const start = Number(props.limit) * page;
 
-    const end = start + Number(props.limit);
-    setDataShow(props.bodyData.slice(start, end));
-    setCurrPage(page);
-  };
+  //   const end = start + Number(props.limit);
+  //   setDataShow(props.bodyData.slice(start, end));
+  //   setCurrPage(page);
+  // };
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -112,7 +128,7 @@ const TableStaff = (props) => {
           ) : null}
           {props.bodyData && props.renderBody ? (
             <>
-              {dataShow.map((item, index) => (
+              {currentItems.map((item, index) => (
                 <tbody key={index}>
                   <tr>
                     <td>#{item.staffId}</td>
@@ -146,7 +162,7 @@ const TableStaff = (props) => {
           ) : null}
         </table>
       </div>
-      {pages > 1 ? (
+      {/* {pages > 1 ? (
         <div className="table__pagination">
           {range.map((item, index) => (
             <div
@@ -160,7 +176,21 @@ const TableStaff = (props) => {
             </div>
           ))}
         </div>
-      ) : null}
+      ) : null} */}
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel=" >"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={3}
+        pageCount={pageCount}
+        previousLabel="< "
+        renderOnZeroPageCount={null}
+        containerClassName="pagination"
+        pageLinkClassName="page-num"
+        previousLinkClassName="page-num"
+        nextLinkClassName="page-num"
+        activeLinkClassName="active"
+      />
     </div>
   );
 };
