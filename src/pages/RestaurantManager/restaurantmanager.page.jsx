@@ -64,7 +64,7 @@ function RestaurantManager() {
   return (
     <div>
       <AdminPage>
-        <div className="toptable">
+        <div className="toptable" style={{backgroundColor:'#D7443D'}}>
           <h1 style={{ marginLeft: "30px" }}>Danh sách nhà hàng</h1>
           <div className="topnav__right">
             <div className="topnav__right-item">
