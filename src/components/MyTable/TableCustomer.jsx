@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import { useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import CustomerEdit from "../Customer/customeredit.component";
-
+import { Icon } from "@iconify/react";
 import "./table.scss";
 
 const TableCustomer = (props) => {
@@ -73,6 +73,21 @@ const TableCustomer = (props) => {
                       ) : (
                         <td className="status green">Hoạt động</td>
                       )}
+                    </td>
+                    <td>
+                      <Icon className="icon" icon="bx:show-alt" />
+                      <Icon
+                        className="icon"
+                        icon="bx:bx-edit-alt"
+                        onClick={() => {
+                          showEdit(item);
+                        }}
+                      />
+                      <Icon
+                        className="icon"
+                        icon="material-symbols:delete-outline-rounded"
+                        // onClick={() => showDelete(item.staffId)}
+                      />
                     </td>
                   </tr>
                 </tbody>

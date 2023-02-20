@@ -1,6 +1,5 @@
 import React from "react";
-function CustomerEdit({ data, closeModel }) {
-  console.log("Thanh En ", data)
+function CustomerCreate({ data, closeModel }) {
   return (
     <div className="modelBackground">
       <div className="form-popup" style={{ top: "15%" }}>
@@ -15,21 +14,22 @@ function CustomerEdit({ data, closeModel }) {
             />
             <div className="right">
               <label>Mã khách hàng:</label>
-              <input type="text" value={data.customerId} readOnly />
+              <input type="text"  readOnly />
               <label>Tên khách hàng:</label>
-              <input type="text" defaultValue={data.customerName} />
+              <input type="text" defaultValue="" />
               <label>Số điện thoại:</label>
-              <input type="text" defaultValue={data.theAccount.phoneNumber} />
+              <input type="text" defaultValue="" />
               <label>Địa chỉ:</label>
-              <input type="text" defaultValue={data.address} />
+              <input type="text" defaultValue="" />
               <label>Email:</label>
-              <input type="text" value={data.email} />
+              <input type="text" defaultValue="" />
               <label>Trạng thái: </label>
               <br></br>
               <input
                 className="checkBoxStatus type"
+                disabled
                 type="checkbox"
-                defaultChecked={data.theAccount.status}
+                defaultChecked={true}
               />
               {/* theAccount.status */}
               <div style={{ display: "flex", float: "right" }}>
@@ -52,4 +52,4 @@ function CustomerEdit({ data, closeModel }) {
   );
 }
 
-export default CustomerEdit;
+export default CustomerCreate;

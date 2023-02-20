@@ -2,8 +2,9 @@ import React, { Fragment, useEffect, useState } from "react";
 import * as viewStaffs from "../../api/Staff/viewStaffs";
 import AdminPage from "../../components/AdminPage/adminpage.component";
 import TableStaff from "../../components/MyTable/TableStaff";
-import UserCreate from "../../components/User/usercreate.component";
-
+import UserCreate from "../../components/User/UserCreatePopup";
+import { useDispatch, useSelector } from "react-redux";
+import { getAccountRequest } from "./accountManageSlice";
 function AccountManager() {
   const staffTableHead = [
     "Mã nhân viên",
@@ -26,8 +27,8 @@ function AccountManager() {
       <td></td>
     </tr>
   );
-
-  const [staffs, setStaffs] = useState([]);
+  const dispatch = useDispatch();
+  const staffList = useSelector((state) => state.accountManage.listAccount);
   const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
   const searchByName = (data) => {
@@ -42,15 +43,8 @@ function AccountManager() {
     );
   };
   useEffect(() => {
-    const fetchApi = async () => {
-      //loading = true
-      const result = await viewStaffs.view();
-      setStaffs(result);
-      console.log("Staffs API: ", result);
-      //loading = false
-    };
-    fetchApi();
-  }, []);
+    dispatch(getAccountRequest());
+  }, [dispatch]);
 
   return (
     <div>
@@ -89,7 +83,7 @@ function AccountManager() {
                   limit="5"
                   headData={staffTableHead}
                   renderHead={(item, index) => renderHead(item, index)}
-                  bodyData={searchByName(staffs)}
+                  bodyData={searchByName(staffList)}
                   renderBody={(item, index) => renderBody(item, index)}
                 />
               </div>

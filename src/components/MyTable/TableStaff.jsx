@@ -1,13 +1,16 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import "./table.scss";
-import UserEdit from "../User/useredit.component";
+import UserEdit from "../User/UserEditPopup";
 import ConfirmPopup from "../Confirm/ConfirmPopup";
 import * as deleteStaffs from "../../api/Staff/deleteStaff";
 import * as getRole from "../../api/Role/getRole";
 import ReactPaginate from "react-paginate"
+import { useDispatch,useSelector } from "react-redux";
+import { deleteStaffRequest, getRoleRequest } from "../../pages/AccountManager/accountManageSlice";
 const TableStaff = (props) => {
-  const [dataShow, setDataShow] = useState([]);
+  const dispatch = useDispatch()
+  const listRole = useSelector(state => state.accountManage.listRole)
 
   //Handle paging
   const [itemOffset, setItemOffset] = useState(0);
@@ -58,19 +61,12 @@ const TableStaff = (props) => {
   // };
 
   useEffect(() => {
-    const fetchApi = async () => {
-      //loading = true
-      const result = await getRole.view();
-      setDataRole(result);
+    dispatch(getRoleRequest())
+  }, [dispatch]);
 
-      console.log("Staffs API: ", result);
-      //loading = false
-    };
-    fetchApi();
-  }, []);
-
-  function getRoleName(id) {
-    return dataRole.find((item) => item.roleId === id)["roleName"];
+  const  getRoleName =(id) => {
+    console.log("Thanh En",listRole.find((item) => item.roleId === id)["roleName"]);
+    return listRole.find((item) => item.roleId === id)["roleName"];
   }
 
   const showEdit = (props) => {
@@ -81,21 +77,13 @@ const TableStaff = (props) => {
   const showDelete = (props) => {
     setNewId(props);
     setPopupDelete(!popupDelete);
+
   };
 
   if (confirm) {
-    const fetchApi = async (staffId) => {
-      setConfirm(false);
-      //loading = true
-      const result = await deleteStaffs.remove(staffId);
-      if (result.status === 200) {
-        setPopupDelete(false);
-        window.location.reload();
-      }
-      console.log("Staffs API: ", result.status);
-      //loading = false
-    };
-    fetchApi(newId);
+    setConfirm(false);
+    dispatch(deleteStaffRequest(newId))
+    setPopupDelete(!popupDelete);
   }
   return (
     <div>

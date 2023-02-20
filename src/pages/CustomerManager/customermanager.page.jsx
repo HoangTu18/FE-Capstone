@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import AdminPage from "../../components/AdminPage/adminpage.component";
 import * as viewCustomers from "../../api/Customer/viewCustomers";
 
 import TableCustomer from "../../components/MyTable/TableCustomer";
-
+import CustomerCreate from "../../components/Customer/customercreate.component";
 function CustomerManager() {
   const customerTableHead = [
     "Mã khách hàng",
@@ -11,6 +11,7 @@ function CustomerManager() {
     "Số điện thoại",
     "Địa chỉ",
     "Email",
+    "Trạng thái",
     "Hành động",
   ];
   const renderHead = (item, index) => <th key={index}>{item}</th>;
@@ -23,10 +24,12 @@ function CustomerManager() {
       <td>{item.address}</td>
       <td>{item.email}</td>
       <td>{item.status}</td>
+      <td>{}</td>
     </tr>
   );
 
   const [dataCustomer, setDataCustomer] = useState([]);
+  const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
   const searchByName = (data) => {
     return data?.filter((item) =>
@@ -53,6 +56,7 @@ function CustomerManager() {
 
   return (
     <div>
+      {createPopup ? <CustomerCreate closeModel={setCreatePopup} /> : Fragment}
       <AdminPage>
         <div>
           <div className="toptable">
@@ -68,7 +72,8 @@ function CustomerManager() {
                   <i className="bx bx-search"></i>
                 </div>
               </div>
-              <div className="topnav__right-item"></div>
+              <div className="topnav__right-item">
+              </div>
             </div>
           </div>
           <div className="row">
