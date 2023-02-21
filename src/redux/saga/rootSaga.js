@@ -1,5 +1,5 @@
 import {all} from "redux-saga/effects"
-import * as accountManageSaga from "./accountManageSaga"
+import * as accountManageSaga from "./AccountManageSaga"
 import * as customerSaga from "./customerManageSaga"
 export default function* rootSaga(){
     yield all([
