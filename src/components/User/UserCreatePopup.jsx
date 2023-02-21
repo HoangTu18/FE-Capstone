@@ -2,29 +2,32 @@ import "./useredit.style.scss";
 import { useFormik } from "formik";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { createAccountRequest } from "../../pages/AccountManager/accountManageSlice";
+import { createAccountRequest } from "../../pages/AccountManager/AccountManageSlice";
 function UserCreate({ data, closeModel }) {
-  const dispatch = useDispatch()
-  const handleAddStaff = useCallback((values) => {
-    let staff = {
-      staffActivityStatus: "available",
-      staffAvatarUrl: "url-test v1",
-      staffEmail: values.staffEmail,
-      staffFullName: values.staffFullName,
-      staffId: values.staffId,
-      staffStatus: true,
-      theAccountForStaff: {
-        accountId: values.accountId,
-        password: values.password,
-        phoneNumber: values.phoneNumber,
-        roleId: 4,
-        status: true,
-      },
-    };
-    console.log("STAFF", staff);
-    closeModel(false)
-    dispatch(createAccountRequest(staff))
-  }, [dispatch,closeModel]);
+  const dispatch = useDispatch();
+  const handleAddStaff = useCallback(
+    (values) => {
+      let staff = {
+        staffActivityStatus: "available",
+        staffAvatarUrl: "url-test v1",
+        staffEmail: values.staffEmail,
+        staffFullName: values.staffFullName,
+        staffId: values.staffId,
+        staffStatus: true,
+        theAccountForStaff: {
+          accountId: values.accountId,
+          password: values.password,
+          phoneNumber: values.phoneNumber,
+          roleId: 4,
+          status: true,
+        },
+      };
+      console.log("STAFF", staff);
+      closeModel(false);
+      dispatch(createAccountRequest(staff));
+    },
+    [dispatch, closeModel]
+  );
   const formik = useFormik({
     initialValues: {
       staffId: "",
@@ -34,7 +37,6 @@ function UserCreate({ data, closeModel }) {
       roleId: "STAFF",
       staffEmail: "",
       phoneNumber: "",
-      address: "",
       status: true,
       staffActivityStatus: "",
       staffAvatarUrl: "",
@@ -110,14 +112,16 @@ function UserCreate({ data, closeModel }) {
             <label>
               Chức danh: <span className="proirity">*</span>
             </label>
-            <input
-              disabled
+            <select
               type="text"
               id="roleId"
               name="roleId"
               value={formik.values.roleId}
               onChange={formik.handleChange}
-            />
+            >
+              <option value={3}>MANAGER</option>
+              <option value={4}>STAFF</option>
+            </select>
 
             <label>
               Email: <span className="proirity">*</span>
@@ -140,17 +144,6 @@ function UserCreate({ data, closeModel }) {
               value={formik.values.phoneNumber}
               onChange={formik.handleChange}
             />
-            <label>
-              Địa chỉ: <span className="proirity">*</span>
-            </label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              value={formik.values.address}
-              onChange={formik.handleChange}
-            />
-
             <label>Trạng thái: </label>
             <br></br>
             <input

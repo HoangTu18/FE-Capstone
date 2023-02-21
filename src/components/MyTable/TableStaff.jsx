@@ -3,71 +3,45 @@ import { Icon } from "@iconify/react";
 import "./table.scss";
 import UserEdit from "../User/UserEditPopup";
 import ConfirmPopup from "../Confirm/ConfirmPopup";
-import * as deleteStaffs from "../../api/Staff/deleteStaff";
-import * as getRole from "../../api/Role/getRole";
-import ReactPaginate from "react-paginate"
-import { useDispatch,useSelector } from "react-redux";
-import { deleteStaffRequest, getRoleRequest } from "../../pages/AccountManager/accountManageSlice";
+import ReactPaginate from "react-paginate";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteStaffRequest,
+  getRoleRequest,
+} from "../../pages/AccountManager/AccountManageSlice";
 const TableStaff = (props) => {
-  const dispatch = useDispatch()
-  const listRole = useSelector(state => state.accountManage.listRole)
+  const dispatch = useDispatch();
+  const listRole = useSelector((state) => state.accountManage.listRole);
 
   //Handle paging
   const [itemOffset, setItemOffset] = useState(0);
-  const [currentItems,setCurrentItems] = useState([])
-  const [pageCount,setPageCount] = useState(0)
-  const itemsPerPage = 7
-  
-   
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const itemsPerPage = 7;
+
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(props.bodyData.slice(itemOffset, endOffset))
-    setPageCount(Math.ceil(props.bodyData.length / itemsPerPage))
-    // const initDataShow =
-    //   props.limit && props.bodyData
-    //     ? props.bodyData.slice(0, Number(props.limit))
-    //     : props.bodyData;
-    // setDataShow(initDataShow);
-  }, [props.bodyData,itemOffset,itemsPerPage]);
+    setCurrentItems(props.bodyData.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(props.bodyData.length / itemsPerPage));
+  }, [props.bodyData, itemOffset, itemsPerPage]);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % props.bodyData.length;
     setItemOffset(newOffset);
   };
 
-
-  // let pages = 1;
-
-  // let range = [];
-
-  // let page = Math.floor(props.bodyData.length / Number(props.limit));
-  // pages = props.bodyData.length % Number(props.limit) === 0 ? page : page + 1;
-
-  // range = [...Array(pages).keys()];
-
-  // const [currPage, setCurrPage] = useState(0);
   const [popupEdit, setPopupEdit] = useState(false);
   const [popupDelete, setPopupDelete] = useState(false);
   const [newId, setNewId] = useState("");
   const [confirm, setConfirm] = useState(false);
-  const [dataRole, setDataRole] = useState([]);
-
-  // const selectPage = (page) => {
-  //   const start = Number(props.limit) * page;
-
-  //   const end = start + Number(props.limit);
-  //   setDataShow(props.bodyData.slice(start, end));
-  //   setCurrPage(page);
-  // };
 
   useEffect(() => {
-    dispatch(getRoleRequest())
+    dispatch(getRoleRequest());
   }, [dispatch]);
 
-  const  getRoleName =(id) => {
-    console.log("Thanh En",listRole.find((item) => item.roleId === id)["roleName"]);
+  const getRoleName = (id) => {
     return listRole.find((item) => item.roleId === id)["roleName"];
-  }
+  };
 
   const showEdit = (props) => {
     setNewId(props);
@@ -77,12 +51,11 @@ const TableStaff = (props) => {
   const showDelete = (props) => {
     setNewId(props);
     setPopupDelete(!popupDelete);
-
   };
 
   if (confirm) {
     setConfirm(false);
-    dispatch(deleteStaffRequest(newId))
+    dispatch(deleteStaffRequest(newId));
     setPopupDelete(!popupDelete);
   }
   return (
@@ -129,10 +102,9 @@ const TableStaff = (props) => {
                     )}
                     <td>{item.theAccountForStaff.phoneNumber}</td>
                     <td>
-                      <Icon className="icon" icon="bx:show-alt" />
                       <Icon
                         className="icon"
-                        icon="bx:bx-edit-alt"
+                        icon="bx:show-alt"
                         onClick={() => {
                           showEdit(item);
                         }}
@@ -150,21 +122,6 @@ const TableStaff = (props) => {
           ) : null}
         </table>
       </div>
-      {/* {pages > 1 ? (
-        <div className="table__pagination">
-          {range.map((item, index) => (
-            <div
-              key={index}
-              className={`table__pagination-item ${
-                currPage === index ? "active" : ""
-              }`}
-              onClick={() => selectPage(index)}
-            >
-              {item + 1}
-            </div>
-          ))}
-        </div>
-      ) : null} */}
       <ReactPaginate
         breakLabel="..."
         nextLabel=" >"

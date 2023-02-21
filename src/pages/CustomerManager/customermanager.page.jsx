@@ -1,9 +1,9 @@
 import React, { Fragment, useEffect, useState } from "react";
 import AdminPage from "../../components/AdminPage/adminpage.component";
 import * as viewCustomers from "../../api/Customer/viewCustomers";
-
+import { useDispatch, useSelector } from "react-redux";
 import TableCustomer from "../../components/MyTable/TableCustomer";
-import CustomerCreate from "../../components/Customer/customercreate.component";
+import { getCustomerRequest } from "./CustomerManageSlice";
 function CustomerManager() {
   const customerTableHead = [
     "Mã khách hàng",
@@ -24,11 +24,14 @@ function CustomerManager() {
       <td>{item.address}</td>
       <td>{item.email}</td>
       <td>{item.status}</td>
-      <td>{}</td>
     </tr>
   );
-
-  const [dataCustomer, setDataCustomer] = useState([]);
+  const dispatch = useDispatch();
+  const listCustomer = useSelector(
+    (state) => state.customerManage.listCustomer
+  );
+  console.log("LISTCUSTOMER", listCustomer);
+  // const [dataCustomer, setDataCustomer] = useState([]);
   const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
   const searchByName = (data) => {
@@ -45,18 +48,11 @@ function CustomerManager() {
     );
   };
   useEffect(() => {
-    const fetchApi = async () => {
-      //loading = true
-      const result = await viewCustomers.view();
-      setDataCustomer(result);
-      //loading = false
-    };
-    fetchApi();
-  }, []);
+    dispatch(getCustomerRequest());
+  }, [dispatch]);
 
   return (
     <div>
-      {createPopup ? <CustomerCreate closeModel={setCreatePopup} /> : Fragment}
       <AdminPage>
         <div>
           <div className="toptable">
@@ -72,8 +68,7 @@ function CustomerManager() {
                   <i className="bx bx-search"></i>
                 </div>
               </div>
-              <div className="topnav__right-item">
-              </div>
+              <div className="topnav__right-item"></div>
             </div>
           </div>
           <div className="row">
@@ -84,7 +79,7 @@ function CustomerManager() {
                     limit="5"
                     headData={customerTableHead}
                     renderHead={(item, index) => renderHead(item, index)}
-                    bodyData={searchByName(dataCustomer)}
+                    bodyData={searchByName(listCustomer)}
                     renderBody={(item, index) => renderBody(item, index)}
                   />
                 </div>

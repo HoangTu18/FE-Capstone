@@ -2,7 +2,7 @@ import "./useredit.style.scss";
 import { useFormik } from "formik";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { updateStaffRequest } from "../../pages/AccountManager/accountManageSlice";
+import { updateStaffRequest } from "../../pages/AccountManager/AccountManageSlice";
 function UserEdit({ data, closeModel }) {
   const dispatch = useDispatch();
   console.log("Thanh En", data);
@@ -19,7 +19,7 @@ function UserEdit({ data, closeModel }) {
           accountId: values.accountId,
           password: values.password,
           phoneNumber: values.phoneNumber,
-          roleId: 4,
+          roleId: parseInt(values.roleId),
           status: true,
         },
       };
@@ -35,10 +35,9 @@ function UserEdit({ data, closeModel }) {
       accountId: data.theAccountForStaff.accountId,
       password: data.theAccountForStaff.password,
       staffFullName: data.staffFullName,
-      roleId: "STAFF",
+      roleId: data.theAccountForStaff.roleId,
       staffEmail: data.staffEmail,
       phoneNumber: data.theAccountForStaff.phoneNumber,
-      address: data?.address,
       status: data.theAccountForStaff.status,
       staffActivityStatus: data.staffActivityStatus,
       staffAvatarUrl: data.staffAvatarUrl,
@@ -115,14 +114,15 @@ function UserEdit({ data, closeModel }) {
             <label>
               Chức danh: <span className="proirity">*</span>
             </label>
-            <input
-              disabled
-              type="text"
+            <select
               id="roleId"
               name="roleId"
               value={formik.values.roleId}
               onChange={formik.handleChange}
-            />
+            >
+              <option value={3}>MANAGER</option>
+              <option value={4}>STAFF</option>
+            </select>
 
             <label>
               Email: <span className="proirity">*</span>
@@ -143,16 +143,6 @@ function UserEdit({ data, closeModel }) {
               id="phoneNumber"
               name="phoneNumber"
               value={formik.values.phoneNumber}
-              onChange={formik.handleChange}
-            />
-            <label>
-              Địa chỉ: <span className="proirity">*</span>
-            </label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              value={formik.values.address}
               onChange={formik.handleChange}
             />
 

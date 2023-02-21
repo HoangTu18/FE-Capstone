@@ -9,7 +9,7 @@ import {
   getRoleRequest,
   getRoleSuccess,
   updateStaffRequest,
-} from "../../pages/AccountManager/accountManageSlice";
+} from "../../pages/AccountManager/AccountManageSlice";
 import { accountService } from "../../services/accountService";
 import { STATUS_CODE } from "../../ultil/settingSystem";
 import { openNotification } from "../../components/NotificationConfirm/NotificationConfirm";

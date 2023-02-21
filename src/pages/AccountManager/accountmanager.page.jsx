@@ -4,7 +4,7 @@ import AdminPage from "../../components/AdminPage/adminpage.component";
 import TableStaff from "../../components/MyTable/TableStaff";
 import UserCreate from "../../components/User/UserCreatePopup";
 import { useDispatch, useSelector } from "react-redux";
-import { getAccountRequest } from "./accountManageSlice";
+import { getAccountRequest } from "./AccountManageSlice";
 function AccountManager() {
   const staffTableHead = [
     "Mã nhân viên",

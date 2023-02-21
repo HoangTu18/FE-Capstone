@@ -4,14 +4,22 @@ import ReactPaginate from "react-paginate";
 import CustomerEdit from "../Customer/customeredit.component";
 import { Icon } from "@iconify/react";
 import "./table.scss";
-
+import { useDispatch } from "react-redux";
+import { deleteCustomerRequest } from "../../pages/CustomerManager/CustomerManageSlice";
+import ConfirmPopup from "../Confirm/ConfirmPopup";
 const TableCustomer = (props) => {
-  const [dataShow, setDataShow] = useState([]);
+  const dispatch = useDispatch();
+
   //Handle paging
   const [itemOffset, setItemOffset] = useState(0);
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const itemsPerPage = 5;
+
+  //Handle delete
+  const [popupDelete, setPopupDelete] = useState(false);
+  const [newId, setNewId] = useState("");
+  const [confirm, setConfirm] = useState(false);
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
@@ -23,20 +31,39 @@ const TableCustomer = (props) => {
     const newOffset = (event.selected * itemsPerPage) % props.bodyData.length;
     setItemOffset(newOffset);
   };
-  
-  const [showModelEdit, setModelEdit] = useState(false);
+
+  const [popupEdit, setPopupEdit] = useState(false);
   const [dataCustomer, setDataCustomer] = useState();
 
   const showEdit = (props) => {
-    console.log(props);
     setDataCustomer(props);
-    setModelEdit(!showModelEdit);
+    setPopupEdit(!popupEdit);
+  };
+  const showDelete = (props) => {
+    setNewId(props);
+    setPopupDelete(!popupDelete);
   };
 
+  if (confirm) {
+    setConfirm(false);
+    dispatch(deleteCustomerRequest(newId));
+    setPopupDelete(!popupDelete);
+  }
   return (
     <div>
-      {showModelEdit ? (
-        <CustomerEdit closeModel={setModelEdit} data={dataCustomer} />
+      {popupEdit ? (
+        <CustomerEdit closeModel={setPopupEdit} data={dataCustomer} />
+      ) : (
+        Fragment
+      )}
+      {popupDelete ? (
+        <ConfirmPopup
+          closeModel={setPopupDelete}
+          title={"Bạn có muốn huỷ kích hoạt nhân viên này không?"}
+          btnYes={"Có"}
+          btnNo={"Không"}
+          confirm={setConfirm}
+        />
       ) : (
         Fragment
       )}
@@ -51,10 +78,10 @@ const TableCustomer = (props) => {
               </tr>
             </thead>
           ) : null}
-          {currentItems? (
+          {currentItems ? (
             <>
               {currentItems.map((item, index) => (
-                <tbody key={index} onClick={() => showEdit(item)}>
+                <tbody key={index}>
                   <tr>
                     <td>#{item.customerId}</td>
                     <td>
@@ -75,18 +102,24 @@ const TableCustomer = (props) => {
                       )}
                     </td>
                     <td>
-                      <Icon className="icon" icon="bx:show-alt" />
                       <Icon
+                        className="icon"
+                        icon="bx:show-alt"
+                        onClick={() => {
+                          showEdit(item);
+                        }}
+                      />
+                      {/* <Icon
                         className="icon"
                         icon="bx:bx-edit-alt"
                         onClick={() => {
                           showEdit(item);
                         }}
-                      />
+                      /> */}
                       <Icon
                         className="icon"
                         icon="material-symbols:delete-outline-rounded"
-                        // onClick={() => showDelete(item.staffId)}
+                        onClick={() => showDelete(item.customerId)}
                       />
                     </td>
                   </tr>

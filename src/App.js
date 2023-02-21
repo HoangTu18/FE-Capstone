@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import AccountManager from "./pages/AccountManager/accountmanager.page";
-import CustomerManager from "./pages/CustomerManager/customermanager.page";
+import AccountManager from "./pages/AccountManager/AccountManager.page";
+import CustomerManager from "./pages/CustomerManager/CustomerManager.page";
 import Dashboard from "./pages/Dashboard/dashboard.component";
 import FoodManager from "./pages/FoodManager/foodmanager.page";
 import Login from "./pages/Login/login.page";
