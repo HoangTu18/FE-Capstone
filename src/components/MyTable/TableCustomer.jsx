@@ -102,9 +102,10 @@ const TableCustomer = (props) => {
                       )}
                     </td>
                     <td>
+                      <Icon className="icon" icon="bx:show-alt" />
                       <Icon
                         className="icon"
-                        icon="bx:show-alt"
+                        icon="bx:bx-edit-alt"
                         onClick={() => {
                           showEdit(item);
                         }}
