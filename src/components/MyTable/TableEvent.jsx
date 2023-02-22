@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import React, { Fragment, useState } from "react";
 import { useEffect } from "react";
 import ReactPaginate from "react-paginate";
+import ComboEdit from "../Combo/comboedit.component.jsx";
 import "./table.scss";
 
 const TableEvent = (props) => {
@@ -22,8 +23,27 @@ const TableEvent = (props) => {
     setItemOffset(newOffset);
   };
 
+  const [popupEdit, setPopupEdit] = useState(false);
+  const [popupDelete, setPopupDelete] = useState(false);
+  const [confirm, setConfirm] = useState(false);
+  const [newData, setNewData] = useState("");
+
+  const showEdit = (props) => {
+    setNewData(props);
+    setPopupEdit(!popupEdit);
+  };
+  const showDelete = (props) => {
+    setNewData(props);
+    setPopupDelete(!popupDelete);
+  };
+
   return (
     <div>
+      {popupEdit ? (
+        <ComboEdit closeModel={setPopupEdit} />
+      ) : (
+        Fragment
+      )}
       <div className="table-wrapper">
         <table>
           {props.headData && props.renderHead ? (
@@ -51,11 +71,17 @@ const TableEvent = (props) => {
                     )}
 
                     <td>
-                      {item.fromDate.slice(5)} đến {item.toDate.slice(6)}
+                      {item.fromDate.slice(5)} đến {item.toDate.slice(5)}
                     </td>
                     <td>
                       <Icon className="icon" icon="bx:show-alt" />
-                      <Icon className="icon" icon="bx:bx-edit-alt" />
+                      <Icon
+                        className="icon"
+                        icon="bx:bx-edit-alt"
+                        onClick={() => {
+                          showEdit(item);
+                        }}
+                      />
                       <Icon
                         className="icon"
                         icon="material-symbols:delete-outline-rounded"

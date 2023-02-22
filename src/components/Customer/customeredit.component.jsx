@@ -1,6 +1,5 @@
 import React from "react";
 function CustomerEdit({ data, closeModel }) {
-  console.log("Thanh En ", data);
   return (
     <div className="modelBackground">
       <div className="form-popup" style={{ top: "15%" }}>
