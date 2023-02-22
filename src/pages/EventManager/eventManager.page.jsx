@@ -1,16 +1,16 @@
-import React, { Fragment, useEffect, useState } from "react";
-import AdminPage from "../../components/AdminPage/adminpage.component";
-import TableStaff from "../../components/MyTable/TableStaff";
-import UserCreate from "../../components/User/UserCreatePopup";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAccountRequest } from "./AccountManageSlice";
-function AccountManager() {
-  const staffTableHead = [
-    "Mã nhân viên",
-    "Tên nhân viên",
-    "Chức danh",
+import AdminPage from "../../components/AdminPage/adminpage.component";
+import TableEvent from "../../components/MyTable/TableEvent";
+import { getEventRequest } from "./eventManagerSlice";
+
+function EventManager() {
+  const restaurantTableHead = [
+    "Mã sự kiện",
+    "Tên sự kiện",
+    "Các món ăn",
     "Trạng thái",
-    "Số điện thoại",
+    "Thời gian",
     "Hành động",
   ];
 
@@ -18,47 +18,48 @@ function AccountManager() {
 
   const renderBody = (item, index) => (
     <tr key={index}>
-      <td>#{item.id}</td>
-      <td>{item.name}</td>
-      <td>{item.role}</td>
-      <td>{item.status}</td>
-      <td>{item.phone}</td>
-      <td></td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
     </tr>
   );
-  const dispatch = useDispatch();
-  const staffList = useSelector((state) => state.accountManage.listAccount);
+
   const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
-  const searchByName = (data) => {
-    return data.filter((item) =>
-      query.toLowerCase() === "hoạt động"
-        ? item.staffStatus?.toString().includes(true)
-        : query.toLowerCase() === "không hoạt động"
-        ? item.staffStatus.toString().includes(false)
-        : item.staffFullName?.toLowerCase().includes(query.toLowerCase()) ||
-          item.theAccountForStaff?.phoneNumber.includes(query) ||
-          item.staffId?.toString().includes(query)
-    );
-  };
+  // const searchByName = (data) => {
+  //   return data.filter((item) =>
+  //     query.toLowerCase() === "hoạt động"
+  //       ? item.status?.toString().includes(true)
+  //       : query.toLowerCase() === "không hoạt động"
+  //       ? item.status.toString().includes(false)
+  //       : item.restaurantName?.toLowerCase().includes(query.toLowerCase()) ||
+  //         item.restaurantNumber.includes(query) ||
+  //         item.restaurantId?.toString().includes(query)
+  //   );
+  // };
+
+  const dispatch = useDispatch();
+  const eventList = useSelector((state) => state.eventManage.listEvent);
+  console.log(eventList);
   useEffect(() => {
-    dispatch(getAccountRequest());
+    dispatch(getEventRequest());
   }, [dispatch]);
 
   return (
     <div>
-      {createPopup ? <UserCreate closeModel={setCreatePopup} /> : Fragment}
-
       <AdminPage>
         <div className="toptable">
-          <h1 style={{ marginLeft: "30px" }}>Danh sách nhân viên</h1>
+          <h1 style={{ marginLeft: "30px" }}>Danh sách sự kiện</h1>
           <div className="topnav__right">
             <div className="topnav__right-item">
               <div
                 className="button"
                 onClick={() => setCreatePopup(!createPopup)}
               >
-                Thêm nhân viên +
+                Thêm sự kiện +
               </div>
             </div>
             <div className="topnav__right-item">
@@ -78,11 +79,11 @@ function AccountManager() {
           <div className="col-12">
             <div className="card">
               <div className="card__body">
-                <TableStaff
+                <TableEvent
                   limit="5"
-                  headData={staffTableHead}
+                  headData={restaurantTableHead}
                   renderHead={(item, index) => renderHead(item, index)}
-                  bodyData={searchByName(staffList)}
+                  bodyData={(eventList)}
                   renderBody={(item, index) => renderBody(item, index)}
                 />
               </div>
@@ -94,4 +95,4 @@ function AccountManager() {
   );
 }
 
-export default AccountManager;
+export default EventManager;

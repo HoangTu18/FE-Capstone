@@ -45,13 +45,16 @@
 }
 
 .toptable {
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: #D7443D;
   padding: 5px;
   border-radius: 5px 5px 0px 0px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: var(--topnav-height);
+  h1{
+    color: #fff;
+  }
 }
 
 .topnav__search {

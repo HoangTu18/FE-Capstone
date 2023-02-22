@@ -7,10 +7,11 @@ import Login from "./pages/Login/login.page";
 import RestaurantManager from "./pages/RestaurantManager/restaurantmanager.page";
 import { BrowserRouter } from "react-router-dom";
 import Loading from "./components/Loading/Loading";
+import EventManager from "./pages/EventManager/eventManager.page";
 function App() {
   return (
     <div>
-      <Loading/>
+      <Loading />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -20,6 +21,7 @@ function App() {
             <Route path="customer" element={<CustomerManager />} />
             <Route path="food" element={<FoodManager />} />
             <Route path="restaurant" element={<RestaurantManager />} />
+            <Route path="event" element={<EventManager />} />
           </Route>
           <Route path="/" element={<Login />} />
         </Routes>

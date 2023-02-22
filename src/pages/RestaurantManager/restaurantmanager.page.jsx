@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as viewRestaurants from "../../api/Restaurant/viewRestaurants";
 import AdminPage from "../../components/AdminPage/adminpage.component";
 import TableRestaurant from "../../components/MyTable/TableRestaurant";
@@ -64,7 +64,7 @@ function RestaurantManager() {
   return (
     <div>
       <AdminPage>
-        <div className="toptable" style={{backgroundColor:'#D7443D'}}>
+        <div className="toptable">
           <h1 style={{ marginLeft: "30px" }}>Danh sách nhà hàng</h1>
           <div className="topnav__right">
             <div className="topnav__right-item">

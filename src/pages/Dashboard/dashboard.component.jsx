@@ -43,13 +43,22 @@ function Dashboard() {
             text={"Danh sách món"}
             icon={<i className="fa fa-utensils"></i>}
           />
+
           <DashboardItem
             isActive={
               location.pathname.split("/")[2] === "restaurant" ? true : false
             }
             url={"restaurant"}
             text={"Quản lý nhà hàng"}
-            icon={<i className="fa-regular fa-user-chef"></i>}
+            icon={<i className="fa-solid fa-torii-gate"></i>}
+          />
+          <DashboardItem
+            isActive={
+              location.pathname.split("/")[2] === "event" ? true : false
+            }
+            url={"event"}
+            text={"Quản lý Sự kiện"}
+            icon={<i className="fa-regular fa-calendar"></i>}
           />
         </div>
         <div className="footer">
