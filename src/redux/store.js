@@ -4,6 +4,7 @@ import loadingReducer from "../components/Loading/LoadingSlice";
 import accountManageReducer from "../pages/AccountManager/AccountManageSlice";
 import custonmerManageReducer from "../pages/CustomerManager/CustomerManageSlice";
 import eventManageReducer from "../pages/EventManager/eventManagerSlice";
+import foodManageReducer from "../pages/FoodManager/foodManageSlice";
 import rootSaga from "./saga/rootSaga";
 const saga = createSagaMiddleware();
 const store = configureStore({
@@ -12,6 +13,7 @@ const store = configureStore({
     accountManage: accountManageReducer,
     customerManage: custonmerManageReducer,
     eventManage: eventManageReducer,
+    foodManage: foodManageReducer,
   },
   middleware: [saga],
 });

@@ -2,13 +2,12 @@ import { Icon } from "@iconify/react";
 import React, { Fragment, useState } from "react";
 import { useEffect } from "react";
 import ReactPaginate from "react-paginate";
-import { viewCategories } from "../../api/Food/viewFoods";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategoryRequest } from "../../pages/FoodManager/foodManageSlice";
 import DishEdit from "../Dish/dishedit.component";
 import "./table.scss";
 
 const TableFood = (props) => {
-  const [dataShow, setDataShow] = useState([]);
-
   //Handle paging
   const [itemOffset, setItemOffset] = useState(0);
   const [currentItems, setCurrentItems] = useState([]);
@@ -32,6 +31,25 @@ const TableFood = (props) => {
   const showEdit = (props) => {
     setNewData(props);
     setPopupEdit(!popupEdit);
+  };
+
+  const dispath = useDispatch();
+  const cateData = useSelector((state) => state.foodManage.listCategory);
+
+  useEffect(() => {
+    dispath(getCategoryRequest());
+  }, [dispath]);
+
+  const getCateName = (food) => {
+    let result = "";
+    cateData.forEach((item) => {
+      item.foodList.forEach((foodItem) => {
+        if (foodItem.id === food.id) {
+          result = item.categoryName;
+        }
+      });
+    });
+    return result;
   };
 
   return (
@@ -60,7 +78,7 @@ const TableFood = (props) => {
                     <td>#{item.id}</td>
                     <td>{item.foodName === null ? "null" : item.foodName}</td>
                     <td>{item.price === null ? "null" : item.price}</td>
-                    <td></td>
+                    <td>{getCateName(item)}</td>
                     {item.status ? (
                       <td className="status green">Hoạt động</td>
                     ) : (

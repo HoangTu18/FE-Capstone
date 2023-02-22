@@ -104,8 +104,7 @@ const TableStaff = (props) => {
                     <td>
                       <Icon
                         className="icon"
-                        icon="bx:show-alt"
-                
+                        icon="bx:show-alt" 
                       />
                       <Icon
                         className="icon"

@@ -43,7 +43,6 @@ function EventManager() {
 
   const dispatch = useDispatch();
   const eventList = useSelector((state) => state.eventManage.listEvent);
-  console.log(eventList);
   useEffect(() => {
     dispatch(getEventRequest());
   }, [dispatch]);

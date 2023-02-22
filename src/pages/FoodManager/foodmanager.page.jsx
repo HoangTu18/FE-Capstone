@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import AdminPage from "../../components/AdminPage/adminpage.component";
 import TableFood from "../../components/MyTable/TableFood";
-import * as viewFoods from "../../api/Food/viewFoods";
 import "./foodmanager.style.scss";
 import TableCombo from "../../components/MyTable/TableCombo";
+import { useDispatch, useSelector } from "react-redux";
+import { getFoodRequest } from "./foodManageSlice";
 function FoodManager() {
   const foodTableHeadTab1 = [
     "Mã món ăn",
@@ -34,9 +35,7 @@ function FoodManager() {
     </tr>
   );
 
-  const [dataFoods, setDataFoods] = useState([]);
   const [query, setQuery] = useState("");
-  console.log(dataFoods);
   const searchByName = (data) => {
     return data?.filter(
       (item) =>
@@ -44,16 +43,14 @@ function FoodManager() {
         item.id.toString().toLowerCase().includes(query)
     );
   };
+
+  const dispath = useDispatch();
+  const dataFoods = useSelector((state) => state.foodManage.listFood);
+
   useEffect(() => {
-    const fetchApi = async () => {
-      //loading = true
-      const result = await viewFoods.view();
-      console.log(result);
-      setDataFoods(result);
-      //loading = false
-    };
-    fetchApi();
-  }, []);
+    dispath(getFoodRequest());
+
+  }, [dispath]);
 
   const [tab, setTab] = useState("tab1");
   return (
@@ -104,7 +101,7 @@ function FoodManager() {
                   <div className="card">
                     <div className="card__body">
                       <TableFood
-                        limit="10"
+                        limit="5"
                         headData={foodTableHeadTab1}
                         renderHead={(item, index) => renderHead(item, index)}
                         bodyData={searchByName(dataFoods)}
@@ -139,7 +136,7 @@ function FoodManager() {
                         limit="5"
                         headData={foodTableHeadTab2}
                         renderHead={(item, index) => renderHead(item, index)}
-                        bodyData={searchByName(dataFoods)}
+                        bodyData={[]}
                         renderBody={(item, index) => renderBody(item, index)}
                       />
                     </div>

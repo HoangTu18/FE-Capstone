@@ -2,6 +2,7 @@ import { all } from "redux-saga/effects";
 import * as accountManageSaga from "./accountManageSaga";
 import * as customerSaga from "./customerManageSaga";
 import * as eventSaga from "./eventManageSage";
+import * as foodSaga from "./foodManageSaga";
 export default function* rootSaga() {
   yield all([
     // Saga Staff
@@ -15,5 +16,8 @@ export default function* rootSaga() {
     customerSaga.folllowActionDeleteCustomer(),
     //Saga Event
     eventSaga.followActiongetEvents(),
+    //Saga Food
+    foodSaga.followActiongetFoods(),
+    foodSaga.followActiongetCategory(),
   ]);
 }
