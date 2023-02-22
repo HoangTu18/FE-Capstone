@@ -7,6 +7,9 @@ import {
   getCategoryRequest,
   getCategorySuccess,
   getCategorydFailure,
+  updateFoodRequest,
+  deleteFoodRequest,
+  insertFoodRequest,
 } from "../../pages/FoodManager/foodManageSlice";
 
 import { foodService } from "../../services/foodService";
@@ -49,7 +52,7 @@ function* getCategory() {
     }
     yield put(hideLoading());
   } catch (error) {
-    yield put(getFoodFailure(error));
+    yield put(getCategorydFailure(error));
     yield put(hideLoading());
     openNotification("error", "Thất bại", "Thao tác của bạn đã thất bại");
   }
@@ -57,4 +60,81 @@ function* getCategory() {
 
 export function* followActiongetCategory() {
   yield takeLatest(getCategoryRequest, getCategory);
+}
+
+function* insertFood(action) {
+  try {
+    yield put(showLoading());
+    let listFood = yield call(() => {
+      return foodService.insertFood(action.payload);
+    });
+    if (listFood.status === STATUS_CODE.SUCCESS) {
+      let foodToCategory = yield call(() => {
+        return foodService.addFoodtoCategory(
+          listFood.data.id,
+          action.payload.cateId
+        );
+      });
+      if (foodToCategory.status === STATUS_CODE.SUCCESS) {
+        yield put(hideLoading());
+      }
+      yield put(getFoodRequest());
+      yield put(getCategoryRequest());
+      openNotification(
+        "success",
+        "Thành Công",
+        "Thao tác của bạn đã thành công"
+      );
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(hideLoading());
+    openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
+  }
+}
+export function* followActionInsertFood() {
+  yield takeLatest(insertFoodRequest, insertFood);
+}
+
+function* updateFood(action) {
+  try {
+    yield put(showLoading());
+    let listFood = yield call(() => {
+      return foodService.updateFood(action.payload);
+    });
+    if (listFood.status === STATUS_CODE.SUCCESS) {
+      yield put(getFoodRequest());
+    }
+    yield hideLoading();
+    openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
+  } catch (error) {
+    console.log(error);
+    yield hideLoading();
+    openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
+  }
+}
+export function* followActionUpdateFood() {
+  yield takeLatest(updateFoodRequest, updateFood);
+}
+
+function* deleteFood(action) {
+  try {
+    yield put(showLoading());
+    let listFood = yield call(() => {
+      return foodService.deleteFood(action.payload);
+    });
+    if (listFood.status === STATUS_CODE.SUCCESS) {
+      yield put(getFoodRequest());
+    }
+    yield put(hideLoading());
+    openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
+  } catch (error) {
+    console.log(error);
+    yield put(hideLoading());
+    openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
+  }
+}
+
+export function* followActionDeleteFood() {
+  yield takeLatest(deleteFoodRequest, deleteFood);
 }

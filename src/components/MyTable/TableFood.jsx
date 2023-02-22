@@ -3,11 +3,17 @@ import React, { Fragment, useState } from "react";
 import { useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategoryRequest } from "../../pages/FoodManager/foodManageSlice";
-import DishEdit from "../Dish/dishedit.component";
+import {
+  deleteFoodRequest,
+  getCategoryRequest,
+} from "../../pages/FoodManager/foodManageSlice";
+import ConfirmPopup from "../Confirm/ConfirmPopup";
+import FoodEdit from "../Food/FoodEditPopup";
 import "./table.scss";
 
 const TableFood = (props) => {
+  const dispatch = useDispatch();
+
   //Handle paging
   const [itemOffset, setItemOffset] = useState(0);
   const [currentItems, setCurrentItems] = useState([]);
@@ -26,19 +32,29 @@ const TableFood = (props) => {
   };
 
   const [popupEdit, setPopupEdit] = useState(false);
+  const [popupDelete, setPopupDelete] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   const [newData, setNewData] = useState("");
 
   const showEdit = (props) => {
     setNewData(props);
     setPopupEdit(!popupEdit);
   };
+  const showDelete = (props) => {
+    setNewData(props);
+    setPopupDelete(!popupDelete);
+  };
 
-  const dispath = useDispatch();
+  if (confirm) {
+    setConfirm(false);
+    dispatch(deleteFoodRequest(newData));
+    setPopupDelete(!popupDelete);
+  }
   const cateData = useSelector((state) => state.foodManage.listCategory);
 
   useEffect(() => {
-    dispath(getCategoryRequest());
-  }, [dispath]);
+    dispatch(getCategoryRequest());
+  }, [dispatch]);
 
   const getCateName = (food) => {
     let result = "";
@@ -52,10 +68,38 @@ const TableFood = (props) => {
     return result;
   };
 
+  const getCateId = (food) => {
+    let result = "";
+    cateData.forEach((item) => {
+      item.foodList.forEach((foodItem) => {
+        if (foodItem.id === food) {
+          result = item.id;
+        }
+      });
+    });
+    return result;
+  };
+
   return (
     <div>
       {popupEdit ? (
-        <DishEdit closeModel={setPopupEdit} data={newData} />
+        <FoodEdit
+          closeModel={setPopupEdit}
+          data={newData}
+          listCate={cateData}
+          cateId={getCateId(newData.id)}
+        />
+      ) : (
+        Fragment
+      )}
+      {popupDelete ? (
+        <ConfirmPopup
+          closeModel={setPopupDelete}
+          title={"Bạn có muốn huỷ kích hoạt món ăn này không?"}
+          btnYes={"Có"}
+          btnNo={"Không"}
+          confirm={setConfirm}
+        />
       ) : (
         Fragment
       )}
@@ -96,6 +140,7 @@ const TableFood = (props) => {
                       <Icon
                         className="icon"
                         icon="material-symbols:delete-outline-rounded"
+                        onClick={() => showDelete(item.id)}
                       />
                     </td>
                   </tr>

@@ -5,6 +5,7 @@ import "./foodmanager.style.scss";
 import TableCombo from "../../components/MyTable/TableCombo";
 import { useDispatch, useSelector } from "react-redux";
 import { getFoodRequest } from "./foodManageSlice";
+import FoodAdd from "../../components/Food/FoodAddPopup";
 function FoodManager() {
   const foodTableHeadTab1 = [
     "Mã món ăn",
@@ -43,18 +44,24 @@ function FoodManager() {
         item.id.toString().toLowerCase().includes(query)
     );
   };
+  const [createPopup, setCreatePopup] = useState(false);
 
   const dispath = useDispatch();
   const dataFoods = useSelector((state) => state.foodManage.listFood);
+  const listCate = useSelector((state) => state.foodManage.listCategory);
 
   useEffect(() => {
     dispath(getFoodRequest());
-
   }, [dispath]);
 
   const [tab, setTab] = useState("tab1");
   return (
     <div>
+      {createPopup ? (
+        <FoodAdd closeModel={setCreatePopup} listCate={listCate} />
+      ) : (
+        <></>
+      )}
       <AdminPage>
         <div className="tab-wrapper">
           <div className="tab-wrapper__header">
@@ -81,7 +88,12 @@ function FoodManager() {
                 <h1 style={{ marginLeft: "30px" }}>Danh sách món</h1>
                 <div className="topnav__right">
                   <div className="topnav__right-item">
-                    <div className="button">Thêm món +</div>
+                    <div
+                      className="button"
+                      onClick={() => setCreatePopup(!createPopup)}
+                    >
+                      Thêm món +
+                    </div>
                   </div>
                   <div className="topnav__right-item">
                     <div className="topnav__search">

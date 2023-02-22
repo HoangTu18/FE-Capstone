@@ -27,6 +27,12 @@ export const FoodManageSlice = createSlice({
     getCategorydFailure: (state) => {
       return state;
     },
+
+    insertFoodRequest: (state, action) => {},
+
+    updateFoodRequest: (state, action) => {},
+
+    deleteFoodRequest: (state, action) => {},
   },
 });
 export const {
@@ -36,6 +42,9 @@ export const {
   getCategoryRequest,
   getCategorySuccess,
   getCategorydFailure,
+  insertFoodRequest,
+  updateFoodRequest,
+  deleteFoodRequest,
 } = FoodManageSlice.actions;
 
 export default FoodManageSlice.reducer;

@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { updateStaffRequest } from "../../pages/AccountManager/AccountManageSlice";
 function UserEdit({ data, closeModel }) {
   const dispatch = useDispatch();
-  console.log("Thanh En", data);
   const handleUpdateStaff = useCallback(
     (values) => {
       let staff = {

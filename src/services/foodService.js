@@ -4,7 +4,7 @@ class FoodService extends BaseService {
   getFood = () => {
     return this.get(`foods`);
   };
-  createFood = (model) => {
+  insertFood = (model) => {
     return this.post(`foods`, model);
   };
   updateFood = (model) => {
@@ -15,6 +15,9 @@ class FoodService extends BaseService {
   };
   getCategory = () => {
     return this.get(`categories`);
+  };
+  addFoodtoCategory = (foodId, cateId) => {
+    return this.post(`categories/${foodId}TO${cateId}`);
   };
 }
 export const foodService = new FoodService();

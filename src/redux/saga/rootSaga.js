@@ -19,5 +19,8 @@ export default function* rootSaga() {
     //Saga Food
     foodSaga.followActiongetFoods(),
     foodSaga.followActiongetCategory(),
+    foodSaga.followActionUpdateFood(),
+    foodSaga.followActionDeleteFood(),
+    foodSaga.followActionInsertFood(),
   ]);
 }
