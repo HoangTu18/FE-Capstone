@@ -5,15 +5,22 @@ import "../Combo/comboedit.style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryRequest } from "../../pages/FoodManager/foodManageSlice";
 import { insertEventRequest } from "../../pages/EventManager/eventManagerSlice";
-function EventAdd({ data, closeModel }) {
+
+let options = [];
+
+function EventAdd({closeModel }) {
   const dispatch = useDispatch();
   const cateData = useSelector((state) => state.foodManage.listCategory);
-
-  let options = [];
+  const [selectedOption, setSelectedOption] = useState(null);
 
   useEffect(() => {
     dispatch(getCategoryRequest());
   }, [dispatch]);
+
+  const handleSelectChange = (selectedOption) => {
+    setSelectedOption(selectedOption);
+    console.log(selectedOption);
+  };
 
   const handleChangeCate = (e) => {
     options.length = 0;
@@ -39,15 +46,15 @@ function EventAdd({ data, closeModel }) {
         fromDate: values.fromDate,
         toDate: values.toDate,
         status: values.status,
-        foodListFromEvent: [],
+        foodListFromEvent: [selectedOption],
       };
       // console.log("EVENT", event);
       console.log("EVENT", event);
 
-      // dispatch(insertEventRequest(event));
+      dispatch(insertEventRequest(event));
       closeModel(false);
     },
-    [closeModel, dispatch]
+    [closeModel, dispatch, selectedOption]
   );
 
   const formik = useFormik({
@@ -180,11 +187,9 @@ function EventAdd({ data, closeModel }) {
                   Các món đã chọn:
                   <Select
                     isMulti
-                    id="foodId"
-                    name="foodId"
                     options={options}
+                    onChange={handleSelectChange}
                     placeholder={"Chọn món..."}
-          
                     noOptionsMessage={() => "Không có món trong mục này"}
                   />
                 </label>

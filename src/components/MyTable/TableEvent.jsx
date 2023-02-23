@@ -92,7 +92,8 @@ const TableEvent = (props) => {
                     )}
 
                     <td>
-                      {item.fromDate.slice(5)} đến {item.toDate.slice(5)}
+                      {item.fromDate === null ? "" : item.fromDate.slice(5)} đến{" "}
+                      {item.toDate === null ? "" : item.toDate.slice(5)}
                     </td>
                     <td>
                       <Icon className="icon" icon="bx:show-alt" />
