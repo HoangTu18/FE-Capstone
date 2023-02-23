@@ -36,15 +36,12 @@ function EventManager() {
   const eventList = useSelector((state) => state.eventManage.listEvent);
   useEffect(() => {
     dispatch(getEventRequest());
+    console.log(eventList);
   }, [dispatch]);
 
   return (
     <div>
-      {createPopup ? (
-        <EventAdd closeModel={setCreatePopup}/>
-      ) : (
-        <></>
-      )}
+      {createPopup ? <EventAdd closeModel={setCreatePopup} /> : <></>}
       <AdminPage>
         <div className="toptable">
           <h1 style={{ marginLeft: "30px" }}>Danh sách sự kiện</h1>

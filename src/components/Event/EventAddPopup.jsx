@@ -8,10 +8,11 @@ import { insertEventRequest } from "../../pages/EventManager/eventManagerSlice";
 
 let options = [];
 
-function EventAdd({closeModel }) {
+function EventAdd({ closeModel }) {
   const dispatch = useDispatch();
   const cateData = useSelector((state) => state.foodManage.listCategory);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [selected, setSelected] = useState([]);
 
   useEffect(() => {
     dispatch(getCategoryRequest());
@@ -20,6 +21,9 @@ function EventAdd({closeModel }) {
   const handleSelectChange = (selectedOption) => {
     setSelectedOption(selectedOption);
     console.log(selectedOption);
+    selectedOption.forEach((item) => {
+      setSelected([...selected, { id: item.value }]);
+    });
   };
 
   const handleChangeCate = (e) => {
@@ -46,7 +50,7 @@ function EventAdd({closeModel }) {
         fromDate: values.fromDate,
         toDate: values.toDate,
         status: values.status,
-        foodListFromEvent: [selectedOption],
+        foodList: selected,
       };
       // console.log("EVENT", event);
       console.log("EVENT", event);
@@ -54,7 +58,7 @@ function EventAdd({closeModel }) {
       dispatch(insertEventRequest(event));
       closeModel(false);
     },
-    [closeModel, dispatch, selectedOption]
+    [closeModel, selected, dispatch]
   );
 
   const formik = useFormik({
@@ -66,7 +70,7 @@ function EventAdd({closeModel }) {
       fromDate: "",
       toDate: "",
       status: true,
-      foodId: "",
+      foodList: [],
     },
     onSubmit: (values, { resetForm }) => {
       handleInsertEvent(values);

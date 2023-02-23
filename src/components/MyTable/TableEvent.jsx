@@ -83,7 +83,13 @@ const TableEvent = (props) => {
                   <tr>
                     <td>#{item.eventId}</td>
                     <td>{item.eventName}</td>
-                    <td>{item.foodListFromEvent}</td>
+                    <td>
+                      {item.foodList === null
+                        ? ""
+                        : item.foodList.map((item) => {
+                            return `${item.foodName}, `;
+                          })}
+                    </td>
 
                     {item.status ? (
                       <td className="status green">Hoạt động</td>
