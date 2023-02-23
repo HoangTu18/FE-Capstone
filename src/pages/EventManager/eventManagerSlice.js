@@ -18,10 +18,22 @@ export const eventManageSlice = createSlice({
     getEventFailure: (state) => {
       return state;
     },
+
+    insertEventRequest: (state, action) => {},
+
+    updateEventRequest: (state, action) => {},
+
+    deleteEventRequest: (state, action) => {},
   },
 });
 
-export const { getEventRequest, getEventSuccess, getEventFailure } =
-  eventManageSlice.actions;
+export const {
+  getEventRequest,
+  getEventSuccess,
+  getEventFailure,
+  insertEventRequest,
+  updateEventRequest,
+  deleteEventRequest,
+} = eventManageSlice.actions;
 
 export default eventManageSlice.reducer;

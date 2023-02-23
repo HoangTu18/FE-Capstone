@@ -2,10 +2,14 @@ import { Icon } from "@iconify/react";
 import React, { Fragment, useState } from "react";
 import { useEffect } from "react";
 import ReactPaginate from "react-paginate";
-import ComboEdit from "../Combo/comboedit.component.jsx";
+import { useDispatch } from "react-redux";
+import { deleteEventRequest } from "../../pages/EventManager/eventManagerSlice.js";
+import ConfirmPopup from "../Confirm/ConfirmPopup.jsx";
+import EventEdit from "../Event/EventEditPopup.jsx";
 import "./table.scss";
 
 const TableEvent = (props) => {
+  const dispatch = useDispatch();
   //Handle paging
   const [itemOffset, setItemOffset] = useState(0);
   const [currentItems, setCurrentItems] = useState([]);
@@ -37,10 +41,27 @@ const TableEvent = (props) => {
     setPopupDelete(!popupDelete);
   };
 
+  if (confirm) {
+    setConfirm(false);
+    dispatch(deleteEventRequest(newData));
+    setPopupDelete(!popupDelete);
+  }
+
   return (
     <div>
       {popupEdit ? (
-        <ComboEdit closeModel={setPopupEdit} />
+        <EventEdit closeModel={setPopupEdit} data={newData} />
+      ) : (
+        Fragment
+      )}
+      {popupDelete ? (
+        <ConfirmPopup
+          closeModel={setPopupDelete}
+          title={"Bạn có muốn huỷ kích hoạt sự kiện này không?"}
+          btnYes={"Có"}
+          btnNo={"Không"}
+          confirm={setConfirm}
+        />
       ) : (
         Fragment
       )}
@@ -85,6 +106,7 @@ const TableEvent = (props) => {
                       <Icon
                         className="icon"
                         icon="material-symbols:delete-outline-rounded"
+                        onClick={() => showDelete(item.eventId)}
                       />
                     </td>
                   </tr>

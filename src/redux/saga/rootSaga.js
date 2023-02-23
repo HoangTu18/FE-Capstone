@@ -16,6 +16,9 @@ export default function* rootSaga() {
     customerSaga.folllowActionDeleteCustomer(),
     //Saga Event
     eventSaga.followActiongetEvents(),
+    eventSaga.followActioninsertEvents(),
+    eventSaga.followActionUpdateEvent(),
+    eventSaga.followActionDeleteEvent(),
     //Saga Food
     foodSaga.followActiongetFoods(),
     foodSaga.followActiongetCategory(),

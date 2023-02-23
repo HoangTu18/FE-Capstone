@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { insertFoodRequest } from "../../pages/FoodManager/foodManageSlice";
 function FoodAdd({ closeModel, listCate }) {
   const dispatch = useDispatch();
-  const handleUpdateFood = useCallback(
+  const handleInsertFood = useCallback(
     (values) => {
       let food = {
         id: values.id,
@@ -34,8 +34,7 @@ function FoodAdd({ closeModel, listCate }) {
       cateId: "ca_00",
     },
     onSubmit: (values, { resetForm }) => {
-      // console.log(values);
-      handleUpdateFood(values);
+      handleInsertFood(values);
       resetForm({ values: "" });
     },
   });

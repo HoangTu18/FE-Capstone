@@ -4,6 +4,9 @@ import {
   getEventRequest,
   getEventSuccess,
   getEventFailure,
+  insertEventRequest,
+  updateEventRequest,
+  deleteEventRequest,
 } from "../../pages/EventManager/eventManagerSlice";
 
 import { eventService } from "../../services/eventService";
@@ -33,4 +36,71 @@ function* getEvent() {
 
 export function* followActiongetEvents() {
   yield takeLatest(getEventRequest, getEvent);
+}
+
+function* insertEvent(action) {
+  try {
+    yield put(showLoading());
+    let listEvent = yield call(() => {
+      return eventService.insertEvent(action.payload);
+    });
+    if (listEvent.status === STATUS_CODE.SUCCESS) {
+      yield put(getEventRequest());
+      openNotification(
+        "success",
+        "Thành Công",
+        "Thao tác của bạn đã thành công"
+      );
+    }
+  } catch (error) {
+    yield put(hideLoading());
+    openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
+  }
+}
+
+export function* followActioninsertEvents() {
+  yield takeLatest(insertEventRequest, insertEvent);
+}
+
+function* updateEvent(action) {
+  try {
+    yield put(showLoading());
+    let listEvent = yield call(() => {
+      return eventService.updateEvent(action.payload);
+    });
+    if (listEvent.status === STATUS_CODE.SUCCESS) {
+      yield put(getEventRequest());
+    }
+    yield hideLoading();
+    openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
+  } catch (error) {
+    console.log(error);
+    yield hideLoading();
+    openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
+  }
+}
+export function* followActionUpdateEvent() {
+  yield takeLatest(updateEventRequest, updateEvent);
+}
+
+function* deleteEvent(action) {
+  try {
+    yield put(showLoading());
+    let listEvent = yield call(() => {
+      return eventService.deleteEvent(action.payload);
+    });
+    if (listEvent.status === STATUS_CODE.SUCCESS) {
+      yield put(getEventRequest());
+    }
+    yield put(hideLoading());
+    openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
+  } catch (error) {
+    console.log(error);
+    yield put(hideLoading());
+    openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
+  }
+}
+
+export function* followActionDeleteEvent() {
+  yield takeLatest(deleteEventRequest, deleteEvent);
 }

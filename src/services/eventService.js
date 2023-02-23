@@ -4,7 +4,7 @@ class EventService extends BaseService {
   getEvent = () => {
     return this.get(`events`);
   };
-  createEvent = (model) => {
+  insertEvent = (model) => {
     return this.post(`events`, model);
   };
   updateEvent = (model) => {
@@ -15,3 +15,4 @@ class EventService extends BaseService {
   };
 }
 export const eventService = new EventService();
+

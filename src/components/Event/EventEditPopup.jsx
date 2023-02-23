@@ -1,137 +1,190 @@
 import { useFormik } from "formik";
 import { useCallback, useEffect } from "react";
 import Select from "react-select";
+import "../Combo/comboedit.style.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { getFoodRequest } from "../../pages/FoodManager/foodManageSlice";
+import { getCategoryRequest } from "../../pages/FoodManager/foodManageSlice";
+import { updateEventRequest } from "../../pages/EventManager/eventManagerSlice";
 function EventEdit({ data, closeModel }) {
   const dispatch = useDispatch();
-  const foodData = useSelector((state) => state.foodManage.listFood);
-  const options = [];
+  const cateData = useSelector((state) => state.foodManage.listCategory);
+
+  let options = [];
+
   useEffect(() => {
-    dispatch(getFoodRequest());
+    dispatch(getCategoryRequest());
   }, [dispatch]);
-  foodData.forEach((item) => {
-    options.push({ value: item.id, label: item.foodName });
-  });
-  const handleUpdateFood = useCallback(
+
+  const handleChangeCate = (e) => {
+    options.length = 0;
+    cateData.forEach((item) => {
+      if (item.id === e.target.value) {
+        item.foodList.forEach((food) => {
+          options.push({
+            value: food.id,
+            label: food.foodName,
+          });
+        });
+      }
+    });
+  };
+
+  const handleUpdateEvent = useCallback(
     (values) => {
       let event = {
-        id: values.id,
-        foodName: values.foodName,
+        eventId: values.eventId,
+        eventName: values.eventName,
         description: values.description,
-        price: values.price,
-        imgUrl: values.imgUrl,
+        image_url: values.image_url,
+        fromDate: values.fromDate,
+        toDate: values.toDate,
         status: values.status,
-        cateId: values.cateId,
-        purchaseNum: 0,
+        foodListFromEvent: [],
       };
       console.log("EVENT", event);
+      dispatch(updateEventRequest(event));
       closeModel(false);
     },
-    [closeModel]
+    [closeModel, dispatch]
   );
+
   const formik = useFormik({
     initialValues: {
-      id: "",
-      foodName: "",
-      description: "",
-      price: "",
-      imgUrl: "",
-      status: true,
-      purchaseNum: "",
-      cateId: "ca_00",
+      eventId: data.eventId,
+      eventName: data.eventName,
+      description: data.description,
+      image_url: data.image_url,
+      fromDate: data.fromDate,
+      toDate: data.toDate,
+      status: data.status,
+      foodListFromEvent: [],
     },
     onSubmit: (values, { resetForm }) => {
-      handleUpdateFood(values);
+      handleUpdateEvent(values);
       resetForm({ values: "" });
     },
   });
   return (
     <div className="modelBackground">
       <div className="form-popup">
-        <form
-          noValidate
-          autoComplete="off"
-          onSubmit={formik.handleSubmit}
-          className="form-container"
-        >
-          <label cl>Thông tin sự kiện</label>
-          <hr></hr>
-          <div className="left">
-            <img
-              className="avatar"
-              src={
-                "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
-              }
-              alt=""
-            />
-          </div>
-          <div className="right">
-            <label>Mã sự kiện:</label>
-            <input
-              type="text"
-              disabled
-              id="id"
-              name="id"
-              value={""}
-              onChange={formik.handleChange}
-            />
-            <label>Tên sự kiện:</label>
-            <input
-              type="text"
-              disabled
-              id="id"
-              name="id"
-              value={""}
-              onChange={formik.handleChange}
-            />
-            <label>Thời gian:</label>
-            <br></br>
-            <label className="smallText">Từ ngày:</label>
-            <input
-              type="date"
-              id="id"
-              name="id"
-              onChange={formik.handleChange}
-            />
-            <label className="smallText">Đến ngày:</label>
-            <input
-              type="date"
-              id="id"
-              name="id"
-              onChange={formik.handleChange}
-            />
-            <Select
-              isMulti
-              name="foods"
-              options={options}
-              placeholder={"Chọn món..."}
-            />
-            <label>Trạng thái:</label>
-            <br></br>
-            <input
-              className="checkBoxStatus type"
-              type="checkbox"
-              id="status"
-              name="status"
-              value={formik.values.status}
-              checked={formik.values.status}
-              onChange={formik.handleChange}
-            />
-            <div style={{ display: "flex", float: "right" }}>
-              <button type="submit" className="btn">
-                Lưu
-              </button>
-              <button
-                type="button"
-                className="btn cancel"
-                onClick={() => closeModel(false)}
-              >
-                Huỷ
-              </button>
+        <div className="form-container">
+          <form
+            noValidate
+            autoComplete="off"
+            onSubmit={formik.handleSubmit}
+            className="form-container"
+          >
+            <div className=" combo-edit">
+              <div className="combo-left">
+                <div className="combo-edit_image">
+                  <img src={data.image_url} alt="Logo" />
+                </div>
+                <div className="combo-edit_infor">
+                  {/* <form className="frm-combo-edit"> */}
+                  <label className="combo-edit_label">
+                    Mã sự kiện:
+                    <input
+                      type="text"
+                      id="eventId"
+                      value={formik.values.eventId}
+                      onChange={formik.handleChange}
+                    />
+                  </label>
+                  <label className="combo-edit_label">
+                    Tên sự kiện: <span className="proirity">*</span>
+                    <input
+                      type="text"
+                      id="eventName"
+                      value={formik.values.eventName}
+                      onChange={formik.handleChange}
+                    />
+                  </label>
+                  <label className="combo-edit_label">Thời gian:</label>
+                  <label className="combo-edit_label smallText">
+                    Từ ngày:
+                    <input
+                      type="date"
+                      id="fromDate"
+                      value={formik.values.fromDate}
+                      onChange={formik.handleChange}
+                    />
+                  </label>
+                  <label className="combo-edit_label smallText">
+                    Đến ngày:
+                    <input
+                      type="date"
+                      id="toDate"
+                      value={formik.values.toDate}
+                      onChange={formik.handleChange}
+                    />
+                  </label>
+                  <label className="combo-edit_label">
+                    Mô tả: <span className="proirity">*</span>
+                    <textarea
+                      type="text"
+                      id="description"
+                      value={formik.values.description}
+                      onChange={formik.handleChange}
+                    />
+                  </label>
+                  <label className="combo-edit_label">
+                    <label>Trạng thái:</label>
+                    <br></br>
+                    <input
+                      className="checkBoxStatus type"
+                      type="checkbox"
+                      id="status"
+                      name="status"
+                      value={formik.values.status}
+                      checked={formik.values.status}
+                      onChange={formik.handleChange}
+                    />
+                  </label>
+                  <div style={{ display: "flex", float: "right" }}>
+                    <button type="submit" className="btn">
+                      Lưu
+                    </button>
+                    <button
+                      type="button"
+                      className="btn cancel"
+                      onClick={() => closeModel(false)}
+                    >
+                      Huỷ
+                    </button>
+                  </div>
+                  {/* </form> */}
+                </div>
+              </div>
+              <div className="combo-right">
+                <h3>Chọn món ăn</h3>
+                <label className="combo-edit_label">
+                  Loại: <span className="proirity">*</span>
+                  <select id="cateId" name="cateId" onChange={handleChangeCate}>
+                    {cateData.map((item) => {
+                      return (
+                        <option key={item.id} value={item.id}>
+                          {item.categoryName}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </label>
+                <label className="combo-edit_label">
+                  Các món đã chọn:
+                  <Select
+                    isMulti
+                    name="colors"
+                    options={options}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    placeholder={"Chọn món..."}
+                    noOptionsMessage={() => "Không có món trong mục này"}
+                  />
+                </label>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );
