@@ -10,6 +10,8 @@ import {
 import ConfirmPopup from "../Confirm/ConfirmPopup";
 import FoodEdit from "../Food/FoodEditPopup";
 import "./table.scss";
+import { stringLimit } from "../../ultil/string";
+import { numberFormat } from "../../ultil/number";
 
 const TableFood = (props) => {
   const dispatch = useDispatch();
@@ -120,8 +122,14 @@ const TableFood = (props) => {
                 <tbody key={index}>
                   <tr>
                     <td>#{item.id}</td>
-                    <td>{item.foodName === null ? "null" : item.foodName}</td>
-                    <td>{item.price === null ? "null" : item.price}</td>
+                    <td>
+                      {item.foodName === null
+                        ? "null"
+                        : stringLimit(item.foodName)}
+                    </td>
+                    <td>
+                      {item.price === null ? "null" : numberFormat(item.price)}
+                    </td>
                     <td>{getCateName(item)}</td>
                     {item.status ? (
                       <td className="status green">Hoạt động</td>

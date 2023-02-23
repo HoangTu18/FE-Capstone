@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { deleteEventRequest } from "../../pages/EventManager/eventManagerSlice.js";
 import ConfirmPopup from "../Confirm/ConfirmPopup.jsx";
 import EventEdit from "../Event/EventEditPopup.jsx";
+import { stringLimit } from "../../ultil/string";
 import "./table.scss";
 
 const TableEvent = (props) => {

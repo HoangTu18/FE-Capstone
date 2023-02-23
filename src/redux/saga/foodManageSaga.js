@@ -103,9 +103,19 @@ function* updateFood(action) {
       return foodService.updateFood(action.payload);
     });
     if (listFood.status === STATUS_CODE.SUCCESS) {
-      yield put(getFoodRequest());
+      console.log(action.payload.cateId);
+      let foodToCategory = yield call(() => {
+        return foodService.addFoodtoCategory(
+          listFood.data.id,
+          action.payload.cateId
+        );
+      });
+      if (foodToCategory.status === STATUS_CODE.SUCCESS) {
+        yield put(hideLoading());
+      }
     }
-    yield hideLoading();
+    yield put(getFoodRequest());
+    yield put(getCategoryRequest());
     openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
   } catch (error) {
     console.log(error);

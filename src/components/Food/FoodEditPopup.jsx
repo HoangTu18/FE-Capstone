@@ -13,13 +13,13 @@ function FoodEdit({ data, closeModel, listCate, cateId }) {
         price: values.price,
         imgUrl: values.imgUrl,
         status: values.status,
-        cateId: cateId,
+        cateId: values.cateId,
         purchaseNum: 0,
       };
       closeModel(false);
       dispatch(updateFoodRequest(food));
     },
-    [dispatch, closeModel, cateId]
+    [dispatch, closeModel]
   );
   const formik = useFormik({
     initialValues: {
@@ -48,7 +48,13 @@ function FoodEdit({ data, closeModel, listCate, cateId }) {
           className="form-container"
         >
           <div className="left">
-            <img className="avatar" src={"https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"} alt="" />
+            <img
+              className="avatar"
+              src={
+                "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
+              }
+              alt=""
+            />
           </div>
           <div className="right">
             <label>
