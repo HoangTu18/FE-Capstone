@@ -1,19 +1,56 @@
 import { useFormik } from "formik";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Select from "react-select";
 import "../Combo/comboedit.style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryRequest } from "../../pages/FoodManager/foodManageSlice";
 import { updateEventRequest } from "../../pages/EventManager/eventManagerSlice";
+
+let options = [];
+
 function EventEdit({ data, closeModel }) {
   const dispatch = useDispatch();
   const cateData = useSelector((state) => state.foodManage.listCategory);
+  const [selectedOption, setSelectedOption] = useState([]);
+  const [selected, setSelected] = useState([]);
 
-  let options = [];
+  useEffect(() => {
+    if (
+      selectedOption.length <= 0 &&
+      selected.length <= 0 &&
+      data.foodList.length > 0
+    ) {
+      data.foodList.forEach((item) => {
+        console.log("Food Item", item);
+        selected.push({
+          id: item.id,
+        });
+        selectedOption.push({
+          value: item.id,
+          label: item.foodName,
+        });
+        options.push({
+          value: item.id,
+          label: item.foodName,
+        });
+        // setSelectedOption(...options);
+        // console.log("option", options);
+        // console.log("selectOption", selectedOption);
+        // console.log("selectOption", selectedOption);
+      });
+    }
+  }, [data.foodList, selected, selectedOption]);
 
   useEffect(() => {
     dispatch(getCategoryRequest());
   }, [dispatch]);
+
+  const handleSelectChange = (selectedOption) => {
+    setSelectedOption(selectedOption);
+    selectedOption.forEach((item) => {
+      setSelected([...selected, { id: item.value }]);
+    });
+  };
 
   const handleChangeCate = (e) => {
     options.length = 0;
@@ -39,13 +76,14 @@ function EventEdit({ data, closeModel }) {
         fromDate: values.fromDate,
         toDate: values.toDate,
         status: values.status,
-        foodListFromEvent: [],
+        foodList: selected,
       };
       console.log("EVENT", event);
       dispatch(updateEventRequest(event));
+      options = [];
       closeModel(false);
     },
-    [closeModel, dispatch]
+    [closeModel, dispatch, selected]
   );
 
   const formik = useFormik({
@@ -57,7 +95,7 @@ function EventEdit({ data, closeModel }) {
       fromDate: data.fromDate,
       toDate: data.toDate,
       status: data.status,
-      foodListFromEvent: [],
+      foodList: data.foodList,
     },
     onSubmit: (values, { resetForm }) => {
       handleUpdateEvent(values);
@@ -147,7 +185,10 @@ function EventEdit({ data, closeModel }) {
                     <button
                       type="button"
                       className="btn cancel"
-                      onClick={() => closeModel(false)}
+                      onClick={() => {
+                        closeModel(false);
+                        options = [];
+                      }}
                     >
                       Huỷ
                     </button>
@@ -173,10 +214,13 @@ function EventEdit({ data, closeModel }) {
                   Các món đã chọn:
                   <Select
                     isMulti
-                    name="colors"
+                    id="foodList"
+                    name="foodList"
+                    value={selectedOption.map(
+                      (item, index) => selectedOption[index]
+                    )}
                     options={options}
-                    className="basic-multi-select"
-                    classNamePrefix="select"
+                    onChange={handleSelectChange}
                     placeholder={"Chọn món..."}
                     noOptionsMessage={() => "Không có món trong mục này"}
                   />
