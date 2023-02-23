@@ -47,11 +47,7 @@ function EventEdit({ data, closeModel }) {
 
   const handleSelectChange = (selectedOption) => {
     setSelectedOption(selectedOption);
-    selectedOption.forEach((item) => {
-      setSelected([...selected, { id: item.value }]);
-    });
   };
-
   const handleChangeCate = (e) => {
     options.length = 0;
     cateData.forEach((item) => {
@@ -78,7 +74,7 @@ function EventEdit({ data, closeModel }) {
         status: values.status,
         foodList: selected,
       };
-      console.log("EVENT", event);
+      console.log("EVENT", event.foodList);
       dispatch(updateEventRequest(event));
       options = [];
       closeModel(false);
@@ -98,6 +94,10 @@ function EventEdit({ data, closeModel }) {
       foodList: data.foodList,
     },
     onSubmit: (values, { resetForm }) => {
+      selected.length = 0;
+      selectedOption.forEach((item) => {
+        selected.push({ id: item.value });
+      });
       handleUpdateEvent(values);
       resetForm({ values: "" });
     },
