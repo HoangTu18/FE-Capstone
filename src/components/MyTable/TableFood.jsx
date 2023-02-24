@@ -11,7 +11,7 @@ import ConfirmPopup from "../Confirm/ConfirmPopup";
 import FoodEdit from "../Food/FoodEditPopup";
 import "./table.scss";
 import { stringLimit } from "../../ultil/string";
-import { numberFormat } from "../../ultil/number";
+import { formatToVND } from "../../ultil/numberUltil";
 
 const TableFood = (props) => {
   const dispatch = useDispatch();
@@ -128,7 +128,7 @@ const TableFood = (props) => {
                         : stringLimit(item.foodName)}
                     </td>
                     <td>
-                      {item.price === null ? "null" : numberFormat(item.price)}
+                      {item.price === null ? "null" : formatToVND(item.price)}
                     </td>
                     <td>{getCateName(item)}</td>
                     {item.status ? (
