@@ -82,11 +82,11 @@ const OrderManage = () => {
         <div className="filter_section">
           <div className="filter_section_order">
             <div className="filter_section_order_button">
-              <i class="fa-solid fa-basket-shopping"></i>
+              <i className="fa-solid fa-basket-shopping"></i>
               <span>Đơn hàng offline</span>
             </div>
             <div className="filter_section_order_button">
-              <i class="fa-solid fa-cart-shopping"></i>
+              <i className="fa-solid fa-cart-shopping"></i>
               <span>Đơn hàng online</span>
             </div>
           </div>
@@ -99,7 +99,7 @@ const OrderManage = () => {
                     key={index}
                     onClick={() => handleFilterStatus(item.status)}
                   >
-                    <i class={item.statusIcon}></i>
+                    <i className={item.statusIcon}></i>
                     <span>{item.statusText}</span>
                   </div>
                 );

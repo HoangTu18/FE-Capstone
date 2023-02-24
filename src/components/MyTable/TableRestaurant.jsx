@@ -4,8 +4,6 @@ import "./table.scss";
 import ReactPaginate from "react-paginate";
 import RestaurantEdit from "../Restaurant/restaurantedit.component";
 const TableRestaurant = (props) => {
-  const [dataShow, setDataShow] = useState([]);
-
   //Handle paging
   const [itemOffset, setItemOffset] = useState(0);
   const [currentItems, setCurrentItems] = useState([]);
@@ -24,13 +22,19 @@ const TableRestaurant = (props) => {
   };
 
   const findManager = (resId) => {
-    currentItems.map((item) => {
-      if (item.restaurantId === resId) {
-        return item.staffList.filter(
-          (item) => item.theAccountForStaff.roleId === 3
-        );
-      }
-    });
+    let result = "Chưa có quản lý";
+    const manager = currentItems.find(
+      (item) =>
+        item.restaurantId === resId &&
+        item.staffList.length > 0 &&
+        item.staffList.some((staff) => staff.theAccountForStaff.roleId === 3)
+    );
+    if (manager !== undefined) {
+      result = manager.staffList.find(
+        (staff) => staff.theAccountForStaff.roleId === 3
+      ).staffFullName;
+    }
+    return result;
   };
 
   const [popupEdit, setPopupEdit] = useState(false);
