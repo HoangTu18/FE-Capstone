@@ -3,6 +3,8 @@ import * as accountManageSaga from "./accountManageSaga";
 import * as customerSaga from "./customerManageSaga";
 import * as eventSaga from "./eventManageSage";
 import * as foodSaga from "./foodManageSaga";
+import * as restaurantSaga from "./restaurantManageSaga";
+import * as orderSaga from "./orderManageSaga";
 export default function* rootSaga() {
   yield all([
     // Saga Staff
@@ -25,5 +27,11 @@ export default function* rootSaga() {
     foodSaga.followActionUpdateFood(),
     foodSaga.followActionDeleteFood(),
     foodSaga.followActionInsertFood(),
+    customerSaga.followActionUpdateCustomer(),
+    //Saga Restaurant
+    restaurantSaga.followActionGetRestaurant(),
+    //Saga Order
+    orderSaga.followActionGetOrder(),
+    orderSaga.followActionGetOrderById()
   ]);
 }

@@ -16,11 +16,6 @@ const TableRestaurant = (props) => {
     const endOffset = itemOffset + itemsPerPage;
     setCurrentItems(props.bodyData.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(props.bodyData.length / itemsPerPage));
-    // const initDataShow =
-    //   props.limit && props.bodyData
-    //     ? props.bodyData.slice(0, Number(props.limit))
-    //     : props.bodyData;
-    // setDataShow(initDataShow);
   }, [props.bodyData, itemOffset, itemsPerPage]);
 
   const handlePageClick = (event) => {
@@ -28,24 +23,6 @@ const TableRestaurant = (props) => {
     setItemOffset(newOffset);
   };
 
-  // let pages = 1;
-
-  // let range = [];
-
-  // let page = Math.floor(props.bodyData.length / Number(props.limit));
-  // pages = props.bodyData.length % Number(props.limit) === 0 ? page : page + 1;
-
-  // range = [...Array(pages).keys()];
-
-  // const [currPage, setCurrPage] = useState(0);
-
-  // const selectPage = (page) => {
-  //   const start = Number(props.limit) * page;
-
-  //   const end = start + Number(props.limit);
-  //   setDataShow(props.bodyData.slice(start, end));
-  //   setCurrPage(page);
-  // };
   const findManager = (resId) => {
     currentItems.map((item) => {
       if (item.restaurantId === resId) {
@@ -118,21 +95,6 @@ const TableRestaurant = (props) => {
           ) : null}
         </table>
       </div>
-      {/* {pages > 1 ? (
-        <div className="table__pagination">
-          {range.map((item, index) => (
-            <div
-              key={index}
-              className={`table__pagination-item ${
-                currPage === index ? "active" : ""
-              }`}
-              onClick={() => selectPage(index)}
-            >
-              {item + 1}
-            </div>
-          ))}
-        </div>
-      ) : null} */}
       <ReactPaginate
         breakLabel="..."
         nextLabel=" >"

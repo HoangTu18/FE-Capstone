@@ -3,8 +3,13 @@ import React, { useEffect, useState } from "react";
 import * as viewRestaurants from "../../api/Restaurant/viewRestaurants";
 import AdminPage from "../../components/AdminPage/adminpage.component";
 import TableRestaurant from "../../components/MyTable/TableRestaurant";
-
+import { useDispatch, useSelector } from "react-redux";
+import { getRestaurantRequest } from "./RestaurantManageSlice";
 function RestaurantManager() {
+  const dispatch = useDispatch();
+  const listRestaurant = useSelector(
+    (state) => state.restaurantManage.listRestaurant
+  );
   const restaurantTableHead = [
     "Mã nhà hàng",
     "Tên nhà hàng",
@@ -36,7 +41,6 @@ function RestaurantManager() {
     </tr>
   );
 
-  const [restaurants, setRestaurants] = useState([]);
   const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
   const searchByName = (data) => {
@@ -51,15 +55,8 @@ function RestaurantManager() {
     );
   };
   useEffect(() => {
-    const fetchApi = async () => {
-      //loading = true
-      const result = await viewRestaurants.view();
-      setRestaurants(result);
-      console.log("Restaurant API: ", result);
-      //loading = false
-    };
-    fetchApi();
-  }, []);
+    dispatch(getRestaurantRequest());
+  }, [dispatch]);
 
   return (
     <div>
@@ -96,7 +93,7 @@ function RestaurantManager() {
                   limit="5"
                   headData={restaurantTableHead}
                   renderHead={(item, index) => renderHead(item, index)}
-                  bodyData={searchByName(restaurants)}
+                  bodyData={searchByName(listRestaurant)}
                   renderBody={(item, index) => renderBody(item, index)}
                 />
               </div>

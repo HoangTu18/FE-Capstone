@@ -115,6 +115,13 @@ const TableStaff = (props) => {
                       />
                       <Icon
                         className="icon"
+                        icon="bx:bx-edit-alt"
+                        onClick={() => {
+                          showEdit(item);
+                        }}
+                      />
+                      <Icon
+                        className="icon"
                         icon="material-symbols:delete-outline-rounded"
                         onClick={() => showDelete(item.staffId)}
                       />

@@ -30,9 +30,6 @@ function CustomerManager() {
   const listCustomer = useSelector(
     (state) => state.customerManage.listCustomer
   );
-  console.log("LISTCUSTOMER", listCustomer);
-  // const [dataCustomer, setDataCustomer] = useState([]);
-  const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
   const searchByName = (data) => {
     return data?.filter((item) =>
