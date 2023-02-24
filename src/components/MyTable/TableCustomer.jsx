@@ -7,6 +7,7 @@ import "./table.scss";
 import { useDispatch } from "react-redux";
 import { deleteCustomerRequest } from "../../pages/CustomerManager/CustomerManageSlice";
 import ConfirmPopup from "../Confirm/ConfirmPopup";
+import CustomerView from "../Customer/customerViewPopup";
 const TableCustomer = (props) => {
   const dispatch = useDispatch();
 
@@ -17,9 +18,12 @@ const TableCustomer = (props) => {
   const itemsPerPage = 5;
 
   //Handle delete
+  const [popupView, setPopupView] = useState(false);
+  const [popupEdit, setPopupEdit] = useState(false);
   const [popupDelete, setPopupDelete] = useState(false);
   const [newId, setNewId] = useState("");
   const [confirm, setConfirm] = useState(false);
+  const [dataCustomer, setDataCustomer] = useState();
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
@@ -32,8 +36,10 @@ const TableCustomer = (props) => {
     setItemOffset(newOffset);
   };
 
-  const [popupEdit, setPopupEdit] = useState(false);
-  const [dataCustomer, setDataCustomer] = useState();
+  const showView = (props) => {
+    setDataCustomer(props);
+    setPopupView(!popupView);
+  };
 
   const showEdit = (props) => {
     setDataCustomer(props);
@@ -51,6 +57,11 @@ const TableCustomer = (props) => {
   }
   return (
     <div>
+      {popupView ? (
+        <CustomerView closeModel={setPopupView} data={dataCustomer} />
+      ) : (
+        Fragment
+      )}
       {popupEdit ? (
         <CustomerEdit closeModel={setPopupEdit} data={dataCustomer} />
       ) : (
@@ -102,7 +113,13 @@ const TableCustomer = (props) => {
                       )}
                     </td>
                     <td>
-                      <Icon className="icon" icon="bx:show-alt" />
+                      <Icon
+                        className="icon"
+                        icon="bx:show-alt"
+                        onClick={() => {
+                          showView(item);
+                        }}
+                      />
                       <Icon
                         className="icon"
                         icon="bx:bx-edit-alt"

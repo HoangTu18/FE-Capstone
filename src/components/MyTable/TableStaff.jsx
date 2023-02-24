@@ -11,6 +11,7 @@ import {
   deleteStaffRequest,
   getRoleRequest,
 } from "../../pages/AccountManager/AccountManageSlice";
+import UserView from "../User/UserViewPopup";
 const TableStaff = (props) => {
   const dispatch = useDispatch();
   const listRole = useSelector((state) => state.accountManage.listRole);
@@ -36,6 +37,7 @@ const TableStaff = (props) => {
 
   const [popupEdit, setPopupEdit] = useState(false);
   const [popupDelete, setPopupDelete] = useState(false);
+  const [popupView, setPopupView] = useState(false);
   const [newId, setNewId] = useState("");
   const [confirm, setConfirm] = useState(false);
 
@@ -60,6 +62,11 @@ const TableStaff = (props) => {
     setPopupEdit(!popupEdit);
   };
 
+  const showView = (props) => {
+    setNewId(props);
+    setPopupView(!popupView);
+  };
+
   const showDelete = (props) => {
     setNewId(props);
     setPopupDelete(!popupDelete);
@@ -72,6 +79,11 @@ const TableStaff = (props) => {
   }
   return (
     <div>
+      {popupView ? (
+        <UserView closeModel={setPopupView} data={newId} />
+      ) : (
+        Fragment
+      )}
       {popupEdit ? (
         <UserEdit closeModel={setPopupEdit} data={newId} />
       ) : (
@@ -115,7 +127,13 @@ const TableStaff = (props) => {
                     )}
                     <td>{item.theAccountForStaff.phoneNumber}</td>
                     <td>
-                      <Icon className="icon" icon="bx:show-alt" />
+                      <Icon
+                        className="icon"
+                        icon="bx:show-alt"
+                        onClick={() => {
+                          showView(item);
+                        }}
+                      />
                       <Icon
                         className="icon"
                         icon="bx:bx-edit-alt"

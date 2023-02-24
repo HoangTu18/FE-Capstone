@@ -3,6 +3,7 @@ import { Icon } from "@iconify/react";
 import "./table.scss";
 import ReactPaginate from "react-paginate";
 import RestaurantEdit from "../Restaurant/restaurantedit.component";
+import RestaurantView from "../Restaurant/RestaurantViewPopup";
 const TableRestaurant = (props) => {
   //Handle paging
   const [itemOffset, setItemOffset] = useState(0);
@@ -37,8 +38,14 @@ const TableRestaurant = (props) => {
     return result;
   };
 
+  const [popupView, setPopupView] = useState(false);
   const [popupEdit, setPopupEdit] = useState(false);
   const [newId, setNewId] = useState("");
+
+  const showView = (props) => {
+    setNewId(props);
+    setPopupView(!popupView);
+  };
 
   const showEdit = (props) => {
     setNewId(props);
@@ -47,6 +54,11 @@ const TableRestaurant = (props) => {
 
   return (
     <div>
+      {popupView ? (
+        <RestaurantView closeModel={setPopupView} data={newId} />
+      ) : (
+        Fragment
+      )}
       {popupEdit ? (
         <RestaurantEdit closeModel={setPopupEdit} data={newId} />
       ) : (
@@ -79,7 +91,13 @@ const TableRestaurant = (props) => {
                       <td className="status red">Không hoạt động</td>
                     )}
                     <td>
-                      <Icon className="icon" icon="bx:show-alt" />
+                      <Icon
+                        className="icon"
+                        icon="bx:show-alt"
+                        onClick={() => {
+                          showView(item);
+                        }}
+                      />
                       <Icon
                         className="icon"
                         icon="bx:bx-edit-alt"

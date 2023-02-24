@@ -4,25 +4,28 @@ import { useDispatch } from "react-redux";
 import { updateCustomerRequest } from "../../pages/CustomerManager/CustomerManageSlice";
 function CustomerEdit({ data, closeModel }) {
   const dispatch = useDispatch();
-  const handleUdpateCustomer = useCallback((values) => {
-    let customer = {
-      customerId: values.customerId,
-      customerName: values.customerName,
-      email: values.email,
-      cart: values.cart,
-      avatarURL: values.avatarURL,
-      address: values.address,
-      theAccount: {
-        accountId: values.accountId,
-        password: values.password,
-        phoneNumber: values.phoneNumber,
-        roleId: values.roleId,
-        status: values.status,
-      },
-    };
-    dispatch(updateCustomerRequest(customer));
-    closeModel(false);
-  }, [dispatch,closeModel]);
+  const handleUdpateCustomer = useCallback(
+    (values) => {
+      let customer = {
+        customerId: values.customerId,
+        customerName: values.customerName,
+        email: values.email,
+        cart: values.cart,
+        avatarURL: values.avatarURL,
+        address: values.address,
+        theAccount: {
+          accountId: values.accountId,
+          password: values.password,
+          phoneNumber: values.phoneNumber,
+          roleId: values.roleId,
+          status: values.status,
+        },
+      };
+      dispatch(updateCustomerRequest(customer));
+      closeModel(false);
+    },
+    [dispatch, closeModel]
+  );
   const formik = useFormik({
     initialValues: {
       customerId: data.customerId,
@@ -82,7 +85,7 @@ function CustomerEdit({ data, closeModel }) {
                 disabled
                 id="phoneNumber"
                 name="phoneNumber"
-                values={formik.values.phoneNumber}
+                value={data.theAccount.phoneNumber}
               />
               <label>Địa chỉ:</label>
               <input

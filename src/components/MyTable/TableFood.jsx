@@ -12,6 +12,7 @@ import FoodEdit from "../Food/FoodEditPopup";
 import "./table.scss";
 import { stringLimit } from "../../ultil/string";
 import { formatToVND } from "../../ultil/numberUltil";
+import FoodView from "../Food/FoodViewPopup";
 
 const TableFood = (props) => {
   const dispatch = useDispatch();
@@ -33,10 +34,16 @@ const TableFood = (props) => {
     setItemOffset(newOffset);
   };
 
+  const [popupView, setPopupView] = useState(false);
   const [popupEdit, setPopupEdit] = useState(false);
   const [popupDelete, setPopupDelete] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [newData, setNewData] = useState("");
+
+  const showView = (props) => {
+    setNewData(props);
+    setPopupView(!popupEdit);
+  };
 
   const showEdit = (props) => {
     setNewData(props);
@@ -84,6 +91,16 @@ const TableFood = (props) => {
 
   return (
     <div>
+      {popupView ? (
+        <FoodView
+          closeModel={setPopupView}
+          data={newData}
+          listCate={cateData}
+          cateId={getCateId(newData.id)}
+        />
+      ) : (
+        Fragment
+      )}
       {popupEdit ? (
         <FoodEdit
           closeModel={setPopupEdit}
@@ -137,7 +154,13 @@ const TableFood = (props) => {
                       <td className="status red">Không hoạt động</td>
                     )}
                     <td>
-                      <Icon className="icon" icon="bx:show-alt" />
+                      <Icon
+                        className="icon"
+                        icon="bx:show-alt"
+                        onClick={() => {
+                          showView(item);
+                        }}
+                      />
                       <Icon
                         className="icon"
                         icon="bx:bx-edit-alt"

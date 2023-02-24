@@ -8,6 +8,7 @@ import ConfirmPopup from "../Confirm/ConfirmPopup.jsx";
 import EventEdit from "../Event/EventEditPopup.jsx";
 import { stringLimit } from "../../ultil/string";
 import "./table.scss";
+import EventView from "../Event/EventViewPopup.jsx";
 
 const TableEvent = (props) => {
   const dispatch = useDispatch();
@@ -28,10 +29,16 @@ const TableEvent = (props) => {
     setItemOffset(newOffset);
   };
 
+  const [popupView, setPopupView] = useState(false);
   const [popupEdit, setPopupEdit] = useState(false);
   const [popupDelete, setPopupDelete] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [newData, setNewData] = useState("");
+
+  const showView = (props) => {
+    setNewData(props);
+    setPopupView(!popupView);
+  };
 
   const showEdit = (props) => {
     setNewData(props);
@@ -50,6 +57,11 @@ const TableEvent = (props) => {
 
   return (
     <div>
+      {popupView ? (
+        <EventView closeModel={setPopupView} data={newData} />
+      ) : (
+        Fragment
+      )}
       {popupEdit ? (
         <EventEdit closeModel={setPopupEdit} data={newData} />
       ) : (
@@ -103,7 +115,13 @@ const TableEvent = (props) => {
                       {item.toDate === null ? "" : item.toDate.slice(5)}
                     </td>
                     <td>
-                      <Icon className="icon" icon="bx:show-alt" />
+                      <Icon
+                        className="icon"
+                        icon="bx:show-alt"
+                        onClick={() => {
+                          showView(item);
+                        }}
+                      />
                       <Icon
                         className="icon"
                         icon="bx:bx-edit-alt"
