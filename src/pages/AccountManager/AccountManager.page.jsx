@@ -9,6 +9,7 @@ function AccountManager() {
     "Mã nhân viên",
     "Tên nhân viên",
     "Chức danh",
+    "Chi nhánh",
     "Trạng thái",
     "Số điện thoại",
     "Hành động",
@@ -16,18 +17,10 @@ function AccountManager() {
 
   const renderHead = (item, index) => <th key={index}>{item}</th>;
 
-  const renderBody = (item, index) => (
-    <tr key={index}>
-      <td>#{item.id}</td>
-      <td>{item.name}</td>
-      <td>{item.role}</td>
-      <td>{item.status}</td>
-      <td>{item.phone}</td>
-      <td></td>
-    </tr>
-  );
+  const renderBody = (item, index) => <tr key={index}></tr>;
   const dispatch = useDispatch();
   const staffList = useSelector((state) => state.accountManage.listAccount);
+
   const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
   const searchByName = (data) => {
@@ -41,8 +34,12 @@ function AccountManager() {
           item.staffId?.toString().includes(query)
     );
   };
+
+
+
   useEffect(() => {
     dispatch(getAccountRequest());
+
   }, [dispatch]);
 
   return (

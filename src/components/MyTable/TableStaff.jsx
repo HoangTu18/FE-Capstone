@@ -5,6 +5,8 @@ import UserEdit from "../User/UserEditPopup";
 import ConfirmPopup from "../Confirm/ConfirmPopup";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
+import { getRestaurantRequest } from "../../pages/RestaurantManager/RestaurantManageSlice";
+
 import {
   deleteStaffRequest,
   getRoleRequest,
@@ -12,7 +14,9 @@ import {
 const TableStaff = (props) => {
   const dispatch = useDispatch();
   const listRole = useSelector((state) => state.accountManage.listRole);
-
+  const restaurantList = useSelector(
+    (state) => state.restaurantManage.listRestaurant
+  );
   //Handle paging
   const [itemOffset, setItemOffset] = useState(0);
   const [currentItems, setCurrentItems] = useState([]);
@@ -37,10 +41,18 @@ const TableStaff = (props) => {
 
   useEffect(() => {
     dispatch(getRoleRequest());
+    dispatch(getRestaurantRequest());
   }, [dispatch]);
 
   const getRoleName = (id) => {
     return listRole.find((item) => item.roleId === id)["roleName"];
+  };
+
+  const getRestaurantByStaff = (staffId) => {
+    const restaurant = restaurantList.find((restaurant) =>
+      restaurant.staffList.some((staff) => staff.staffId === staffId)
+    );
+    return restaurant ? restaurant.restaurantName : "Chưa có chi nhánh";
   };
 
   const showEdit = (props) => {
@@ -95,6 +107,7 @@ const TableStaff = (props) => {
                     <td>#{item.staffId}</td>
                     <td>{item.staffFullName}</td>
                     <td>{getRoleName(item.theAccountForStaff.roleId)}</td>
+                    <td>{getRestaurantByStaff(item.staffId)}</td>
                     {item.staffStatus ? (
                       <td className="status green">Hoạt động</td>
                     ) : (
@@ -102,17 +115,7 @@ const TableStaff = (props) => {
                     )}
                     <td>{item.theAccountForStaff.phoneNumber}</td>
                     <td>
-                      <Icon
-                        className="icon"
-                        icon="bx:show-alt" 
-                      />
-                      <Icon
-                        className="icon"
-                        icon="bx:bx-edit-alt"
-                        onClick={() => {
-                          showEdit(item);
-                        }}
-                      />
+                      <Icon className="icon" icon="bx:show-alt" />
                       <Icon
                         className="icon"
                         icon="bx:bx-edit-alt"
