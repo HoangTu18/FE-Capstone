@@ -10,6 +10,8 @@ import {
   getCustomerFailure,
   getCustomerRequest,
   getCustomerSuccess,
+  updateCustomerFailure,
+  updateCustomerRequest,
 } from "../../pages/CustomerManager/CustomerManageSlice";
 import { customerService } from "../../services/customerService";
 import { STATUS_CODE } from "../../ultil/settingSystem";
@@ -52,4 +54,24 @@ function* deleteCustomer(action) {
 }
 export function* folllowActionDeleteCustomer() {
   yield takeLatest(deleteCustomerRequest, deleteCustomer);
+}
+function* updateCustomer(action){
+  try {
+    yield put(showLoading())
+    let customer = yield call(()=>{
+      return customerService.updateCustomer(action.payload)
+    })
+    if(customer.status === STATUS_CODE.SUCCESS){
+      yield put(getCustomerRequest())
+    }
+    yield put(hideLoading())
+    openNotification('success',"Thành Công", "Thao tác của bạn thành công")
+  } catch (error) {
+    yield put(updateCustomerFailure(error))
+    yield put(hideLoading())
+    openNotification('error',"Thất Bại", "Thao tác của bạn thất bại")
+  }
+}
+export function* followActionUpdateCustomer(){
+  yield takeLatest(updateCustomerRequest,updateCustomer)
 }

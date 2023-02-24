@@ -27,7 +27,7 @@ function Dashboard() {
             }
             url={"employee"}
             text={"Danh sách nhân viên"}
-            icon={<i className="fa fa-user-friends"></i>}
+            icon={<i class="fa-solid fa-users"></i>}
           />
           <DashboardItem
             isActive={
@@ -41,7 +41,7 @@ function Dashboard() {
             isActive={location.pathname.split("/")[2] === "food" ? true : false}
             url={"food"}
             text={"Danh sách món"}
-            icon={<i className="fa fa-utensils"></i>}
+            icon={<i class="fa-solid fa-rectangle-list"></i>}
           />
           <DashboardItem
             isActive={
@@ -49,7 +49,15 @@ function Dashboard() {
             }
             url={"restaurant"}
             text={"Quản lý nhà hàng"}
-            icon={<i className="fa-regular fa-user-chef"></i>}
+            icon={<i class="fa-solid fa-people-roof"></i>}
+          />
+          <DashboardItem
+            isActive={
+              location.pathname.split("/")[2] === "order" ? true : false
+            }
+            url={"order"}
+            text={"Quản lí đơn hàng"}
+            icon={<i class="fa-solid fa-receipt"></i>}
           />
         </div>
         <div className="footer">

@@ -4,9 +4,10 @@ import CustomerManager from "./pages/CustomerManager/CustomerManager.page";
 import Dashboard from "./pages/Dashboard/dashboard.component";
 import FoodManager from "./pages/FoodManager/foodmanager.page";
 import Login from "./pages/Login/login.page";
-import RestaurantManager from "./pages/RestaurantManager/restaurantmanager.page";
+import RestaurantManager from "./pages/RestaurantManager/RestaurantManager.page";
 import { BrowserRouter } from "react-router-dom";
 import Loading from "./components/Loading/Loading";
+import OrderManage from "./pages/OrderManage/OrderManage";
 function App() {
   return (
     <div>
@@ -20,6 +21,7 @@ function App() {
             <Route path="customer" element={<CustomerManager />} />
             <Route path="food" element={<FoodManager />} />
             <Route path="restaurant" element={<RestaurantManager />} />
+            <Route path="order" element={<OrderManage/>}/>
           </Route>
           <Route path="/" element={<Login />} />
         </Routes>

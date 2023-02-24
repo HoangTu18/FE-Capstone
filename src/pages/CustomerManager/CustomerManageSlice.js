@@ -16,6 +16,11 @@ export const CustomerManageSlice = createSlice({
     getCustomerFailure: (state) => {
       return state;
     },
+    //Update Customer
+    updateCustomerRequest:(state)=>{
+    },
+    updateCustomerFailure:(state)=>{
+    },
     //Delete Customer
     deleteCustomerRequest: (state) => {},
     deleteCustomerFaiture: (state) => {
@@ -27,6 +32,8 @@ export const {
   getCustomerRequest,
   getCustomerSuccess,
   getCustomerFailure,
+  updateCustomerRequest,
+  updateCustomerFailure,
   deleteCustomerRequest,
   deleteCustomerFaiture,
 } = CustomerManageSlice.actions;

@@ -18,7 +18,7 @@ function UserCreate({ data, closeModel }) {
           accountId: values.accountId,
           password: values.password,
           phoneNumber: values.phoneNumber,
-          roleId: 4,
+          roleId: parseInt(values.roleId),
           status: true,
         },
       };
@@ -34,7 +34,7 @@ function UserCreate({ data, closeModel }) {
       accountId: "",
       password: "",
       staffFullName: "",
-      roleId: "STAFF",
+      roleId: 3,
       staffEmail: "",
       phoneNumber: "",
       status: true,
