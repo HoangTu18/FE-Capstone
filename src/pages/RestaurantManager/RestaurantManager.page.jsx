@@ -1,6 +1,5 @@
 import { Icon } from "@iconify/react";
 import React, { useEffect, useState } from "react";
-import * as viewRestaurants from "../../api/Restaurant/viewRestaurants";
 import AdminPage from "../../components/AdminPage/adminpage.component";
 import TableRestaurant from "../../components/MyTable/TableRestaurant";
 import { useDispatch, useSelector } from "react-redux";

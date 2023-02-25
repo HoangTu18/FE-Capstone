@@ -5,6 +5,7 @@ import "../Combo/comboedit.style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryRequest } from "../../pages/FoodManager/foodManageSlice";
 import { insertEventRequest } from "../../pages/EventManager/eventManagerSlice";
+import UploadImage from "../../ultil/UploadImage";
 
 let options = [];
 
@@ -12,6 +13,7 @@ function EventAdd({ closeModel }) {
   const dispatch = useDispatch();
   const cateData = useSelector((state) => state.foodManage.listCategory);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
   const [selected, setSelected] = useState([]);
 
   useEffect(() => {
@@ -20,7 +22,6 @@ function EventAdd({ closeModel }) {
 
   const handleSelectChange = (selectedOption) => {
     setSelectedOption(selectedOption);
-    console.log(selectedOption);
     selectedOption.forEach((item) => {
       setSelected([...selected, { id: item.value }]);
     });
@@ -46,19 +47,17 @@ function EventAdd({ closeModel }) {
         eventId: values.eventId,
         eventName: values.eventName,
         description: values.description,
-        image_url: values.image_url,
+        image_url: imageUrl,
         fromDate: values.fromDate,
         toDate: values.toDate,
         status: values.status,
         foodList: selected,
       };
-      // console.log("EVENT", event);
-      console.log("EVENT", event);
-
+      console.log("Event Insert: ", event);
       dispatch(insertEventRequest(event));
       closeModel(false);
     },
-    [closeModel, selected, dispatch]
+    [closeModel, selected, dispatch, imageUrl]
   );
 
   const formik = useFormik({
@@ -92,7 +91,9 @@ function EventAdd({ closeModel }) {
                 <div className="combo-edit_image">
                   <img
                     src={
-                      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
+                      imageUrl
+                        ? imageUrl
+                        : "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
                     }
                     alt="Logo"
                   />
@@ -135,6 +136,9 @@ function EventAdd({ closeModel }) {
                       value={formik.values.toDate}
                       onChange={formik.handleChange}
                     />
+                  </label>
+                  <label className="combo-edit_label">
+                    <UploadImage getImageURL={setImageUrl} />
                   </label>
                   <label className="combo-edit_label">
                     Mô tả: <span className="proirity">*</span>

@@ -1,6 +1,5 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminPage from "../../components/AdminPage/adminpage.component";
-import * as viewCustomers from "../../api/Customer/viewCustomers";
 import { useDispatch, useSelector } from "react-redux";
 import TableCustomer from "../../components/MyTable/TableCustomer";
 import { getCustomerRequest } from "./CustomerManageSlice";
