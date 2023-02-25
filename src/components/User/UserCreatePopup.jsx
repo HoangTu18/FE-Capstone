@@ -1,10 +1,18 @@
 import "./useredit.style.scss";
 import { useFormik } from "formik";
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { createAccountRequest } from "../../pages/AccountManager/AccountManageSlice";
-function UserCreate({ data, closeModel }) {
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createAccountRequest,
+  getRoleRequest,
+} from "../../pages/AccountManager/AccountManageSlice";
+import { useEffect } from "react";
+function UserCreate({ closeModel }) {
   const dispatch = useDispatch();
+  const listRole = useSelector((state) => state.accountManage.listRole);
+  useEffect(() => {
+    dispatch(getRoleRequest());
+  }, [dispatch]);
   const handleAddStaff = useCallback(
     (values) => {
       let staff = {
@@ -119,8 +127,15 @@ function UserCreate({ data, closeModel }) {
               value={formik.values.roleId}
               onChange={formik.handleChange}
             >
-              <option value={3}>MANAGER</option>
-              <option value={4}>STAFF</option>
+              {listRole.map((item) => {
+                if (item.roleId !== 5) {
+                  return (
+                    <option key={item.roleId} value={item.roleId}>
+                      {item.roleName}
+                    </option>
+                  );
+                }
+              })}
             </select>
 
             <label>
