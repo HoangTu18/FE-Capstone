@@ -13,6 +13,7 @@ import "./table.scss";
 import { stringLimit } from "../../ultil/string";
 import { formatToVND } from "../../ultil/numberUltil";
 import FoodView from "../Food/FoodViewPopup";
+import { getRegionRequest } from "../../pages/RegionManage/RegionManageSlice";
 
 const TableFood = (props) => {
   const dispatch = useDispatch();
@@ -60,9 +61,11 @@ const TableFood = (props) => {
     setPopupDelete(!popupDelete);
   }
   const cateData = useSelector((state) => state.foodManage.listCategory);
+  const regionData = useSelector((state) => state.regionManage.listRegion);
 
   useEffect(() => {
     dispatch(getCategoryRequest());
+    dispatch(getRegionRequest());
   }, [dispatch]);
 
   const getCateName = (food) => {
@@ -78,14 +81,20 @@ const TableFood = (props) => {
   };
 
   const getCateId = (food) => {
-    let result = "";
-    cateData.forEach((item) => {
-      item.foodList.forEach((foodItem) => {
-        if (foodItem.id === food) {
-          result = item.id;
-        }
-      });
-    });
+    let result;
+    const item = cateData.find((cate) =>
+      cate.foodList.some((foodItem) => foodItem.id === food)
+    );
+    if (item) result = item.id;
+    return result;
+  };
+
+  const getRegionId = (food) => {
+    let result;
+    const item = regionData.find((region) =>
+      region.foodList.some((foodItem) => foodItem.id === food)
+    );
+    if (item) result = item.id;
     return result;
   };
 
@@ -97,6 +106,8 @@ const TableFood = (props) => {
           data={newData}
           listCate={cateData}
           cateId={getCateId(newData.id)}
+          listRegion={regionData}
+          regionId={getRegionId(newData.id)}
         />
       ) : (
         Fragment
@@ -107,6 +118,8 @@ const TableFood = (props) => {
           data={newData}
           listCate={cateData}
           cateId={getCateId(newData.id)}
+          listRegion={regionData}
+          regionId={getRegionId(newData.id)}
         />
       ) : (
         Fragment

@@ -5,6 +5,7 @@ import "./foodmanager.style.scss";
 import TableCombo from "../../components/MyTable/TableCombo";
 import { useDispatch, useSelector } from "react-redux";
 import { getFoodRequest } from "./foodManageSlice";
+import { getRegionRequest } from "../RegionManage/RegionManageSlice";
 import FoodAdd from "../../components/Food/FoodAddPopup";
 function FoodManager() {
   const foodTableHeadTab1 = [
@@ -46,19 +47,25 @@ function FoodManager() {
   };
   const [createPopup, setCreatePopup] = useState(false);
 
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const dataFoods = useSelector((state) => state.foodManage.listFood);
   const listCate = useSelector((state) => state.foodManage.listCategory);
+  const listRegion = useSelector((state) => state.regionManage.listRegion);
 
   useEffect(() => {
-    dispath(getFoodRequest());
-  }, [dispath]);
+    dispatch(getFoodRequest());
+    // dispatch(getRegionRequest());
+  }, [dispatch]);
 
   const [tab, setTab] = useState("tab1");
   return (
     <div>
       {createPopup ? (
-        <FoodAdd closeModel={setCreatePopup} listCate={listCate} />
+        <FoodAdd
+          closeModel={setCreatePopup}
+          listCate={listCate}
+          listRegion={listRegion}
+        />
       ) : (
         <></>
       )}

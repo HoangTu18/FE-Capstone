@@ -12,6 +12,8 @@ import {
   insertFoodRequest,
 } from "../../pages/FoodManager/foodManageSlice";
 
+import { getRegionRequest } from "../../pages/RegionManage/RegionManageSlice";
+
 import { foodService } from "../../services/foodService";
 import { STATUS_CODE } from "../../ultil/settingSystem";
 import { openNotification } from "../../components/NotificationConfirm/NotificationConfirm";
@@ -69,6 +71,7 @@ function* insertFood(action) {
       return foodService.insertFood(action.payload);
     });
     if (listFood.status === STATUS_CODE.SUCCESS) {
+      console.log(action.payload.cateId);
       let foodToCategory = yield call(() => {
         return foodService.addFoodtoCategory(
           listFood.data.id,
@@ -76,16 +79,21 @@ function* insertFood(action) {
         );
       });
       if (foodToCategory.status === STATUS_CODE.SUCCESS) {
-        yield put(hideLoading());
+        let foodToRegion = yield call(() => {
+          return foodService.addFoodtoRegion(
+            listFood.data.id,
+            action.payload.regionId
+          );
+        });
+        if (foodToRegion.status === STATUS_CODE.SUCCESS) {
+          yield put(hideLoading());
+        }
       }
-      yield put(getFoodRequest());
-      yield put(getCategoryRequest());
-      openNotification(
-        "success",
-        "Thành Công",
-        "Thao tác của bạn đã thành công"
-      );
     }
+    yield put(getFoodRequest());
+    yield put(getRegionRequest());
+    yield put(getCategoryRequest());
+    openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
   } catch (error) {
     console.log(error);
     yield put(hideLoading());
@@ -111,10 +119,19 @@ function* updateFood(action) {
         );
       });
       if (foodToCategory.status === STATUS_CODE.SUCCESS) {
-        yield put(hideLoading());
+        let foodToRegion = yield call(() => {
+          return foodService.addFoodtoRegion(
+            listFood.data.id,
+            action.payload.regionId
+          );
+        });
+        if (foodToRegion.status === STATUS_CODE.SUCCESS) {
+          yield put(hideLoading());
+        }
       }
     }
     yield put(getFoodRequest());
+    yield put(getRegionRequest());
     yield put(getCategoryRequest());
     openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
   } catch (error) {

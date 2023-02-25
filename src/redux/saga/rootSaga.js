@@ -5,6 +5,7 @@ import * as eventSaga from "./eventManageSage";
 import * as foodSaga from "./foodManageSaga";
 import * as restaurantSaga from "./restaurantManageSaga";
 import * as orderSaga from "./orderManageSaga";
+import * as regionSaga from "./regionManageSaga";
 export default function* rootSaga() {
   yield all([
     // Saga Staff
@@ -32,6 +33,8 @@ export default function* rootSaga() {
     restaurantSaga.followActionGetRestaurant(),
     //Saga Order
     orderSaga.followActionGetOrder(),
-    orderSaga.followActionGetOrderById()
+    orderSaga.followActionGetOrderById(),
+    //Sage Region
+    regionSaga.followActiongetRegions(),
   ]);
 }

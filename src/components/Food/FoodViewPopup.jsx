@@ -1,4 +1,11 @@
-function FoodView({ data, closeModel, listCate, cateId }) {
+function FoodView({
+  data,
+  closeModel,
+  listCate,
+  cateId,
+  listRegion,
+  regionId,
+}) {
   return (
     <div className="modelBackground">
       <div className="form-popup">
@@ -22,11 +29,23 @@ function FoodView({ data, closeModel, listCate, cateId }) {
             <label>Giá (VND):</label>
             <input type="text" disabled value={data.price} />
             <label>Loại:</label>
-            <select value={data.cateId} disabled>
+            <select value={cateId} disabled>
               {listCate.map((item) => {
                 return (
                   <option key={item.id} value={item.id}>
                     {item.categoryName}
+                  </option>
+                );
+              })}
+            </select>
+            <label>
+              Vùng/Miền: <span className="proirity">*</span>
+            </label>
+            <select value={regionId} disabled>
+              {listRegion.map((item) => {
+                return (
+                  <option key={item.id} value={item.id}>
+                    {item.region_name}
                   </option>
                 );
               })}

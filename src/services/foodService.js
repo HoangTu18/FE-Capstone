@@ -19,5 +19,8 @@ class FoodService extends BaseService {
   addFoodtoCategory = (foodId, cateId) => {
     return this.post(`categories/${foodId}TO${cateId}`);
   };
+  addFoodtoRegion = (foodId, regionId) => {
+    return this.post(`regions/${foodId}TO${regionId}`);
+  };
 }
 export const foodService = new FoodService();

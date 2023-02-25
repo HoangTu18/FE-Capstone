@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { insertFoodRequest } from "../../pages/FoodManager/foodManageSlice";
-function FoodAdd({ closeModel, listCate }) {
+function FoodAdd({ closeModel, listCate, listRegion }) {
   const dispatch = useDispatch();
   const handleInsertFood = useCallback(
     (values) => {
@@ -15,6 +15,7 @@ function FoodAdd({ closeModel, listCate }) {
         status: values.status,
         cateId: values.cateId,
         purchaseNum: 0,
+        regionId: values.regionId,
       };
       console.log("FOOD", food);
       closeModel(false);
@@ -32,6 +33,7 @@ function FoodAdd({ closeModel, listCate }) {
       status: true,
       purchaseNum: "",
       cateId: "ca_00",
+      regionId: "re_00",
     },
     onSubmit: (values, { resetForm }) => {
       handleInsertFood(values);
@@ -101,6 +103,23 @@ function FoodAdd({ closeModel, listCate }) {
                 return (
                   <option key={item.id} value={item.id}>
                     {item.categoryName}
+                  </option>
+                );
+              })}
+            </select>
+            <label>
+              Vùng/Miền: <span className="proirity">*</span>
+            </label>
+            <select
+              id="regionId"
+              name="regionId"
+              value={formik.values.regionId}
+              onChange={formik.handleChange}
+            >
+              {listRegion.map((item) => {
+                return (
+                  <option key={item.id} value={item.id}>
+                    {item.region_name}
                   </option>
                 );
               })}

@@ -1,9 +1,19 @@
 import { useFormik } from "formik";
+import { useState } from "react";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { updateFoodRequest } from "../../pages/FoodManager/foodManageSlice";
-function FoodEdit({ data, closeModel, listCate, cateId }) {
+import UploadImage from "../../ultil/UploadImage";
+function FoodEdit({
+  data,
+  closeModel,
+  listCate,
+  cateId,
+  listRegion,
+  regionId,
+}) {
   const dispatch = useDispatch();
+  const [imageUrl, setImageUrl] = useState("");
   const handleUpdateFood = useCallback(
     (values) => {
       let food = {
@@ -11,10 +21,11 @@ function FoodEdit({ data, closeModel, listCate, cateId }) {
         foodName: values.foodName,
         description: values.description,
         price: values.price,
-        imgUrl: values.imgUrl,
+        imgUrl: values.imageUrl,
         status: values.status,
         cateId: values.cateId,
         purchaseNum: 0,
+        regionId: values.regionId,
       };
       closeModel(false);
       dispatch(updateFoodRequest(food));
@@ -31,9 +42,10 @@ function FoodEdit({ data, closeModel, listCate, cateId }) {
       status: data.status,
       purchaseNum: data.purchaseNum,
       cateId: cateId,
+      regionId: regionId,
     },
     onSubmit: (values, { resetForm }) => {
-      // console.log(values);
+      console.log(values);
       handleUpdateFood(values);
       resetForm({ values: "" });
     },
@@ -51,7 +63,11 @@ function FoodEdit({ data, closeModel, listCate, cateId }) {
             <img
               className="avatar"
               src={
-                "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
+                imageUrl
+                  ? imageUrl
+                  : data.imgUrl
+                  ? data.imgUrl
+                  : "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
               }
               alt=""
             />
@@ -106,15 +122,22 @@ function FoodEdit({ data, closeModel, listCate, cateId }) {
               })}
             </select>
             <label>
-              Hình ảnh: <span className="proirity">*</span>
-              <input
-                type="text"
-                id="imgUrl"
-                name="imgUrl"
-                value={formik.values.imgUrl}
-                onChange={formik.handleChange}
-              />
+              Vùng/Miền: <span className="proirity">*</span>
             </label>
+            <select
+              id="regionId"
+              name="regionId"
+              value={formik.values.regionId}
+              onChange={formik.handleChange}
+            >
+              {listRegion.map((item) => {
+                return (
+                  <option key={item.id} value={item.id}>
+                    {item.region_name}
+                  </option>
+                );
+              })}
+            </select>
             <label>
               Mô tả: <span className="proirity">*</span>
             </label>
@@ -125,6 +148,7 @@ function FoodEdit({ data, closeModel, listCate, cateId }) {
               value={formik.values.description}
               onChange={formik.handleChange}
             />
+            {/* <UploadImage getImageURL={setImageUrl} /> */}
             <label>Trạng thái:</label>
             <br></br>
             <input
