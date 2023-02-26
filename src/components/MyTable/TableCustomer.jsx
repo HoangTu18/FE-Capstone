@@ -114,13 +114,13 @@ const TableCustomer = (props) => {
                       {item.address === null ? "null" : cutString(item.address)}
                     </td>
                     <td>{item.email === null ? "null" : item.email}</td>
-                    <td>
-                      {item.theAccount === null || !item.theAccount.status ? (
-                        <td className="status red">Không hoạt động</td>
-                      ) : (
-                        <td className="status green">Hoạt động</td>
-                      )}
-                    </td>
+
+                    {item.theAccount === null || !item.theAccount.status ? (
+                      <td className="status red">Không hoạt động</td>
+                    ) : (
+                      <td className="status green">Hoạt động</td>
+                    )}
+
                     <td>
                       <Icon
                         className="icon"
