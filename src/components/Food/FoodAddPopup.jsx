@@ -1,8 +1,12 @@
 import { useFormik } from "formik";
+import { useState } from "react";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { insertFoodRequest } from "../../pages/FoodManager/foodManageSlice";
+import UploadImage from "../../ultil/UploadImage";
+import "./food.style.scss";
 function FoodAdd({ closeModel, listCate, listRegion }) {
+  const [imageUrl, setImageUrl] = useState("");
   const dispatch = useDispatch();
   const handleInsertFood = useCallback(
     (values) => {
@@ -41,38 +45,38 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
     },
   });
   return (
-    <div className="modelBackground">
-      <div className="form-popup">
-        <form
-          noValidate
-          autoComplete="off"
-          onSubmit={formik.handleSubmit}
-          className="form-container"
-        >
-          <div className="left">
+    <div className="popup">
+      <form
+        className="form-up"
+        noValidate
+        autoComplete="off"
+        onSubmit={formik.handleSubmit}
+      >
+        <div className="food__title unselectable">Thông tin món ăn</div>
+        <div className="left">
+          <div className="img__item">
             <img
-              className="avatar"
+              className="image"
               src={
-                "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
+                imageUrl
+                  ? imageUrl
+                  : "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
               }
               alt=""
             />
           </div>
-          <div className="right">
-            <label>
+          <div className="listitem">
+            <label className="label__title">
               Mã món ăn: <span className="proirity">*</span>
             </label>
             <input
               type="text"
-              disabled
               id="id"
               name="id"
               value={formik.values.id}
               onChange={formik.handleChange}
             />
-            <label>
-              Tên món ăn: <span className="proirity">*</span>
-            </label>
+            <label className="label__title">Tên món ăn:</label>
             <input
               type="text"
               id="foodName"
@@ -80,9 +84,7 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
               value={formik.values.foodName}
               onChange={formik.handleChange}
             />
-            <label>
-              Giá (VND): <span className="proirity">*</span>
-            </label>
+            <label className="label__title">Giá (VND):</label>
             <input
               type="text"
               id="price"
@@ -90,9 +92,7 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
               value={formik.values.price}
               onChange={formik.handleChange}
             />
-            <label>
-              Loại: <span className="proirity">*</span>
-            </label>
+            <label className="label__title">Loại:</label>
             <select
               id="cateId"
               name="cateId"
@@ -107,7 +107,7 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
                 );
               })}
             </select>
-            <label>
+            <label className="label__title">
               Vùng/Miền: <span className="proirity">*</span>
             </label>
             <select
@@ -124,17 +124,24 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
                 );
               })}
             </select>
-            <label>
-              Hình ảnh:
-              <input
-                type="text"
-                id="imgUrl"
-                name="imgUrl"
-                value={formik.values.imgUrl}
-                onChange={formik.handleChange}
-              />
-            </label>
-            <label>
+            <label className="label__title">Trạng thái:</label>
+            <input
+              className="checkBoxStatus type"
+              type="checkbox"
+              id="status"
+              name="status"
+              value={formik.values.status}
+              onChange={formik.handleChange}
+              checked={true}
+            />
+          </div>
+        </div>
+        <div className="right">
+          <div className="listitem">
+            <label className="label__title">Hình ảnh</label>
+            <UploadImage getImageURL={setImageUrl} />
+            <label className="label__title">
+              {" "}
               Mô tả: <span className="proirity">*</span>
             </label>
             <textarea
@@ -144,18 +151,7 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
               value={formik.values.description}
               onChange={formik.handleChange}
             />
-            <label>Trạng thái:</label>
-            <br></br>
-            <input
-              className="checkBoxStatus type"
-              type="checkbox"
-              id="status"
-              name="status"
-              value={formik.values.status}
-              checked={formik.values.status}
-              onChange={formik.handleChange}
-            />
-            <div style={{ display: "flex", float: "right" }}>
+            <div className="food__button">
               <button type="submit" className="btn">
                 Lưu
               </button>
@@ -168,8 +164,8 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
               </button>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }

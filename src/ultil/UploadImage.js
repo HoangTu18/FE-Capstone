@@ -5,7 +5,6 @@ import { Upload, message, Button } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 const UploadImage = ({ getImageURL }) => {
-  const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const handleUpload = async ({ file }) => {
     setLoading(true);
@@ -19,7 +18,6 @@ const UploadImage = ({ getImageURL }) => {
         { headers: { "Content-Type": "multipart/form-data" } }
       );
       if (response.status === 200) {
-        setImageUrl(response.data.data.display_url);
         getImageURL(response.data.data.display_url);
       }
     } catch (error) {
@@ -35,7 +33,6 @@ const UploadImage = ({ getImageURL }) => {
         name="photo"
         maxCount={1}
         multiple={false}
-        onChange={() => console.log("on Change Upload")}
         beforeUpload={(file) => {
           const isJpgOrPng =
             file.type === "image/jpeg" || file.type === "image/png";
@@ -49,12 +46,6 @@ const UploadImage = ({ getImageURL }) => {
       >
         {loading ? (
           <LoadingOutlined />
-        ) : imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={"hình ảnh được tải lên"}
-            style={{ maxWidth: 200, maxHeight: 150 }}
-          />
         ) : (
           <Button icon={<UploadOutlined />}>Tải ảnh</Button>
         )}
