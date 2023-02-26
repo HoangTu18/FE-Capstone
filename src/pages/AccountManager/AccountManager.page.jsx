@@ -4,6 +4,7 @@ import TableStaff from "../../components/MyTable/TableStaff";
 import UserCreate from "../../components/User/UserCreatePopup";
 import { useDispatch, useSelector } from "react-redux";
 import { getAccountRequest } from "./AccountManageSlice";
+import { removeAccents } from "../../ultil/string";
 function AccountManager() {
   const staffTableHead = [
     "Mã nhân viên",
@@ -23,23 +24,17 @@ function AccountManager() {
 
   const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
-  const searchByName = (data) => {
-    return data.filter((item) =>
-      query.toLowerCase() === "hoạt động"
-        ? item.staffStatus?.toString().includes(true)
-        : query.toLowerCase() === "không hoạt động"
-        ? item.staffStatus.toString().includes(false)
-        : item.staffFullName?.toLowerCase().includes(query.toLowerCase()) ||
-          item.theAccountForStaff?.phoneNumber.includes(query) ||
-          item.staffId?.toString().includes(query)
+
+  const searchByName = (staffList) => {
+    const searchWithoutAccents = removeAccents(query);
+    const searchRegex = new RegExp(searchWithoutAccents, "i");
+    return staffList.filter((obj) =>
+      searchRegex.test(removeAccents(obj.staffFullName))
     );
   };
 
-
-
   useEffect(() => {
     dispatch(getAccountRequest());
-
   }, [dispatch]);
 
   return (

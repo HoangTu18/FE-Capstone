@@ -15,33 +15,20 @@ function CustomerManager() {
   ];
   const renderHead = (item, index) => <th key={index}>{item}</th>;
 
-  const renderBody = (item, index) => (
-    <tr key={index}>
-      <td>{item.id}</td>
-      <td>{item.customerName}</td>
-      <td>{item.phone}</td>
-      <td>{item.address}</td>
-      <td>{item.email}</td>
-      <td>{item.status}</td>
-    </tr>
-  );
+  const renderBody = (item, index) => <tr key={index}></tr>;
   const dispatch = useDispatch();
   const listCustomer = useSelector(
     (state) => state.customerManage.listCustomer
   );
   const [query, setQuery] = useState("");
-  const searchByName = (data) => {
-    return data?.filter((item) =>
-      query.toLowerCase() === "hoạt động"
-        ? item.theAccount?.status.toString().includes(true)
-        : query.toLowerCase() === "không hoạt động"
-        ? item.theAccount?.status.toString().includes(false)
-        : item.customerName?.toLowerCase().includes(query.toLowerCase()) ||
-          item.email?.toLowerCase().includes(query) ||
-          item.customerId?.toString().includes(query) ||
-          item.theAccount?.phoneNumber.includes(query) ||
-          item.address?.toLowerCase().includes(query)
-    );
+  const searchByPhoneNumber = (customerList) => {
+    const searchRegex = new RegExp(query, "i");
+    return customerList.filter((obj) => {
+      if (!obj.theAccount) {
+        return obj;
+      }
+      return searchRegex.test(obj.theAccount.phoneNumber);
+    });
   };
   useEffect(() => {
     dispatch(getCustomerRequest());
@@ -75,7 +62,7 @@ function CustomerManager() {
                     limit="5"
                     headData={customerTableHead}
                     renderHead={(item, index) => renderHead(item, index)}
-                    bodyData={searchByName(listCustomer)}
+                    bodyData={searchByPhoneNumber(listCustomer)}
                     renderBody={(item, index) => renderBody(item, index)}
                   />
                 </div>
