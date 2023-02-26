@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { deleteCustomerRequest } from "../../pages/CustomerManager/CustomerManageSlice";
 import ConfirmPopup from "../Confirm/ConfirmPopup";
 import CustomerView from "../Customer/customerViewPopup";
+import { truncateString } from "../../ultil/stringUtil";
 const TableCustomer = (props) => {
   const dispatch = useDispatch();
 
@@ -35,12 +36,10 @@ const TableCustomer = (props) => {
     const newOffset = (event.selected * itemsPerPage) % props.bodyData.length;
     setItemOffset(newOffset);
   };
-
   const showView = (props) => {
     setDataCustomer(props);
     setPopupView(!popupView);
   };
-
   const showEdit = (props) => {
     setDataCustomer(props);
     setPopupEdit(!popupEdit);
@@ -49,12 +48,18 @@ const TableCustomer = (props) => {
     setNewId(props);
     setPopupDelete(!popupDelete);
   };
-
   if (confirm) {
     setConfirm(false);
     dispatch(deleteCustomerRequest(newId));
     setPopupDelete(!popupDelete);
   }
+
+  const cutString = (string) => {
+    let array = string.split(",");
+    let length = array.length;
+    return array[length - 1].trim();
+  };
+
   return (
     <div>
       {popupView ? (
@@ -96,14 +101,18 @@ const TableCustomer = (props) => {
                   <tr>
                     <td>#{item.customerId}</td>
                     <td>
-                      {item.customerName === null ? "null" : item.customerName}
+                      {item.customerName === null
+                        ? "null"
+                        : truncateString(item.customerName, 15)}
                     </td>
                     <td>
                       {item.theAccount === null
                         ? "null"
                         : item.theAccount.phoneNumber}
                     </td>
-                    <td>{item.address === null ? "null" : item.address}</td>
+                    <td>
+                      {item.address === null ? "null" : cutString(item.address)}
+                    </td>
                     <td>{item.email === null ? "null" : item.email}</td>
                     <td>
                       {item.theAccount === null || !item.theAccount.status ? (

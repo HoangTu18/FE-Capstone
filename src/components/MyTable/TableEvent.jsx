@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { deleteEventRequest } from "../../pages/EventManager/eventManagerSlice.js";
 import ConfirmPopup from "../Confirm/ConfirmPopup.jsx";
 import EventEdit from "../Event/EventEditPopup.jsx";
-import { stringLimit } from "../../ultil/string";
+import { truncateString } from "../../ultil/stringUtil";
 import "./table.scss";
 import EventView from "../Event/EventViewPopup.jsx";
 
@@ -99,9 +99,12 @@ const TableEvent = (props) => {
                     <td>
                       {item.foodList === null
                         ? ""
-                        : item.foodList.map((item) => {
-                            return `${item.foodName}, `;
-                          })}
+                        : item.foodList
+                            .map((item, index) => {
+                              if (index >= 3) return null;
+                              return truncateString(item.foodName, 8);
+                            })
+                            .join(", ")}
                     </td>
 
                     {item.status ? (
@@ -111,8 +114,8 @@ const TableEvent = (props) => {
                     )}
 
                     <td>
-                      {item.fromDate === null ? "" : item.fromDate.slice(5)} đến{" "}
-                      {item.toDate === null ? "" : item.toDate.slice(5)}
+                      {item.fromDate === null ? "" : item.fromDate.slice(5, 10)}{" "}
+                      đến {item.toDate === null ? "" : item.toDate.slice(5, 10)}
                     </td>
                     <td>
                       <Icon

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AdminPage from "../../components/AdminPage/adminpage.component";
 import EventAdd from "../../components/Event/EventAddPopup";
 import TableEvent from "../../components/MyTable/TableEvent";
+import { searchByName } from "../../ultil/stringUtil";
 import { getEventRequest } from "./eventManagerSlice";
 
 function EventManager() {
@@ -21,16 +22,16 @@ function EventManager() {
 
   const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
-  const searchByName = (data) => {
-    return data.filter((item) =>
-      query.toLowerCase() === "hoạt động"
-        ? item.status?.toString().includes(true)
-        : query.toLowerCase() === "không hoạt động"
-        ? item.status.toString().includes(false)
-        : item.eventName?.toLowerCase().includes(query.toLowerCase()) ||
-          item.eventId?.toString().includes(query)
-    );
-  };
+  // const searchByName = (data) => {
+  //   return data.filter((item) =>
+  //     query.toLowerCase() === "hoạt động"
+  //       ? item.status?.toString().includes(true)
+  //       : query.toLowerCase() === "không hoạt động"
+  //       ? item.status.toString().includes(false)
+  //       : item.eventName?.toLowerCase().includes(query.toLowerCase()) ||
+  //         item.eventId?.toString().includes(query)
+  //   );
+  // };
 
   const dispatch = useDispatch();
   const eventList = useSelector((state) => state.eventManage.listEvent);
@@ -58,7 +59,7 @@ function EventManager() {
               <div className="topnav__search">
                 <input
                   type="text"
-                  placeholder=""
+                  placeholder="nhập tên sự kiện để tìm..."
                   onChange={(e) => setQuery(e.target.value)}
                 />
                 <i className="bx bx-search"></i>
@@ -75,7 +76,7 @@ function EventManager() {
                   limit="5"
                   headData={restaurantTableHead}
                   renderHead={(item, index) => renderHead(item, index)}
-                  bodyData={searchByName(eventList)}
+                  bodyData={searchByName(eventList, query, "eventName")}
                   renderBody={(item, index) => renderBody(item, index)}
                 />
               </div>

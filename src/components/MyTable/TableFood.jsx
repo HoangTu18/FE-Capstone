@@ -10,7 +10,7 @@ import {
 import ConfirmPopup from "../Confirm/ConfirmPopup";
 import FoodEdit from "../Food/FoodEditPopup";
 import "./table.scss";
-import { stringLimit } from "../../ultil/string";
+import { truncateString } from "../../ultil/stringUtil";
 import { formatToVND } from "../../ultil/numberUltil";
 import FoodView from "../Food/FoodViewPopup";
 import { getRegionRequest } from "../../pages/RegionManage/RegionManageSlice";
@@ -155,7 +155,7 @@ const TableFood = (props) => {
                     <td>
                       {item.foodName === null
                         ? "null"
-                        : stringLimit(item.foodName)}
+                        : truncateString(item.foodName, 15)}
                     </td>
                     <td>
                       {item.price === null ? "null" : formatToVND(item.price)}

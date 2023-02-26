@@ -9,6 +9,7 @@ import { BrowserRouter } from "react-router-dom";
 import Loading from "./components/Loading/Loading";
 import EventManager from "./pages/EventManager/eventManager.page";
 import OrderManage from "./pages/OrderManage/OrderManage";
+import ServiceManager from "./pages/ServiceManage/ServiceManager.page";
 function App() {
   return (
     <div>
@@ -24,6 +25,7 @@ function App() {
             <Route path="restaurant" element={<RestaurantManager />} />
             <Route path="event" element={<EventManager />} />
             <Route path="order" element={<OrderManage/>}/>
+            <Route path="service" element={<ServiceManager/>}/>
           </Route>
           <Route path="/" element={<Login />} />
         </Routes>

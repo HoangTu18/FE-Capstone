@@ -3,6 +3,7 @@ import AdminPage from "../../components/AdminPage/adminpage.component";
 import { useDispatch, useSelector } from "react-redux";
 import TableCustomer from "../../components/MyTable/TableCustomer";
 import { getCustomerRequest } from "./CustomerManageSlice";
+import { searchByPhoneNumber } from "../../ultil/stringUtil";
 function CustomerManager() {
   const customerTableHead = [
     "Mã khách hàng",
@@ -21,15 +22,6 @@ function CustomerManager() {
     (state) => state.customerManage.listCustomer
   );
   const [query, setQuery] = useState("");
-  const searchByPhoneNumber = (customerList) => {
-    const searchRegex = new RegExp(query, "i");
-    return customerList.filter((obj) => {
-      if (!obj.theAccount) {
-        return obj;
-      }
-      return searchRegex.test(obj.theAccount.phoneNumber);
-    });
-  };
   useEffect(() => {
     dispatch(getCustomerRequest());
   }, [dispatch]);
@@ -45,7 +37,7 @@ function CustomerManager() {
                 <div className="topnav__search">
                   <input
                     type="text"
-                    placeholder=""
+                    placeholder="nhập sđt khách để tìm..."
                     onChange={(e) => setQuery(e.target.value)}
                   />
                   <i className="bx bx-search"></i>
@@ -62,7 +54,12 @@ function CustomerManager() {
                     limit="5"
                     headData={customerTableHead}
                     renderHead={(item, index) => renderHead(item, index)}
-                    bodyData={searchByPhoneNumber(listCustomer)}
+                    bodyData={searchByPhoneNumber(
+                      listCustomer,
+                      query,
+                      "theAccount",
+                      "phoneNumber"
+                    )}
                     renderBody={(item, index) => renderBody(item, index)}
                   />
                 </div>

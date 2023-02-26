@@ -4,6 +4,7 @@ import AdminPage from "../../components/AdminPage/adminpage.component";
 import TableRestaurant from "../../components/MyTable/TableRestaurant";
 import { useDispatch, useSelector } from "react-redux";
 import { getRestaurantRequest } from "./RestaurantManageSlice";
+import { searchByName } from "../../ultil/stringUtil";
 function RestaurantManager() {
   const dispatch = useDispatch();
   const listRestaurant = useSelector(
@@ -42,17 +43,17 @@ function RestaurantManager() {
 
   const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
-  const searchByName = (data) => {
-    return data.filter((item) =>
-      query.toLowerCase() === "hoạt động"
-        ? item.status?.toString().includes(true)
-        : query.toLowerCase() === "không hoạt động"
-        ? item.status.toString().includes(false)
-        : item.restaurantName?.toLowerCase().includes(query.toLowerCase()) ||
-          item.restaurantNumber.includes(query) ||
-          item.restaurantId?.toString().includes(query)
-    );
-  };
+  // const searchByName = (data) => {
+  //   return data.filter((item) =>
+  //     query.toLowerCase() === "hoạt động"
+  //       ? item.status?.toString().includes(true)
+  //       : query.toLowerCase() === "không hoạt động"
+  //       ? item.status.toString().includes(false)
+  //       : item.restaurantName?.toLowerCase().includes(query.toLowerCase()) ||
+  //         item.restaurantNumber.includes(query) ||
+  //         item.restaurantId?.toString().includes(query)
+  //   );
+  // };
   useEffect(() => {
     dispatch(getRestaurantRequest());
   }, [dispatch]);
@@ -75,7 +76,7 @@ function RestaurantManager() {
               <div className="topnav__search">
                 <input
                   type="text"
-                  placeholder=""
+                  placeholder="nhập tên nhà hàng để tìm.."
                   onChange={(e) => setQuery(e.target.value)}
                 />
                 <i className="bx bx-search"></i>
@@ -92,7 +93,11 @@ function RestaurantManager() {
                   limit="5"
                   headData={restaurantTableHead}
                   renderHead={(item, index) => renderHead(item, index)}
-                  bodyData={searchByName(listRestaurant)}
+                  bodyData={searchByName(
+                    listRestaurant,
+                    query,
+                    "restaurantName"
+                  )}
                   renderBody={(item, index) => renderBody(item, index)}
                 />
               </div>

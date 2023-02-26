@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getFoodRequest } from "./foodManageSlice";
 import { getRegionRequest } from "../RegionManage/RegionManageSlice";
 import FoodAdd from "../../components/Food/FoodAddPopup";
+import { searchByName } from "../../ultil/stringUtil";
 function FoodManager() {
   const foodTableHeadTab1 = [
     "Mã món ăn",
@@ -38,13 +39,7 @@ function FoodManager() {
   );
 
   const [query, setQuery] = useState("");
-  const searchByName = (data) => {
-    return data?.filter(
-      (item) =>
-        item.foodName?.toLowerCase().includes(query.toLowerCase()) ||
-        item.id.toString().toLowerCase().includes(query)
-    );
-  };
+
   const [createPopup, setCreatePopup] = useState(false);
 
   const dispatch = useDispatch();
@@ -106,7 +101,7 @@ function FoodManager() {
                     <div className="topnav__search">
                       <input
                         type="text"
-                        placeholder=""
+                        placeholder="nhập tên món để tìm..."
                         onChange={(e) => setQuery(e.target.value)}
                       />
                       <i className="bx bx-search"></i>
@@ -123,7 +118,7 @@ function FoodManager() {
                         limit="5"
                         headData={foodTableHeadTab1}
                         renderHead={(item, index) => renderHead(item, index)}
-                        bodyData={searchByName(dataFoods)}
+                        bodyData={searchByName(dataFoods, query, "foodName")}
                         renderBody={(item, index) => renderBody(item, index)}
                       />
                     </div>

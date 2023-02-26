@@ -68,6 +68,14 @@ function Dashboard() {
             text={"Quản lí đơn hàng"}
             icon={<i className="fa-solid fa-receipt"></i>}
           />
+          <DashboardItem
+            isActive={
+              location.pathname.split("/")[2] === "service" ? true : false
+            }
+            url={"service"}
+            text={"Quản lý dịch vụ"}
+            icon={<i className="fa-solid fa-bell-concierge"></i>}
+          />
         </div>
         <div className="footer">
           <hr />

@@ -1,54 +1,66 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { Icon } from "@iconify/react";
+import React, { useEffect, useState } from "react";
 import AdminPage from "../../components/AdminPage/adminpage.component";
-import TableStaff from "../../components/MyTable/TableStaff";
-import UserCreate from "../../components/User/UserCreatePopup";
+import TableRestaurant from "../../components/MyTable/TableRestaurant";
 import { useDispatch, useSelector } from "react-redux";
-import { getAccountRequest } from "./AccountManageSlice";
-import { searchByName } from "../../ultil/stringUtil";
-function AccountManager() {
-  const staffTableHead = [
-    "Mã nhân viên",
-    "Tên nhân viên",
-    "Chức danh",
-    "Chi nhánh",
+function ServiceManager() {
+  const dispatch = useDispatch();
+  const listRestaurant = useSelector(
+    (state) => state.restaurantManage.listRestaurant
+  );
+  const restaurantTableHead = [
+    "Mã dịch vụ",
+    "Tên dịch vụ",
+    "Đơn vị",
+    "Giá (VND)",
     "Trạng thái",
-    "Số điện thoại",
     "Hành động",
   ];
 
   const renderHead = (item, index) => <th key={index}>{item}</th>;
 
-  const renderBody = (item, index) => <tr key={index}></tr>;
-  const dispatch = useDispatch();
-  const staffList = useSelector((state) => state.accountManage.listAccount);
+  const renderBody = (item, index) => (
+    <tr key={index}>
+      <td>#{item.restaurantId}</td>
+      <td>{item.restaurantName}</td>
+      <td>{item.restaurantNumber}</td>
+      <td>{item.restaurantLocation.split(",")[3]}</td>
+      {item.status ? (
+        <td className="status green">Hoạt động</td>
+      ) : (
+        <td className="status red">Không hoạt động</td>
+      )}
+      <td>
+        <Icon className="icon" icon="bx:show-alt" />
+        <Icon className="icon" icon="bx:bx-edit-alt" />
+        <Icon className="icon" icon="material-symbols:delete-outline-rounded" />
+      </td>
+    </tr>
+  );
 
   const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
-
-  useEffect(() => {
-    dispatch(getAccountRequest());
-  }, [dispatch]);
+  useEffect(() => {}, [dispatch]);
 
   return (
     <div>
-      {createPopup ? <UserCreate closeModel={setCreatePopup} /> : Fragment}
       <AdminPage>
         <div className="toptable">
-          <h1 style={{ marginLeft: "30px" }}>Danh sách nhân viên</h1>
+          <h1 style={{ marginLeft: "30px" }}>Danh sách dịch vụ</h1>
           <div className="topnav__right">
             <div className="topnav__right-item">
               <div
                 className="button"
                 onClick={() => setCreatePopup(!createPopup)}
               >
-                Thêm nhân viên +
+                Thêm dịch vụ +
               </div>
             </div>
             <div className="topnav__right-item">
               <div className="topnav__search">
                 <input
                   type="text"
-                  placeholder="nhập tên nhân viên để tìm..."
+                  placeholder="nhập tên dịch vụ để tìm..."
                   onChange={(e) => setQuery(e.target.value)}
                 />
                 <i className="bx bx-search"></i>
@@ -61,11 +73,11 @@ function AccountManager() {
           <div className="col-12">
             <div className="card">
               <div className="card__body">
-                <TableStaff
+                <TableRestaurant
                   limit="5"
-                  headData={staffTableHead}
+                  headData={restaurantTableHead}
                   renderHead={(item, index) => renderHead(item, index)}
-                  bodyData={searchByName(staffList, query, "staffFullName")}
+                  bodyData={listRestaurant}
                   renderBody={(item, index) => renderBody(item, index)}
                 />
               </div>
@@ -77,4 +89,4 @@ function AccountManager() {
   );
 }
 
-export default AccountManager;
+export default ServiceManager;
