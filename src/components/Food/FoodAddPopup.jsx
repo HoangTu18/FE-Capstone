@@ -15,7 +15,7 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
         foodName: values.foodName,
         description: values.description,
         price: values.price,
-        imgUrl: values.imgUrl,
+        imgUrl: imageUrl,
         status: values.status,
         cateId: values.cateId,
         purchaseNum: 0,
@@ -25,7 +25,7 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
       closeModel(false);
       dispatch(insertFoodRequest(food));
     },
-    [dispatch, closeModel]
+    [dispatch, closeModel, imageUrl]
   );
   const formik = useFormik({
     initialValues: {
@@ -70,6 +70,7 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
               Mã món ăn: <span className="proirity">*</span>
             </label>
             <input
+              disabled
               type="text"
               id="id"
               name="id"
