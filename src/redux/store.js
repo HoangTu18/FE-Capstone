@@ -8,6 +8,7 @@ import foodManageReducer from "../pages/FoodManager/foodManageSlice";
 import restaurantManageReducer from "../pages/RestaurantManager/RestaurantManageSlice";
 import orderManageReducer from "../pages/OrderManage/OrderManageSlice";
 import regionManageReducer from "../pages/RegionManage/RegionManageSlice";
+import loginManageReducer from "../pages/Login/LoginManageSlice"
 import rootSaga from "./saga/rootSaga";
 const saga = createSagaMiddleware();
 const store = configureStore({
@@ -20,6 +21,7 @@ const store = configureStore({
     restaurantManage: restaurantManageReducer,
     orderManage: orderManageReducer,
     regionManage: regionManageReducer,
+    loginManage: loginManageReducer
   },
   middleware: [saga],
 });

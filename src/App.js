@@ -16,6 +16,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />}>
             <Route path="" element={<AccountManager />} />
             <Route path="employee" element={<AccountManager />} />
@@ -25,7 +26,6 @@ function App() {
             <Route path="event" element={<EventManager />} />
             <Route path="order" element={<OrderManage/>}/>
           </Route>
-          <Route path="/" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </div>

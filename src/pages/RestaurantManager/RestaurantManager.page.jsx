@@ -1,9 +1,10 @@
 import { Icon } from "@iconify/react";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import AdminPage from "../../components/AdminPage/adminpage.component";
 import TableRestaurant from "../../components/MyTable/TableRestaurant";
 import { useDispatch, useSelector } from "react-redux";
 import { getRestaurantRequest } from "./RestaurantManageSlice";
+import RestaurantCreate from "../../components/Restaurant/RestaurantCreate";
 function RestaurantManager() {
   const dispatch = useDispatch();
   const listRestaurant = useSelector(
@@ -59,6 +60,7 @@ function RestaurantManager() {
 
   return (
     <div>
+      {createPopup ? <RestaurantCreate closeModel={setCreatePopup}/>: Fragment}
       <AdminPage>
         <div className="toptable">
           <h1 style={{ marginLeft: "30px" }}>Danh sách nhà hàng</h1>
