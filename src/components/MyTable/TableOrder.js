@@ -84,10 +84,7 @@ const TableOrder = (props) => {
                     <td>#{item.id}</td>
                     <td>{formatNumber(item.totalPrice)}</td>
                     <td>{formatDate(item.orderDate)}</td>
-                    <td>
-                      <td>{renderStatus(item.status)}</td>
-                    </td>
-
+                    <td>{renderStatus(item.status)}</td>
                     <td>
                       <div
                         className="detail-button"

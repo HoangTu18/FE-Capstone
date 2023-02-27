@@ -2,16 +2,16 @@ import { BaseService } from "./BaseService";
 
 class ServiceService extends BaseService {
   getService = () => {
-    return this.get(`Services`);
+    return this.get(`services`);
   };
-  createService = (model) => {
-    return this.post(`Services`, model);
+  insertService = (model) => {
+    return this.post(`services`, model);
   };
   updateService = (model) => {
-    return this.put(`Services`, model);
+    return this.put(`services`, model);
   };
   deleteService = (id) => {
-    return this.delete(`Services/${id}`);
+    return this.delete(`service/${id}`);
   };
 }
 

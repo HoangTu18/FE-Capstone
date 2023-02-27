@@ -6,6 +6,7 @@ import * as foodSaga from "./foodManageSaga";
 import * as restaurantSaga from "./restaurantManageSaga";
 import * as orderSaga from "./orderManageSaga";
 import * as regionSaga from "./regionManageSaga";
+import * as serviceSaga from "./serviceManageSaga";
 export default function* rootSaga() {
   yield all([
     // Saga Staff
@@ -36,5 +37,10 @@ export default function* rootSaga() {
     orderSaga.followActionGetOrderById(),
     //Sage Region
     regionSaga.followActiongetRegions(),
+    //Sage Service
+    serviceSaga.followActionGetService(),
+    serviceSaga.followActioninsertServices(),
+    serviceSaga.followActionUpdateService(),
+    serviceSaga.followActionDeleteService(),
   ]);
 }

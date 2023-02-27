@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const ServiceManageSlice = createSlice({
-  name: "ServiceManage",
+  name: "serviceManage",
   initialState: {
     listService: [],
   },
@@ -17,8 +17,8 @@ export const ServiceManageSlice = createSlice({
       return state;
     },
     // Create Service
-    creatServiceRequest: (state, action) => {},
-    createServiceFaiture: (state) => {
+    insertServiceRequest: (state, action) => {},
+    insertServiceFaiture: (state) => {
       return state;
     },
     //Update Service
@@ -27,7 +27,7 @@ export const ServiceManageSlice = createSlice({
       return state;
     },
     //Delete Service
-    deleteRetaurantRequest: (state) => {},
+    deleteServiceRequest: (state) => {},
     deleteServiceFailure: (state) => {
       return state;
     },
@@ -38,8 +38,8 @@ export const {
   getServiceRequest,
   getServiceSuccess,
   getServiceFailure,
-  creatServiceRequest,
-  createServiceFaiture,
+  insertServiceRequest,
+  insertServiceFaiture,
   updateServiceRequest,
   updateServiceFailure,
   deleteServiceRequest,

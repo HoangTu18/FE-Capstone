@@ -2,7 +2,7 @@ import "./ConfirmPopup.scss";
 
 function ConfirmPopup({ closeModel, title, btnYes, btnNo, confirm }) {
   return (
-    <div className="modelBackground">
+    <div className="popup">
       <div className="confirm-container">
         <h3>Thông báo</h3>
         <p>{title}</p>
