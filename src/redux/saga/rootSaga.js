@@ -7,6 +7,7 @@ import * as restaurantSaga from "./restaurantManageSaga";
 import * as orderSaga from "./orderManageSaga";
 import * as regionSaga from "./regionManageSaga";
 import * as serviceSaga from "./serviceManageSaga";
+import * as loginSaga from "./loginManageSaga";
 export default function* rootSaga() {
   yield all([
     // Saga Staff
@@ -32,6 +33,9 @@ export default function* rootSaga() {
     customerSaga.followActionUpdateCustomer(),
     //Saga Restaurant
     restaurantSaga.followActionGetRestaurant(),
+    restaurantSaga.followActionCreateRestaurant(),
+    restaurantSaga.followActionUpdateRestaurant(),
+    restaurantSaga.followActionDeleteRestaurant(),
     //Saga Order
     orderSaga.followActionGetOrder(),
     orderSaga.followActionGetOrderById(),
@@ -42,5 +46,7 @@ export default function* rootSaga() {
     serviceSaga.followActioninsertServices(),
     serviceSaga.followActionUpdateService(),
     serviceSaga.followActionDeleteService(),
+    //Saga Login
+    loginSaga.followActionLogin(),
   ]);
 }

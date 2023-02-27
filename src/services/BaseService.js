@@ -7,7 +7,9 @@ export class BaseService {
       url: `${DOMAIN}/${url}`,
       method: "GET",
       data: model,
-      // headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) },
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
   };
   post = (url, model) => {

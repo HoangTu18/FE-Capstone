@@ -5,7 +5,7 @@ export const orderManageSlice = createSlice({
   initialState: {
     listOrder: [],
     orderItem: {},
-    filterStatus: "deny",
+    filterStatus: "pending",
   },
   reducers: {
     //Get Order
