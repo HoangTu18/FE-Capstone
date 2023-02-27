@@ -4,7 +4,11 @@ import "./table.scss";
 import ReactPaginate from "react-paginate";
 import RestaurantEdit from "../Restaurant/restaurantedit.component";
 import RestaurantView from "../Restaurant/RestaurantViewPopup";
+import { deleteRetaurantRequest } from "../../pages/RestaurantManager/RestaurantManageSlice";
+import { useDispatch } from "react-redux";
+import ConfirmPopup from "../Confirm/ConfirmPopup";
 const TableRestaurant = (props) => {
+  const dispatch = useDispatch();
   //Handle paging
   const [itemOffset, setItemOffset] = useState(0);
   const [currentItems, setCurrentItems] = useState([]);
@@ -40,7 +44,9 @@ const TableRestaurant = (props) => {
 
   const [popupView, setPopupView] = useState(false);
   const [popupEdit, setPopupEdit] = useState(false);
+  const [popupDelete, setPopupDelete] = useState(false);
   const [newId, setNewId] = useState("");
+  const [confirm, setConfirm] = useState(false);
 
   const showView = (props) => {
     setNewId(props);
@@ -51,7 +57,16 @@ const TableRestaurant = (props) => {
     setNewId(props);
     setPopupEdit(!popupEdit);
   };
+  const showDelete = (props) => {
+    setNewId(props);
+    setPopupDelete(!popupDelete);
+  };
 
+  if (confirm) {
+    setConfirm(false);
+    dispatch(deleteRetaurantRequest(newId));
+    setPopupDelete(!popupDelete);
+  }
   return (
     <div>
       {popupView ? (
@@ -61,6 +76,17 @@ const TableRestaurant = (props) => {
       )}
       {popupEdit ? (
         <RestaurantEdit closeModel={setPopupEdit} data={newId} />
+      ) : (
+        Fragment
+      )}
+      {popupDelete ? (
+        <ConfirmPopup
+          closeModel={setPopupDelete}
+          title={"Bạn có muốn huỷ kích hoạt nhân viên này không?"}
+          btnYes={"Có"}
+          btnNo={"Không"}
+          confirm={setConfirm}
+        />
       ) : (
         Fragment
       )}
@@ -108,6 +134,7 @@ const TableRestaurant = (props) => {
                       <Icon
                         className="icon"
                         icon="material-symbols:delete-outline-rounded"
+                        onClick={() => showDelete(item.restaurantId)}
                       />
                     </td>
                   </tr>

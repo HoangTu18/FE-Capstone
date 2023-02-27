@@ -17,7 +17,7 @@ export const restaurantManageSlice = createSlice({
       return state;
     },
     // Create restaurant
-    creatRestaurantRequest: (state, action) => {},
+    createRestaurantRequest: (state, action) => {},
     createRestaurantFaiture: (state) => {
       return state;
     },
@@ -38,7 +38,7 @@ export const {
   getRestaurantRequest,
   getRestaurantSuccess,
   getRestaurantFailure,
-  creatRestaurantRequest,
+  createRestaurantRequest,
   createRestaurantFaiture,
   updateRestaurantRequest,
   updateRestaurantFailure,

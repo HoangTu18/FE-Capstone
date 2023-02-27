@@ -1,11 +1,11 @@
 import "../User/useredit.style.scss";
-import { useCallback } from "react";
 import { useFormik } from "formik";
+import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { updateRestaurantRequest } from "../../pages/RestaurantManager/RestaurantManageSlice";
-function RestaurantEdit({ data, closeModel }) {
+import { createRestaurantRequest } from "../../pages/RestaurantManager/RestaurantManageSlice";
+function RestaurantCreate({ data, closeModel }) {
   const dispatch = useDispatch();
-  const handleEditRestaurant = useCallback(
+  const handleCreateRestaurant = useCallback(
     (values) => {
       let restaurant = {
         restaurantId: values.restaurantId,
@@ -16,28 +16,27 @@ function RestaurantEdit({ data, closeModel }) {
         restaurantNumber: values.restaurantNumber,
         status: values.status,
       };
-      dispatch(updateRestaurantRequest(restaurant))
+      dispatch(createRestaurantRequest(restaurant))
       closeModel(false)
     },
     [dispatch,closeModel]
   );
   const formik = useFormik({
     initialValues: {
-      restaurantId: data.restaurantId,
-      restaurantLocation: data.restaurantLocation,
-      latitude: data.latitude,
-      longitude: data.longitude,
-      restaurantName: data.restaurantName,
-      restaurantNumber: data.restaurantNumber,
-      status: data.status,
-      staffList: data.staffList,
+      restaurantId: "r_testt",
+      restaurantLocation:
+        "485, CMT8, Phường 13, Quận 10, Thành phố Hồ Chí Minh",
+      latitude: "10.780554288035592",
+      longitude: "106.67601868608942",
+      restaurantName: "TFS TESTING",
+      restaurantNumber: "",
+      status: true,
     },
     onSubmit: (values, { resetForm }) => {
-      handleEditRestaurant(values);
+      handleCreateRestaurant(values);
       resetForm({ values: "" });
     },
   });
-  console.log("DATE", data.staffList);
   return (
     <div className="modelBackground">
       <div className="form-popup">
@@ -63,8 +62,8 @@ function RestaurantEdit({ data, closeModel }) {
               type="text"
               id="restaurantId"
               name="restaurantId"
-              value={formik.values.restaurantId}
               onChange={formik.handleChange}
+              values={formik.values.restaurantId}
             />
             <label>
               Tên nhà hàng: <span className="proirity">*</span>
@@ -73,8 +72,8 @@ function RestaurantEdit({ data, closeModel }) {
               type="text"
               id="restaurantName"
               name="restaurantName"
-              value={formik.values.restaurantName}
               onChange={formik.handleChange}
+              values={formik.values.restaurantName}
             />
 
             <label>Số điện thoại:</label>
@@ -82,26 +81,25 @@ function RestaurantEdit({ data, closeModel }) {
               type="text"
               id="restaurantNumber"
               name="restaurantNumber"
-              value={formik.values.restaurantNumber}
               onChange={formik.handleChange}
+              values={formik.values.restaurantNumber}
             />
-
-            <label>
-              Người quản lý: <span className="proirity">*</span>
-            </label>
-            <select
+            <label>Kinh độ:</label>
+            <input
               type="text"
-              value={formik.values.staffList}
+              id="longitude"
+              name="longitude"
               onChange={formik.handleChange}
-            >
-              {data.staffList &&
-                data.staffList.map((item, index) => {
-                  return (
-                    <option value={item.staffId}>{item.staffFullName}</option>
-                  );
-                })}
-            </select>
-
+              values={formik.values.longitude}
+            />
+            <label>Vĩ độ:</label>
+            <input
+              type="text"
+              id="latitude"
+              name="latitude"
+              onChange={formik.handleChange}
+              values={formik.values.latitude}
+            />
             <label>
               Địa chỉ: <span className="proirity">*</span>
             </label>
@@ -109,8 +107,8 @@ function RestaurantEdit({ data, closeModel }) {
               type="text"
               id="restaurantLocation"
               name="restaurantLocation"
-              value={formik.values.restaurantLocation}
               onChange={formik.handleChange}
+              values={formik.values.restaurantLocation}
             />
 
             <label>Trạng thái: </label>
@@ -118,11 +116,12 @@ function RestaurantEdit({ data, closeModel }) {
             <input
               className="checkBoxStatus type"
               type="checkbox"
+              disabled
               id="status"
               name="status"
-              value={formik.values.status}
-              defaultChecked={formik.values.status}
               onChange={formik.handleChange}
+              defaultChecked={true}
+              values={formik.values.status}
             />
             <div style={{ display: "flex", float: "right" }}>
               <button type="submit" className="btn">
@@ -143,4 +142,4 @@ function RestaurantEdit({ data, closeModel }) {
   );
 }
 
-export default RestaurantEdit;
+export default RestaurantCreate;
