@@ -22,5 +22,17 @@ class FoodService extends BaseService {
   addFoodtoRegion = (foodId, regionId) => {
     return this.post(`regions/${foodId}TO${regionId}`);
   };
+  getComboFood = () => {
+    return this.get(`combos`);
+  };
+  insertComboFood = (model) => {
+    return this.post(`combos`, model);
+  };
+  updateComboFood = (model) => {
+    return this.put(`combos`, model);
+  };
+  deleteComboFood = (id) => {
+    return this.delete(`combos/${id}`);
+  };
 }
 export const foodService = new FoodService();

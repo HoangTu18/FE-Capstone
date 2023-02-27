@@ -29,6 +29,7 @@ export default function* rootSaga() {
     foodSaga.followActionUpdateFood(),
     foodSaga.followActionDeleteFood(),
     foodSaga.followActionInsertFood(),
+    foodSaga.followActiongetComboFoods(),
     customerSaga.followActionUpdateCustomer(),
     //Saga Restaurant
     restaurantSaga.followActionGetRestaurant(),

@@ -10,6 +10,9 @@ import {
   updateFoodRequest,
   deleteFoodRequest,
   insertFoodRequest,
+  getComboFoodRequest,
+  getComboFoodSuccess,
+  getComboFoodFailure,
 } from "../../pages/FoodManager/foodManageSlice";
 
 import { getRegionRequest } from "../../pages/RegionManage/RegionManageSlice";
@@ -164,4 +167,25 @@ function* deleteFood(action) {
 
 export function* followActionDeleteFood() {
   yield takeLatest(deleteFoodRequest, deleteFood);
+}
+
+function* getComboFood() {
+  try {
+    yield put(showLoading());
+    let listComboFood = yield call(() => {
+      return foodService.getComboFood();
+    });
+    if (listComboFood.status === STATUS_CODE.SUCCESS) {
+      yield put(getComboFoodSuccess(listComboFood.data));
+    }
+    yield put(hideLoading());
+  } catch (error) {
+    yield put(getComboFoodFailure(error));
+    yield put(hideLoading());
+    openNotification("error", "Thất bại", "Thao tác của bạn đã thất bại");
+  }
+}
+
+export function* followActiongetComboFoods() {
+  yield takeLatest(getComboFoodRequest, getComboFood);
 }

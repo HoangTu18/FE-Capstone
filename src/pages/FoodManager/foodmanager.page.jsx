@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import AdminPage from "../../components/AdminPage/adminpage.component";
 import TableFood from "../../components/MyTable/TableFood";
 import "./foodmanager.style.scss";
-import TableCombo from "../../components/MyTable/TableCombo";
+import TableCombo from "../../components/MyTable/TableComboFood";
 import { useDispatch, useSelector } from "react-redux";
-import { getFoodRequest } from "./foodManageSlice";
+import { getComboFoodRequest, getFoodRequest } from "./foodManageSlice";
 import { getRegionRequest } from "../RegionManage/RegionManageSlice";
 import FoodAdd from "../../components/Food/FoodAddPopup";
 import { searchByName } from "../../ultil/stringUtil";
+import TableComboFood from "../../components/MyTable/TableComboFood";
+import ComboFoodAdd from "../../components/Food/ComboFoodAddPopup";
 function FoodManager() {
   const foodTableHeadTab1 = [
     "Mã món ăn",
@@ -22,34 +24,26 @@ function FoodManager() {
     "Mã combo",
     "Tên combo",
     "Giá (VND)",
-    "Category",
     "Trạng thái",
     "Hành động",
   ];
   const renderHead = (item, index) => <th key={index}>{item}</th>;
 
-  const renderBody = (item, index) => (
-    <tr key={index}>
-      <td>{item.id}</td>
-      <td>{item.foodName}</td>
-      <td>{item.price}</td>
-      <td>{item.foodName}</td>
-      <td>{item.status}</td>
-    </tr>
-  );
-
+  const renderBody = (item, index) => <tr key={index}></tr>;
   const [query, setQuery] = useState("");
-
   const [createPopup, setCreatePopup] = useState(false);
-
+  const [createPopupCombo, setCreatePopupCombo] = useState(false);
   const dispatch = useDispatch();
+
   const dataFoods = useSelector((state) => state.foodManage.listFood);
   const listCate = useSelector((state) => state.foodManage.listCategory);
+  const listComboFood = useSelector((state) => state.foodManage.listComboFood);
   const listRegion = useSelector((state) => state.regionManage.listRegion);
 
   useEffect(() => {
     dispatch(getFoodRequest());
-    // dispatch(getRegionRequest());
+    dispatch(getRegionRequest());
+    dispatch(getComboFoodRequest());
   }, [dispatch]);
 
   const [tab, setTab] = useState("tab1");
@@ -61,6 +55,11 @@ function FoodManager() {
           listCate={listCate}
           listRegion={listRegion}
         />
+      ) : (
+        <></>
+      )}
+      {createPopupCombo ? (
+        <ComboFoodAdd closeModel={setCreatePopupCombo} listCate={listCate} />
       ) : (
         <></>
       )}
@@ -131,11 +130,20 @@ function FoodManager() {
                 <h1 style={{ marginLeft: "30px" }}>Danh sách combo</h1>
                 <div className="topnav__right">
                   <div className="topnav__right-item">
-                    <div className="button">Thêm combo +</div>
+                    <div
+                      className="button"
+                      onClick={() => setCreatePopupCombo(!createPopupCombo)}
+                    >
+                      Thêm combo +
+                    </div>
                   </div>
                   <div className="topnav__right-item">
                     <div className="topnav__search">
-                      <input type="text" placeholder="" />
+                      <input
+                        type="text"
+                        placeholder="nhập tên combo để tìm..."
+                        onChange={(e) => setQuery(e.target.value)}
+                      />
                       <i className="bx bx-search"></i>
                     </div>
                   </div>
@@ -146,11 +154,15 @@ function FoodManager() {
                 <div className="col-12">
                   <div className="card">
                     <div className="card__body">
-                      <TableCombo
+                      <TableComboFood
                         limit="5"
                         headData={foodTableHeadTab2}
                         renderHead={(item, index) => renderHead(item, index)}
-                        bodyData={[]}
+                        bodyData={searchByName(
+                          listComboFood,
+                          query,
+                          "comboName"
+                        )}
                         renderBody={(item, index) => renderBody(item, index)}
                       />
                     </div>
