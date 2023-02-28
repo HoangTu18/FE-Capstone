@@ -22,21 +22,13 @@ function EventManager() {
 
   const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
-  // const searchByName = (data) => {
-  //   return data.filter((item) =>
-  //     query.toLowerCase() === "hoạt động"
-  //       ? item.status?.toString().includes(true)
-  //       : query.toLowerCase() === "không hoạt động"
-  //       ? item.status.toString().includes(false)
-  //       : item.eventName?.toLowerCase().includes(query.toLowerCase()) ||
-  //         item.eventId?.toString().includes(query)
-  //   );
-  // };
 
   const dispatch = useDispatch();
   const eventList = useSelector((state) => state.eventManage.listEvent);
+
   useEffect(() => {
     dispatch(getEventRequest());
+    console.log(eventList);
   }, [dispatch]);
 
   return (
@@ -76,7 +68,7 @@ function EventManager() {
                   limit="5"
                   headData={restaurantTableHead}
                   renderHead={(item, index) => renderHead(item, index)}
-                  bodyData={searchByName(eventList, query, "eventName")}
+                  bodyData={eventList}
                   renderBody={(item, index) => renderBody(item, index)}
                 />
               </div>

@@ -30,9 +30,12 @@ export const searchByPhoneNumber = (listData, query, name, name2) => {
 };
 
 export const truncateString = (str, maxLength) => {
-  if (str.length <= maxLength) {
-    return str;
-  } else {
-    return str.slice(0, maxLength) + "...";
+  if (str !== null) {
+    if (str.length <= maxLength) {
+      return str;
+    } else {
+      return str.slice(0, maxLength) + "...";
+    }
   }
+  return str;
 };
