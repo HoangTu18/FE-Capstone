@@ -13,6 +13,7 @@ import "./table.scss";
 import { truncateString } from "../../ultil/stringUtil";
 import { formatToVND } from "../../ultil/numberUltil";
 import ComboFoodEdit from "../Food/ComboFoodEditPop";
+import ComboFoodView from "../Food/ComboFoodViewPopup";
 
 const TableComboFood = (props) => {
   const dispatch = useDispatch();
@@ -67,6 +68,15 @@ const TableComboFood = (props) => {
 
   return (
     <div>
+      {popupView ? (
+        <ComboFoodView
+          closeModel={setPopupView}
+          data={newData}
+          listCate={cateData}
+        />
+      ) : (
+        <></>
+      )}
       {popupEdit ? (
         <ComboFoodEdit
           closeModel={setPopupEdit}
