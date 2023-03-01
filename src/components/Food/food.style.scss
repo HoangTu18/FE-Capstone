@@ -15,11 +15,12 @@
     position: absolute;
     background-color: #fff;
     width: 900px;
-    height: 630px;
+    height: 650px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 5px;
+
     .right {
       width: 40%;
       height: 88%;
@@ -53,6 +54,12 @@
       width: 250px;
       display: flex;
       flex-direction: column;
+      .error {
+        display: inline-flex;
+        color: red;
+        margin-left: 5px;
+        font-size: 12px;
+      }
       .label__title {
         font-size: 20px;
         font-weight: 500;
@@ -60,8 +67,16 @@
       .smallText {
         font-size: 15px;
       }
+      // .price_number {
+      //   border-radius: 4px;
+      //   padding: 15px;
+      //   height: 33px;
+      //   margin: 5px 0 12px 0;
+      //   background: #f1f1f1;
+      // }
       input[type="text"],
-      input[type="date"] {
+      input[type="date"],
+      input[type="number"] {
         border-radius: 4px;
         padding: 15px;
         height: 33px;
@@ -100,6 +115,12 @@
               display: inline-block;
               width: 45%;
               // font-size: 20px;
+            }
+            input[type="number"] {
+              font-weight: 500;
+              width: 50px;
+              padding: 0px;
+              background: #f1f1f1;
             }
             input[type="checkbox"] {
               width: 20px;

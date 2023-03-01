@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { insertComboFoodRequest } from "../../pages/FoodManager/foodManageSlice";
+import * as Yup from "yup";
 import UploadImage from "../../ultil/UploadImage";
 import "./food.style.scss";
 function ComboFoodAdd({ closeModel, listCate }) {
@@ -107,7 +108,7 @@ function ComboFoodAdd({ closeModel, listCate }) {
       };
       console.log("COMBO FOOD", combofood);
       closeModel(false);
-      dispatch(insertComboFoodRequest(combofood));
+      // dispatch(insertComboFoodRequest(combofood));
     },
     [closeModel, imageUrl, dataSelected, dispatch]
   );
@@ -116,11 +117,20 @@ function ComboFoodAdd({ closeModel, listCate }) {
       id: 0,
       comboName: "",
       description: "",
-      comboPrice: "",
+      comboPrice: 0,
       image: "",
       comboItems: [],
       status: true,
     },
+    validationSchema: Yup.object({
+      comboName: Yup.string().required("Yêu cầu nhập tên"),
+      comboPrice: Yup.number()
+        .required("Yêu cầu nhập số")
+        .positive("Yêu cầu số dương")
+        .min(1000, "Lớn hơn hoặc bằng 1000")
+        .integer("Yêu cầu số nguyên"),
+      description: Yup.string().required("Mô tả không để trống"),
+    }),
     onSubmit: (values, { resetForm }) => {
       selected.forEach((item) => {
         dataSelected.push({
@@ -156,9 +166,7 @@ function ComboFoodAdd({ closeModel, listCate }) {
             />
           </div>
           <div className="listitem">
-            <label className="label__title">
-              Mã combo: <span className="proirity">*</span>
-            </label>
+            <label className="label__title">Mã combo:</label>
             <input
               disabled
               type="text"
@@ -167,27 +175,36 @@ function ComboFoodAdd({ closeModel, listCate }) {
               value={formik.values.id}
               onChange={formik.handleChange}
             />
-            <label className="label__title">Tên combo:</label>
+            <label className="label__title">
+              Tên combo: <span className="proirity">*</span>
+              <p className="error">{formik.errors.comboName}</p>
+            </label>
             <input
               type="text"
               id="comboName"
               name="comboName"
               value={formik.values.comboName}
               onChange={formik.handleChange}
+              required={true}
             />
-            <label className="label__title">Giá (VND):</label>
+            <label className="label__title">
+              Giá (VND): <span className="proirity">*</span>
+              <p className="error">{formik.errors.comboPrice}</p>
+            </label>
             <input
-              type="text"
+              className="price_number"
+              type="number"
               id="comboPrice"
               name="comboPrice"
+              min={0}
               value={formik.values.comboPrice}
               onChange={formik.handleChange}
             />
             <label className="label__title">Hình ảnh</label>
             <UploadImage getImageURL={setImageUrl} />
             <label className="label__title">
-              {" "}
               Mô tả: <span className="proirity">*</span>
+              <p className="error">{formik.errors.description}</p>
             </label>
             <textarea
               type="text"
@@ -232,7 +249,9 @@ function ComboFoodAdd({ closeModel, listCate }) {
                         <input
                           disabled
                           type="number"
+                          inputMode="numeric"
                           min={1}
+                          max={99}
                           defaultValue={"1"}
                           id={item.id}
                           onChange={handleQuantityChange}
