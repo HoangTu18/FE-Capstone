@@ -1,19 +1,18 @@
 import { Icon } from "@iconify/react";
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  deleteFoodRequest,
+  deleteComboFoodRequest,
   getCategoryRequest,
 } from "../../pages/FoodManager/foodManageSlice";
 import ConfirmPopup from "../Confirm/ConfirmPopup";
-import FoodEdit from "../Food/FoodEditPopup";
+
 import "./table.scss";
 import { truncateString } from "../../ultil/stringUtil";
 import { formatToVND } from "../../ultil/numberUltil";
-import FoodView from "../Food/FoodViewPopup";
-import { getRegionRequest } from "../../pages/RegionManage/RegionManageSlice";
+import ComboFoodEdit from "../Food/ComboFoodEditPop";
 
 const TableComboFood = (props) => {
   const dispatch = useDispatch();
@@ -57,72 +56,25 @@ const TableComboFood = (props) => {
 
   if (confirm) {
     setConfirm(false);
-    dispatch(deleteFoodRequest(newData));
+    dispatch(deleteComboFoodRequest(newData));
     setPopupDelete(!popupDelete);
   }
   const cateData = useSelector((state) => state.foodManage.listCategory);
-  const regionData = useSelector((state) => state.regionManage.listRegion);
 
   useEffect(() => {
     dispatch(getCategoryRequest());
-    dispatch(getRegionRequest());
   }, [dispatch]);
-
-  const getCateName = (food) => {
-    let result = "";
-    cateData.forEach((item) => {
-      item.foodList.forEach((foodItem) => {
-        if (foodItem.id === food.id) {
-          result = item.categoryName;
-        }
-      });
-    });
-    return result;
-  };
-
-  const getCateId = (food) => {
-    let result;
-    const item = cateData.find((cate) =>
-      cate.foodList.some((foodItem) => foodItem.id === food)
-    );
-    if (item) result = item.id;
-    return result;
-  };
-
-  const getRegionId = (food) => {
-    let result;
-    const item = regionData.find((region) =>
-      region.foodList.some((foodItem) => foodItem.id === food)
-    );
-    if (item) result = item.id;
-    return result;
-  };
 
   return (
     <div>
-      {popupView ? (
-        <FoodView
-          closeModel={setPopupView}
-          data={newData}
-          listCate={cateData}
-          cateId={getCateId(newData.id)}
-          listRegion={regionData}
-          regionId={getRegionId(newData.id)}
-        />
-      ) : (
-        Fragment
-      )}
       {popupEdit ? (
-        <FoodEdit
+        <ComboFoodEdit
           closeModel={setPopupEdit}
           data={newData}
           listCate={cateData}
-          cateId={getCateId(newData.id)}
-          listRegion={regionData}
-          regionId={getRegionId(newData.id)}
         />
       ) : (
-        Fragment
+        <></>
       )}
       {popupDelete ? (
         <ConfirmPopup
@@ -133,7 +85,7 @@ const TableComboFood = (props) => {
           confirm={setConfirm}
         />
       ) : (
-        Fragment
+        <></>
       )}
       <div className="table-wrapper">
         <table>

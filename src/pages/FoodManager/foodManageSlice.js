@@ -43,6 +43,12 @@ export const FoodManageSlice = createSlice({
     getComboFoodFailure: (state) => {
       return state;
     },
+
+    insertComboFoodRequest: (state, action) => {},
+
+    updateComboFoodRequest: (state, action) => {},
+
+    deleteComboFoodRequest: (state, action) => {},
   },
 });
 export const {
@@ -58,6 +64,9 @@ export const {
   getComboFoodRequest,
   getComboFoodSuccess,
   getComboFoodFailure,
+  insertComboFoodRequest,
+  updateComboFoodRequest,
+  deleteComboFoodRequest,
 } = FoodManageSlice.actions;
 
 export default FoodManageSlice.reducer;

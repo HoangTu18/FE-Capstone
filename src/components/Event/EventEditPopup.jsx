@@ -16,7 +16,6 @@ function EventEdit({ data, closeModel }) {
   const [selected, setSelected] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
 
-  console.log(data.toDate.slice(0, 10));
   useEffect(() => {
     if (
       selectedOption.length <= 0 &&

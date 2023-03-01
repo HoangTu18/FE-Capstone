@@ -13,6 +13,9 @@ import {
   getComboFoodRequest,
   getComboFoodSuccess,
   getComboFoodFailure,
+  insertComboFoodRequest,
+  updateComboFoodRequest,
+  deleteComboFoodRequest,
 } from "../../pages/FoodManager/foodManageSlice";
 
 import { getRegionRequest } from "../../pages/RegionManage/RegionManageSlice";
@@ -188,4 +191,68 @@ function* getComboFood() {
 
 export function* followActiongetComboFoods() {
   yield takeLatest(getComboFoodRequest, getComboFood);
+}
+
+function* insertComboFood(action) {
+  try {
+    yield put(showLoading());
+    let listComboFood = yield call(() => {
+      return foodService.insertComboFood(action.payload);
+    });
+    if (listComboFood.status === STATUS_CODE.SUCCESS) {
+      yield put(hideLoading());
+    }
+    yield put(getComboFoodRequest());
+    openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
+  } catch (error) {
+    console.log(error);
+    yield put(hideLoading());
+    openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
+  }
+}
+export function* followActionInsertComboFood() {
+  yield takeLatest(insertComboFoodRequest, insertComboFood);
+}
+
+function* updateComboFood(action) {
+  try {
+    yield put(showLoading());
+    let listComboFood = yield call(() => {
+      return foodService.updateComboFood(action.payload);
+    });
+    if (listComboFood.status === STATUS_CODE.SUCCESS) {
+      yield put(hideLoading());
+    }
+    yield put(getComboFoodRequest());
+    openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
+  } catch (error) {
+    console.log(error);
+    yield hideLoading();
+    openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
+  }
+}
+export function* followActionUpdateComboFood() {
+  yield takeLatest(updateComboFoodRequest, updateComboFood);
+}
+
+function* deleteComboFood(action) {
+  try {
+    yield put(showLoading());
+    let listComboFood = yield call(() => {
+      return foodService.deleteComboFood(action.payload);
+    });
+    if (listComboFood.status === STATUS_CODE.SUCCESS) {
+      yield put(hideLoading());
+    }
+    yield put(getComboFoodRequest());
+    openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
+  } catch (error) {
+    console.log(error);
+    yield put(hideLoading());
+    openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
+  }
+}
+
+export function* followActionDeleteComboFood() {
+  yield takeLatest(deleteComboFoodRequest, deleteComboFood);
 }
