@@ -108,7 +108,7 @@ function ComboFoodAdd({ closeModel, listCate }) {
       };
       console.log("COMBO FOOD", combofood);
       closeModel(false);
-      // dispatch(insertComboFoodRequest(combofood));
+      dispatch(insertComboFoodRequest(combofood));
     },
     [closeModel, imageUrl, dataSelected, dispatch]
   );
