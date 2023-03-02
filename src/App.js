@@ -10,6 +10,7 @@ import Loading from "./components/Loading/Loading";
 import EventManager from "./pages/EventManager/eventManager.page";
 import OrderManage from "./pages/OrderManage/OrderManage";
 import ServiceManager from "./pages/ServiceManage/ServiceManager.page";
+import PromotionManager from "./pages/PromotionManage/promotionmanager.page";
 function App() {
   return (
     <div>
@@ -25,8 +26,9 @@ function App() {
             <Route path="food" element={<FoodManager />} />
             <Route path="restaurant" element={<RestaurantManager />} />
             <Route path="event" element={<EventManager />} />
-            <Route path="order" element={<OrderManage/>}/>
-            <Route path="service" element={<ServiceManager/>}/>
+            <Route path="order" element={<OrderManage />} />
+            <Route path="service" element={<ServiceManager />} />
+            <Route path="promotion" element={<PromotionManager />} />
           </Route>
         </Routes>
       </BrowserRouter>

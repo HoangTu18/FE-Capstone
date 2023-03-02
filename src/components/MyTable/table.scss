@@ -69,11 +69,11 @@ td {
 }
 
 .detail-button {
-    background-color: #19cf41;
-    padding: 10px;
-    text-align: center;
-    color: #fff;
-    border-radius: 5px;
+  background-color: #19cf41;
+  padding: 10px;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px;
 }
 
 .icon {
@@ -112,10 +112,11 @@ td {
 }
 
 tbody {
-  cursor: pointer;
-  tr:hover {
-    background-color: rgba(217, 217, 217, 0.8);
-    border-radius: 10px;
+  tr {
+    transition: all 0.2s linear;
+    &:hover {
+      background-color: rgba(217, 217, 217, 0.5);
+    }
   }
 }
 

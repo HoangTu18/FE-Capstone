@@ -40,7 +40,7 @@ function CustomerManager() {
                     placeholder="nhập sđt khách để tìm..."
                     onChange={(e) => setQuery(e.target.value)}
                   />
-                  <i className="bx bx-search"></i>
+             <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
               </div>
               <div className="topnav__right-item"></div>

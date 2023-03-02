@@ -80,7 +80,7 @@ function ServiceManager() {
                         placeholder="nhập tên dịch vụ để tìm..."
                         onChange={(e) => setQuery(e.target.value)}
                       />
-                      <i className="bx bx-search"></i>
+                 <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
                   </div>
                   <div className="topnav__right-item"></div>
@@ -116,7 +116,7 @@ function ServiceManager() {
                   <div className="topnav__right-item">
                     <div className="topnav__search">
                       <input type="text" placeholder="" />
-                      <i className="bx bx-search"></i>
+                 <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
                   </div>
                   <div className="topnav__right-item"></div>

@@ -1,60 +1,59 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AdminPage from "../../components/AdminPage/adminpage.component";
-import EventAdd from "../../components/Event/EventAddPopup";
-import TableEvent from "../../components/MyTable/TableEvent";
+import TablePromotion from "../../components/MyTable/TablePromotion";
 import { searchByName } from "../../ultil/stringUtil";
-import { getEventRequest } from "./eventManagerSlice";
+import { getPromotionRequest } from "./PromotionManageSlice";
 
-function EventManager() {
-  const restaurantTableHead = [
-    "Mã sự kiện",
-    "Tên sự kiện",
-    "Các món ăn",
+function PromotionManager() {
+  const promotionTableHead = [
+    "Mã khuyến mãi",
+    "Tên khuyến mãi",
+    "% khuyến mãi",
     "Trạng thái",
-    "Thời gian",
     "Hành động",
   ];
 
   const renderHead = (item, index) => <th key={index}>{item}</th>;
 
-  const renderBody = () => Fragment;
+  const renderBody = () => <></>;
 
   const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
 
   const dispatch = useDispatch();
-  const eventList = useSelector((state) => state.eventManage.listEvent);
+  const promotionList = useSelector(
+    (state) => state.promotionManage.listPromotion
+  );
 
   useEffect(() => {
-    dispatch(getEventRequest());
-    console.log(eventList);
+    dispatch(getPromotionRequest());
+    console.log(promotionList);
   }, [dispatch]);
 
   return (
     <div>
-      {createPopup ? <EventAdd closeModel={setCreatePopup} /> : <></>}
-
+      {/* {createPopup ? <EventAdd closeModel={setCreatePopup} /> : <></>} */}
       <AdminPage>
         <div className="toptable">
-          <h1 style={{ marginLeft: "30px" }}>Danh sách sự kiện</h1>
+          <h1 style={{ marginLeft: "30px" }}>Danh sách các khuyến mãi</h1>
           <div className="topnav__right">
             <div className="topnav__right-item">
               <div
                 className="button"
-                onClick={() => setCreatePopup(!createPopup)}
+                // onClick={() => setCreatePopup(!createPopup)}
               >
-                Thêm sự kiện +
+                Thêm mã khuyến mãi +
               </div>
             </div>
             <div className="topnav__right-item">
               <div className="topnav__search">
                 <input
                   type="text"
-                  placeholder="nhập tên sự kiện để tìm..."
+                  placeholder="nhập Mã code để tìm..."
                   onChange={(e) => setQuery(e.target.value)}
                 />
-           <i class="fa-solid fa-magnifying-glass"></i>
+                <i class="fa-solid fa-magnifying-glass"></i>
               </div>
             </div>
             <div className="topnav__right-item"></div>
@@ -64,11 +63,11 @@ function EventManager() {
           <div className="col-12">
             <div className="card">
               <div className="card__body">
-                <TableEvent
-                  limit="5"
-                  headData={restaurantTableHead}
+                <TablePromotion
+                  limit="7"
+                  headData={promotionTableHead}
                   renderHead={(item, index) => renderHead(item, index)}
-                  bodyData={eventList}
+                  bodyData={searchByName(promotionList, query, "promotionCode")}
                   renderBody={(item, index) => renderBody(item, index)}
                 />
               </div>
@@ -80,4 +79,4 @@ function EventManager() {
   );
 }
 
-export default EventManager;
+export default PromotionManager;

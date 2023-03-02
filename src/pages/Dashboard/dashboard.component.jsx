@@ -19,7 +19,6 @@ function Dashboard() {
           <img src="/images/logo.png" alt="" />
           <h3>TFS System</h3>
         </div>
-
         <div className="dashboard__left__items">
           <DashboardItem
             isActive={
@@ -76,13 +75,14 @@ function Dashboard() {
             text={"Quản lý dịch vụ"}
             icon={<i className="fa-solid fa-bell-concierge"></i>}
           />
-        </div>
-        <div className="footer">
-          <hr />
-          <div className="logout">
-            <i className="fa fa-sign-out-alt"></i>
-            <button onClick={logout}>Đăng xuất</button>
-          </div>
+          <DashboardItem
+            isActive={
+              location.pathname.split("/")[2] === "promotion" ? true : false
+            }
+            url={"promotion"}
+            text={"Quản lý sự kiện"}
+            icon={<i className="fa-solid fa-percent"></i>}
+          />
         </div>
       </div>
       <div className="dashboard__right">
