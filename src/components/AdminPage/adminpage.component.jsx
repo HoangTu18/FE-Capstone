@@ -56,13 +56,6 @@ function AdminPage({ children }) {
             </li>
           </ul>
         </div>
-        {/* <div className="">
-          <div className="avatar">
-            <img src="" alt="" />
-            <span>Tú Phạm</span>
-            <i className="fa fa-angle-down"></i>
-          </div>
-        </div> */}
       </div>
 
       <div className="admin-page__body">{children}</div>
