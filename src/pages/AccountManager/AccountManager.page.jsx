@@ -5,6 +5,7 @@ import UserCreate from "../../components/User/UserCreatePopup";
 import { useDispatch, useSelector } from "react-redux";
 import { getAccountRequest } from "./AccountManageSlice";
 import { searchByName } from "../../ultil/stringUtil";
+import { USER_LOGIN } from "../../ultil/settingSystem";
 function AccountManager() {
   const staffTableHead = [
     "Mã nhân viên",
@@ -24,7 +25,6 @@ function AccountManager() {
 
   const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
-
   useEffect(() => {
     dispatch(getAccountRequest());
   }, [dispatch]);

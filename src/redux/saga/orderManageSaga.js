@@ -15,11 +15,11 @@ import {
 import { orderService } from "../../services/orderService";
 import { STATUS_CODE } from "../../ultil/settingSystem";
 
-function* getOrder() {
+function* getOrder(action) {
   try {
     yield put(showLoading());
     let listOrder = yield call(() => {
-      return orderService.getOrder();
+      return orderService.getOrderByRestaurantId(action.payload);
     });
     if (listOrder.status === STATUS_CODE.SUCCESS) {
       yield put(getOrderSuccess(listOrder.data));

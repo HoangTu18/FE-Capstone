@@ -10,7 +10,13 @@ import {
   loginSuccess,
 } from "../../pages/Login/LoginManageSlice";
 import { loginService } from "../../services/loginService";
-import { STATUS_CODE, USER_LOGIN } from "../../ultil/settingSystem";
+import { restaurantService } from "../../services/restaurantService";
+import {
+  LOGGED,
+  RESTAURANT_INFO,
+  STATUS_CODE,
+  USER_LOGIN,
+} from "../../ultil/settingSystem";
 
 function* login(action) {
   yield put(showLoading());
@@ -20,13 +26,31 @@ function* login(action) {
     });
     if (infoLogin.status === STATUS_CODE.SUCCESS) {
       localStorage.setItem(USER_LOGIN, JSON.stringify(infoLogin.data));
-      yield put(loginSuccess(infoLogin.data.userLogin));
+      localStorage.setItem(LOGGED, JSON.stringify(true));
+      yield put(loginSuccess(infoLogin.data));
+      if (parseInt(infoLogin?.data.theAccountForStaff.roleId) === 2) {
         action.payload.navigate("/dashboard/employee");
+      } else if (parseInt(infoLogin?.data.theAccountForStaff.roleId) === 1) {
+        action.payload.navigate("/dashboard/food");
+      } else if (parseInt(infoLogin?.data.theAccountForStaff.roleId) === 3) {
+        let restaurant = yield call(() => {
+          return restaurantService.getRestaurantByStaffId(
+            infoLogin.data.theAccountForStaff.accountId
+          );
+        });
+        localStorage.setItem(RESTAURANT_INFO, JSON.stringify(restaurant.data));
+        action.payload.navigate("/dashboard/order");
+      }
     }
     yield put(hideLoading());
     openNotification("success", "Thành Công", "Bạn đã đăng nhập thành công");
   } catch (error) {
     yield put(loginFailute(error));
+    openNotification(
+      "error",
+      "Thất Bại",
+      "Bạn vui lòng kiểm tra lại tài khoản hoặc mật khẩu"
+    );
     yield put(hideLoading());
   }
 }

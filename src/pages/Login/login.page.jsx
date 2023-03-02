@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 import "./login.style.scss";
 import { useDispatch } from "react-redux";
 import { loginRequest } from "./LoginManageSlice";
-import { USER_LOGIN } from "../../ultil/settingSystem";
+import { LOGGED, USER_LOGIN } from "../../ultil/settingSystem";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    const userLocal = localStorage.getItem(USER_LOGIN);
-    if (userLocal) {
+    const isLogged = JSON.parse(localStorage.getItem(LOGGED));
+    if (isLogged) {
       navigate("/dashboard/employee");
     }
   });

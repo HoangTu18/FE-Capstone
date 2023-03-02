@@ -118,7 +118,11 @@ const TableStaff = (props) => {
                   <tr>
                     <td>#{item.staffId}</td>
                     <td>{item.staffFullName}</td>
-                    <td>{getRoleName(item.theAccountForStaff.roleId)}</td>
+                    <td>
+                      {getRoleName(item.theAccountForStaff.roleId)
+                        ? getRoleName(item.theAccountForStaff.roleId)
+                        : " "}
+                    </td>
                     <td>{getRestaurantByStaff(item.staffId)}</td>
                     {item.staffStatus ? (
                       <td className="status green">Hoạt động</td>

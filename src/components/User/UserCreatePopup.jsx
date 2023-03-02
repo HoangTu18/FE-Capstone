@@ -1,17 +1,36 @@
 import "./useredit.style.scss";
 import { useFormik } from "formik";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createAccountRequest,
   getRoleRequest,
 } from "../../pages/AccountManager/AccountManageSlice";
 import { useEffect } from "react";
+import {
+  createRestaurantRequest,
+  getRestaurantRequest,
+  updateRestaurantRequest,
+} from "../../pages/RestaurantManager/RestaurantManageSlice";
 function UserCreate({ closeModel }) {
   const dispatch = useDispatch();
   const listRole = useSelector((state) => state.accountManage.listRole);
+  const listRestaurant = useSelector(
+    (state) => state.restaurantManage.listRestaurant
+  );
+  // const listResNotHaveManager = () => {
+  //   let listRes = [];
+  //   listRes = listRestaurant?.filter((item) => {
+  //     return item.staffList.find(
+  //       (i) =>
+  //         i.theAccountForStaff.roleId === 4 && i.theAccountForStaff.roleId !== 3
+  //     );
+  //   });
+  //   return listRes;
+  // };
   useEffect(() => {
     dispatch(getRoleRequest());
+    dispatch(getRestaurantRequest());
   }, [dispatch]);
   const handleAddStaff = useCallback(
     (values) => {
@@ -30,11 +49,36 @@ function UserCreate({ closeModel }) {
           status: true,
         },
       };
-      console.log("STAFF", staff);
+      if (parseInt(values.roleId) === 4 || parseInt(values.roleId) === 3) {
+        let resById = listRestaurant?.find(
+          (item) => item.restaurantId === values.restaurantId
+        );
+        let staffList = [];
+        staffList.push({ staffId: values.staffId });
+
+        let restaurant = {
+          restaurantId: resById.restaurantId,
+          staffList: staffList,
+        };
+        // dispatch(updateRestaurantRequest(restaurant));
+        dispatch(
+          createAccountRequest({
+            staff: staff,
+            roleId: values.roleId,
+            restaurant: restaurant,
+          })
+        );
+      } else {
+        dispatch(
+          createAccountRequest({
+            staff: staff,
+            roleId: values.roleId,
+          })
+        );
+      }
       closeModel(false);
-      dispatch(createAccountRequest(staff));
     },
-    [dispatch, closeModel]
+    [dispatch, closeModel, listRestaurant]
   );
   const formik = useFormik({
     initialValues: {
@@ -49,12 +93,59 @@ function UserCreate({ closeModel }) {
       staffActivityStatus: "",
       staffAvatarUrl: "",
       staffStatus: true,
+      restaurantId: "r_01",
     },
     onSubmit: (values, { resetForm }) => {
       handleAddStaff(values);
       resetForm({ values: "" });
     },
   });
+  console.log("THANH EN", formik.values.restaurantId);
+  const renderListRestaurant = (role) => {
+    if (role === 3) {
+      return (
+        <select
+          onChange={formik.handleChange}
+          value={formik.values.restaurantId}
+          id="restaurantId"
+          name="restaurantId"
+        >
+          {listRestaurant &&
+            listRestaurant.map((item, index) => {
+              return (
+                <option key={index} value={item.restaurantId}>
+                  {item.restaurantName}
+                </option>
+              );
+            })}
+        </select>
+      );
+    } else if (role === 4) {
+      return (
+        <select
+          onChange={formik.handleChange}
+          value={formik.values.restaurantId}
+          id="restaurantId"
+          name="restaurantId"
+        >
+          {listRestaurant &&
+            listRestaurant.map((item, index) => {
+              return (
+                <option key={index} value={item.restaurantId}>
+                  {item.restaurantName}
+                </option>
+              );
+            })}
+        </select>
+      );
+    } else {
+      return (
+        <select disabled>
+          <option>Bạn không thể chọn</option>
+        </select>
+      );
+    }
+  };
   return (
     <div className="modelBackground">
       <div className="form-popup">
@@ -159,6 +250,10 @@ function UserCreate({ closeModel }) {
               value={formik.values.phoneNumber}
               onChange={formik.handleChange}
             />
+            <label>
+              Cửa hàng: <span className="proirity">*</span>
+            </label>
+            {renderListRestaurant(parseInt(formik.values.roleId))}
             <label>Trạng thái: </label>
             <br></br>
             <input

@@ -11,7 +11,7 @@ export const orderRemainingSelector = createSelector(
   filterStatusState$,
   (listOrder, status) => {
     return listOrder.filter((order) => {
-      return order.status.toString().includes(status);
+      return order.status?.toString().includes(status);
     });
   }
 );
