@@ -1,13 +1,16 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { openNotification } from "../NotificationConfirm/NotificationConfirm";
 import "./adminpage.style.scss";
 import ProfileViewPopup from "./ViewProfilePopup";
 function AdminPage({ children }) {
   const navigate = useNavigate();
   const [popupProfile, setPopupProfile] = useState(false);
   const logout = () => {
+    localStorage.clear();
     navigate("/login");
+    openNotification("success", "Thành Công", "Bạn đã thao tác thành công");
   };
 
   const showProfile = () => {
