@@ -17,6 +17,7 @@ import {
   hideLoading,
   showLoading,
 } from "../../components/Loading/LoadingSlice";
+import { restaurantService } from "../../services/restaurantService";
 
 function* getAccount() {
   try {
@@ -58,11 +59,26 @@ function* createStaff(action) {
     yield put(showLoading());
     console.log("ACTION PAYLOAD", JSON.stringify(action.payload));
     let staff = yield call(() => {
-      return accountService.createStaff(action.payload);
+      return accountService.createStaff(action.payload.staff);
     });
     if (staff.status === STATUS_CODE.SUCCESS) {
       console.log("STAFF SAGA", staff);
-      yield put(getAccountRequest());
+      if (
+        parseInt(action.payload.roleId) === 3 ||
+        parseInt(action.payload.roleId) === 4
+      ) {
+        let restaurant = yield call(() => {
+          return restaurantService.updateRestaurant(action.payload.restaurant);
+        });
+        if (restaurant.status === STATUS_CODE.SUCCESS) {
+          openNotification(
+            "success",
+            "Thành Công",
+            "Bạn dã thêm thành công nhân viên vào cửa hàng"
+          );
+          yield put(getAccountRequest());
+        }
+      }
     }
     yield put(hideLoading());
     openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");

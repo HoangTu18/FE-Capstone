@@ -10,6 +10,11 @@ import Loading from "./components/Loading/Loading";
 import EventManager from "./pages/EventManager/eventManager.page";
 import OrderManage from "./pages/OrderManage/OrderManage";
 import ServiceManager from "./pages/ServiceManage/ServiceManager.page";
+import PrivateRoute from "./ultil/ProtectedRoute/PrivateRoute";
+import { USER_LOGIN } from "./ultil/settingSystem";
+import PrivateAdmin from "./ultil/ProtectedRoute/PrivateAdmin";
+import PrivateOwner from "./ultil/ProtectedRoute/PrivateOwner";
+import PrivateManager from "./ultil/ProtectedRoute/PrivateManager";
 function App() {
   return (
     <div>
@@ -18,15 +23,68 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />}>
-            <Route path="" element={<AccountManager />} />
-            <Route path="employee" element={<AccountManager />} />
-            <Route path="customer" element={<CustomerManager />} />
-            <Route path="food" element={<FoodManager />} />
-            <Route path="restaurant" element={<RestaurantManager />} />
-            <Route path="event" element={<EventManager />} />
-            <Route path="order" element={<OrderManage/>}/>
-            <Route path="service" element={<ServiceManager/>}/>
+          <Route element={<PrivateRoute />}>
+            <Route path="/dashboard" element={<Dashboard />}>
+              {/* <Route path="" element={<AccountManager />} /> */}
+              <Route //ROLE ADMIN
+                path="employee"
+                element={
+                  <PrivateAdmin>
+                    <AccountManager />
+                  </PrivateAdmin>
+                }
+              />
+
+              <Route
+                path="customer"
+                element={
+                  <PrivateAdmin>
+                    <CustomerManager />
+                  </PrivateAdmin>
+                }
+              />
+              <Route //ROLE OWNER
+                path="food"
+                element={
+                  <PrivateOwner>
+                    <FoodManager />
+                  </PrivateOwner>
+                }
+              />
+              <Route
+                path="restaurant"
+                element={
+                  <PrivateOwner>
+                    <RestaurantManager />
+                  </PrivateOwner>
+                }
+              />
+              <Route
+                path="event"
+                element={
+                  <PrivateOwner>
+                    <EventManager />
+                  </PrivateOwner>
+                }
+              />
+              <Route
+                path="service"
+                element={
+                  <PrivateOwner>
+                    <ServiceManager />
+                  </PrivateOwner>
+                }
+              />
+
+              <Route // ROLE MANAGER
+                path="order"
+                element={
+                  <PrivateManager>
+                    <OrderManage />
+                  </PrivateManager>
+                }
+              />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

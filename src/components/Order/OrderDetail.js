@@ -1,11 +1,16 @@
 import "./OrderDetail.style.scss";
 import { useFormik } from "formik";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TableOrderDetail from "../MyTable/TableOrderDetail";
+import { getAccountRequest } from "../../pages/AccountManager/AccountManageSlice";
+import { RESTAURANT_INFO } from "../../ultil/settingSystem";
 function OrderDetail({ data, closeModel }) {
   const dispatch = useDispatch();
   const orderItem = useSelector((state) => state.orderManage.orderItem);
+  const listStaff = JSON.parse(
+    localStorage.getItem(RESTAURANT_INFO)
+  ).staffList.filter((item) => item.theAccountForStaff.roleId === 4);
   const staffTableHead = [
     "Mã sản phẩm",
     "Tên sản phẩm",
@@ -41,13 +46,19 @@ function OrderDetail({ data, closeModel }) {
         <div style={{ display: "flex" }}>
           <div
             className="top_model_right_item"
-            style={{ backgroundColor: "#04AA6D" }}
+            style={{
+              backgroundColor: "#04AA6D",
+              display: `${orderItem.status !== "pending" ? "none" : ""}`,
+            }}
           >
             Xác nhận
           </div>
           <div
             className="top_model_right_item"
-            style={{ backgroundColor: "#ff0000" }}
+            style={{
+              backgroundColor: "#ff0000",
+              display: `${orderItem.status !== "pending" ? "none" : ""}`,
+            }}
           >
             Từ chối
           </div>
@@ -55,7 +66,7 @@ function OrderDetail({ data, closeModel }) {
       </div>
       <div className="body_model_detail">
         <div className="row">
-          <div className="col-5">
+          <div className="col-4">
             <div className="body_model_detail_item">
               Ngày bán:<span>{formatDate(orderItem.orderDate)}</span>
             </div>
@@ -65,9 +76,23 @@ function OrderDetail({ data, closeModel }) {
             <div className="body_model_detail_item">
               Phương thức thanh toán: <span>{orderItem.paymentMethod}</span>
             </div>
-            <div className="body_model_detail_item">Nhân viên phụ trách:</div>
+            <div className="body_model_detail_item">
+              Nhân viên phụ trách:
+              <div className="selected_staff">
+                <select>
+                  {listStaff &&
+                    listStaff.map((item, index) => {
+                      return (
+                        <option key={index} value={item.staffId}>
+                          {item.staffFullName}
+                        </option>
+                      );
+                    })}
+                </select>
+              </div>
+            </div>
           </div>
-          <div className="col-7">
+          <div className="col-8">
             <div className="body_model_detail_item">Cửa hàng:</div>
             <div className="body_model_detail_item">SĐT cửa hàng:</div>
             <div className="body_model_detail_item">
