@@ -5,14 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import AdminPage from "../../components/AdminPage/adminpage.component";
 import TableOrder from "../../components/MyTable/TableOrder";
 import { orderRemainingSelector } from "../../redux/selector/orderSelector";
+import { RESTAURANT_INFO } from "../../ultil/settingSystem";
+import { getAccountRequest } from "../AccountManager/AccountManageSlice";
 import "./OrderManage.style.scss";
 import { filterByStatus, getOrderRequest } from "./OrderManageSlice";
 const OrderManage = () => {
   const dispatch = useDispatch();
   const listOrder = useSelector(orderRemainingSelector);
+  const resId = JSON.parse(localStorage.getItem(RESTAURANT_INFO))?.restaurantId;
   useEffect(() => {
-    dispatch(getOrderRequest());
-  }, [dispatch]);
+    dispatch(getOrderRequest(resId));
+    dispatch(getAccountRequest());
+  }, [dispatch, resId]);
   const renderHead = (item, index) => <th key={index}>{item}</th>;
   const renderBody = (item, index) => (
     <tr key={index}>
@@ -29,6 +33,11 @@ const OrderManage = () => {
       statusIcon: "fa-solid fa-file-import",
       status: "pending",
       statusText: "Chờ xác nhận",
+    },
+    {
+      statusIcon: "fa-solid fa-credit-card",
+      status: "waitingpayment",
+      statusText: "Chờ thanh toán",
     },
     {
       statusIcon: "fa-solid fa-clipboard-check",

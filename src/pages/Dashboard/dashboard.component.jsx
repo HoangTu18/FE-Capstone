@@ -1,24 +1,25 @@
 import React from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import DashboardItem from "../../components/DashboardItem/dashboarditem.component";
+import { openNotification } from "../../components/NotificationConfirm/NotificationConfirm";
+import { USER_LOGIN } from "../../ultil/settingSystem";
 import "./dashboard.style.scss";
 function Dashboard() {
   // const [work, setWork] = useState();
   const location = useLocation();
-
+  const role = JSON.parse(localStorage.getItem(USER_LOGIN))?.theAccountForStaff
+    .roleId;
   const navigate = useNavigate();
 
   const logout = () => {
+    localStorage.clear();
     navigate("/login");
+    openNotification("success", "Thành Công", "Bạn đã đăng xuất thành công");
   };
-
-  return (
-    <div className="dashboard">
-      <div className="dashboard__left">
-        <div className="dashboard__left__logo">
-          <img src="/images/logo.png" alt="" />
-          <h3>TFS System</h3>
-        </div>
+  const renderByAuth = () => {
+    if (role === 2) {
+      //ROLE ADMIN
+      return (
         <div className="dashboard__left__items">
           <DashboardItem
             isActive={
@@ -36,6 +37,12 @@ function Dashboard() {
             text={"Danh sách khách hàng"}
             icon={<i className="fa fa-user-friends"></i>}
           />
+        </div>
+      );
+    } else if (role === 1) {
+      // ROLE OWNER
+      return (
+        <div className="dashboard__left__items">
           <DashboardItem
             isActive={location.pathname.split("/")[2] === "food" ? true : false}
             url={"food"}
@@ -61,14 +68,6 @@ function Dashboard() {
           />
           <DashboardItem
             isActive={
-              location.pathname.split("/")[2] === "order" ? true : false
-            }
-            url={"order"}
-            text={"Quản lí đơn hàng"}
-            icon={<i className="fa-solid fa-receipt"></i>}
-          />
-          <DashboardItem
-            isActive={
               location.pathname.split("/")[2] === "service" ? true : false
             }
             url={"service"}
@@ -80,9 +79,41 @@ function Dashboard() {
               location.pathname.split("/")[2] === "promotion" ? true : false
             }
             url={"promotion"}
-            text={"Quản lý sự kiện"}
+            text={"Quản lý khuyến mãi"}
             icon={<i className="fa-solid fa-percent"></i>}
           />
+        </div>
+      );
+    } else if (role === 3) {
+      //ROLE MANAGER
+      return (
+        <div className="dashboard__left__items">
+          <DashboardItem
+            isActive={
+              location.pathname.split("/")[2] === "order" ? true : false
+            }
+            url={"order"}
+            text={"Quản lí đơn hàng"}
+            icon={<i className="fa-solid fa-receipt"></i>}
+          />
+        </div>
+      );
+    }
+  };
+  return (
+    <div className="dashboard">
+      <div className="dashboard__left">
+        <div className="dashboard__left__logo">
+          <img src="/images/logo.png" alt="" />
+          <h3>TFS System</h3>
+        </div>
+        {renderByAuth()}
+        <div className="footer">
+          <hr />
+          <div className="logout">
+            <i className="fa fa-sign-out-alt"></i>
+            <button onClick={logout}>Đăng xuất</button>
+          </div>
         </div>
       </div>
       <div className="dashboard__right">
