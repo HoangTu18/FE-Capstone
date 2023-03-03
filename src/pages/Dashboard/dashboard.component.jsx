@@ -79,8 +79,8 @@ function Dashboard() {
               location.pathname.split("/")[2] === "promotion" ? true : false
             }
             url={"promotion"}
-            text={"Quản lý khuyến mãi"}
-            icon={<i className="fa-solid fa-percent"></i>}
+            text={"Quản lý voucher"}
+            icon={<i class="fa-solid fa-ticket-simple"></i>}
           />
         </div>
       );

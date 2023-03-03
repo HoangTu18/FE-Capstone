@@ -10,6 +10,7 @@ function PromotionManager() {
     "Mã khuyến mãi",
     "Tên khuyến mãi",
     "% khuyến mãi",
+    "Code khuyến mãi",
     "Trạng thái",
     "Hành động",
   ];

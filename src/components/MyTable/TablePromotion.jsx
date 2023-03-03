@@ -109,9 +109,10 @@ const TablePromotion = (props) => {
               <tbody>
                 {currentItems.map((item, index) => (
                   <tr key={index}>
-                    <td>{item.promotionCode}</td>
+                    <td>#{item.id}</td>
                     <td>{getEventName(item.eventId)}</td>
                     <td>{item.discountPercent}%</td>
+                    <td>{item.promotionCode}</td>
                     {item.status ? (
                       <td className="status green">Hoạt động</td>
                     ) : (
