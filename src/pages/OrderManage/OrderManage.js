@@ -13,6 +13,7 @@ const OrderManage = () => {
   const dispatch = useDispatch();
   const listOrder = useSelector(orderRemainingSelector);
   const resId = JSON.parse(localStorage.getItem(RESTAURANT_INFO))?.restaurantId;
+  const [status, setStatus] = useState("pending");
   useEffect(() => {
     dispatch(getOrderRequest(resId));
     dispatch(getAccountRequest());
@@ -36,7 +37,7 @@ const OrderManage = () => {
     },
     {
       statusIcon: "fa-solid fa-credit-card",
-      status: "waitingpayment",
+      status: "waiting",
       statusText: "Chờ thanh toán",
     },
     {
@@ -67,21 +68,10 @@ const OrderManage = () => {
     "Tình trạng đơn hàng",
     "Hành động",
   ];
-  const [query, setQuery] = useState("");
-  const searchByName = (data) => {
-    return data.filter((item) =>
-      query.toLowerCase() === "hoạt động"
-        ? item.staffStatus?.toString().includes(true)
-        : query.toLowerCase() === "không hoạt động"
-        ? item.staffStatus.toString().includes(false)
-        : item.staffFullName?.toLowerCase().includes(query.toLowerCase()) ||
-          item.theAccountForStaff?.phoneNumber.includes(query) ||
-          item.staffId?.toString().includes(query)
-    );
-  };
   const handleFilterStatus = useCallback(
-    (status) => {
-      dispatch(filterByStatus(status));
+    (statusFilter) => {
+      setStatus(statusFilter);
+      dispatch(filterByStatus(statusFilter));
     },
     [dispatch]
   );
@@ -104,7 +94,9 @@ const OrderManage = () => {
               listStatus.map((item, index) => {
                 return (
                   <div
-                    className="filter_section_status_button"
+                    className={`filter_section_status_button ${
+                      item.status === status ? "isActive" : ""
+                    }`}
                     key={index}
                     onClick={() => handleFilterStatus(item.status)}
                   >

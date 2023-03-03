@@ -9,6 +9,9 @@ class OrderService extends BaseService {
   getOrderById = (id) => {
     return this.get(`orders/${id}`);
   };
+  updateOrder = (model) => {
+    return this.put(`orders/status`, model);
+  };
 }
 
 export const orderService = new OrderService();

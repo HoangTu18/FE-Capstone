@@ -4,6 +4,7 @@ export const restaurantManageSlice = createSlice({
   name: "restaurantManage",
   initialState: {
     listRestaurant: [],
+    restaurantItem: {},
   },
   reducers: {
     // Get Restaurant
@@ -15,6 +16,10 @@ export const restaurantManageSlice = createSlice({
     },
     getRestaurantFailure: (state) => {
       return state;
+    },
+    //Get Restaurant By Staff
+    getRestaurantByStaffSuccess: (state, action) => {
+      state.restaurantItem = action.payload;
     },
     // Create restaurant
     createRestaurantRequest: (state, action) => {},
@@ -38,6 +43,7 @@ export const {
   getRestaurantRequest,
   getRestaurantSuccess,
   getRestaurantFailure,
+  getRestaurantByStaffSuccess,
   createRestaurantRequest,
   createRestaurantFaiture,
   updateRestaurantRequest,

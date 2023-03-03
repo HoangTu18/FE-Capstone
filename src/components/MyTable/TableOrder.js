@@ -30,6 +30,8 @@ const TableOrder = (props) => {
     switch (status) {
       case "pending":
         return "Chờ xác nhận";
+      case "waiting":
+        return "Chờ thanh toán";
       case "accept":
         return "Đã xác nhận";
       case "delivery":

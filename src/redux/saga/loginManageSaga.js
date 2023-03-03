@@ -9,6 +9,7 @@ import {
   loginRequest,
   loginSuccess,
 } from "../../pages/Login/LoginManageSlice";
+import { getRestaurantByStaffSuccess } from "../../pages/RestaurantManager/RestaurantManageSlice";
 import { loginService } from "../../services/loginService";
 import { restaurantService } from "../../services/restaurantService";
 import {
@@ -38,8 +39,14 @@ function* login(action) {
             infoLogin.data.theAccountForStaff.accountId
           );
         });
-        localStorage.setItem(RESTAURANT_INFO, JSON.stringify(restaurant.data));
-        action.payload.navigate("/dashboard/order");
+        if (restaurant.status === STATUS_CODE.SUCCESS) {
+          yield put(getRestaurantByStaffSuccess(restaurant.data));
+          localStorage.setItem(
+            RESTAURANT_INFO,
+            JSON.stringify(restaurant.data)
+          );
+          action.payload.navigate("/dashboard/order");
+        }
       }
     }
     yield put(hideLoading());
