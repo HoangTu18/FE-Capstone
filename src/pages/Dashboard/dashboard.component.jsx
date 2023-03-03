@@ -108,13 +108,6 @@ function Dashboard() {
           <h3>TFS System</h3>
         </div>
         {renderByAuth()}
-        <div className="footer">
-          <hr />
-          <div className="logout">
-            <i className="fa fa-sign-out-alt"></i>
-            <button onClick={logout}>Đăng xuất</button>
-          </div>
-        </div>
       </div>
       <div className="dashboard__right">
         <Outlet />
