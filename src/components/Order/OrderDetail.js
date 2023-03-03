@@ -1,16 +1,25 @@
 import "./OrderDetail.style.scss";
 import { useFormik } from "formik";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TableOrderDetail from "../MyTable/TableOrderDetail";
 import { getAccountRequest } from "../../pages/AccountManager/AccountManageSlice";
 import { RESTAURANT_INFO } from "../../ultil/settingSystem";
+import { updateOrderRequest } from "../../pages/OrderManage/OrderManageSlice";
 function OrderDetail({ data, closeModel }) {
   const dispatch = useDispatch();
   const orderItem = useSelector((state) => state.orderManage.orderItem);
-  const listStaff = JSON.parse(
+  const listStaff = useSelector(
+    (state) => state.restaurantManage.restaurantItem
+  ).staffList.filter(
+    (item) =>
+      item.theAccountForStaff.roleId === 4 &&
+      item.staffActivityStatus?.toString() === "available"
+  );
+  const restaurantId = JSON.parse(
     localStorage.getItem(RESTAURANT_INFO)
-  ).staffList.filter((item) => item.theAccountForStaff.roleId === 4);
+  )?.restaurantId;
+  const [staffId, setStaffId] = useState(listStaff[0]?.staffId);
   const staffTableHead = [
     "Mã sản phẩm",
     "Tên sản phẩm",
@@ -39,6 +48,43 @@ function OrderDetail({ data, closeModel }) {
       return formattedDate;
     }
   };
+  const handleApproveOrder = () => {
+    if (orderItem.paymentMethod?.toString() === "ZaloPay") {
+      dispatch(
+        updateOrderRequest({
+          infoUpdate: {
+            staffId: parseInt(staffId),
+            status: "waiting",
+            orderId: parseInt(orderItem.id),
+          },
+          restaurantId: restaurantId,
+        })
+      );
+    } else {
+      dispatch(
+        updateOrderRequest({
+          infoUpdate: {
+            staffId: parseInt(staffId),
+            status: "accept",
+            orderId: parseInt(orderItem.id),
+          },
+          restaurantId: restaurantId,
+        })
+      );
+    }
+  };
+  const handleDenyOrder = () => {
+    dispatch(
+      updateOrderRequest({
+        infoUpdate: {
+          staffId: parseInt(staffId),
+          status: "deny",
+          orderId: parseInt(orderItem.id),
+        },
+        restaurantId: restaurantId,
+      })
+    );
+  };
   return (
     <div className="model_order_detail">
       <div className="top_model_right">
@@ -50,6 +96,7 @@ function OrderDetail({ data, closeModel }) {
               backgroundColor: "#04AA6D",
               display: `${orderItem.status !== "pending" ? "none" : ""}`,
             }}
+            onClick={() => handleApproveOrder()}
           >
             Xác nhận
           </div>
@@ -59,6 +106,7 @@ function OrderDetail({ data, closeModel }) {
               backgroundColor: "#ff0000",
               display: `${orderItem.status !== "pending" ? "none" : ""}`,
             }}
+            onClick={() => handleDenyOrder()}
           >
             Từ chối
           </div>
@@ -79,7 +127,7 @@ function OrderDetail({ data, closeModel }) {
             <div className="body_model_detail_item">
               Nhân viên phụ trách:
               <div className="selected_staff">
-                <select>
+                <select onChange={(e) => setStaffId(e.target.value)}>
                   {listStaff &&
                     listStaff.map((item, index) => {
                       return (

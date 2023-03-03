@@ -31,6 +31,11 @@ export const orderManageSlice = createSlice({
     filterByStatus: (state, action) => {
       state.filterStatus = action.payload;
     },
+    //Update Order
+    updateOrderRequest: (state, action) => {},
+    updateOrderFailure: (state) => {
+      return state;
+    },
   },
 });
 
@@ -42,5 +47,7 @@ export const {
   getOrderByIdSuccess,
   getOrderByIdFailure,
   filterByStatus,
+  updateOrderRequest,
+  updateOrderFailure,
 } = orderManageSlice.actions;
 export default orderManageSlice.reducer;
