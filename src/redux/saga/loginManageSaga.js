@@ -9,6 +9,7 @@ import {
   loginRequest,
   loginSuccess,
 } from "../../pages/Login/LoginManageSlice";
+import { filterByStatus } from "../../pages/OrderManage/OrderManageSlice";
 import { getRestaurantByStaffSuccess } from "../../pages/RestaurantManager/RestaurantManageSlice";
 import { loginService } from "../../services/loginService";
 import { restaurantService } from "../../services/restaurantService";
@@ -39,6 +40,7 @@ function* login(action) {
             infoLogin.data.theAccountForStaff.accountId
           );
         });
+        yield put(filterByStatus("pending"));
         if (restaurant.status === STATUS_CODE.SUCCESS) {
           yield put(getRestaurantByStaffSuccess(restaurant.data));
           localStorage.setItem(

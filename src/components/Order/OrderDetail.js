@@ -11,7 +11,7 @@ function OrderDetail({ data, closeModel }) {
   const orderItem = useSelector((state) => state.orderManage.orderItem);
   const listStaff = useSelector(
     (state) => state.restaurantManage.restaurantItem
-  ).staffList.filter(
+  )?.staffList.filter(
     (item) =>
       item.theAccountForStaff.roleId === 4 &&
       item.staffActivityStatus?.toString() === "available"
