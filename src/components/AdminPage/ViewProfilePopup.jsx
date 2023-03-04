@@ -1,25 +1,73 @@
-import "../Food/food.style.scss";
-import UploadImage from "../../ultil/UploadImage";
+import { useFormik } from "formik";
 import { useState } from "react";
-function ProfileViewPopup({ closeModel }) {
+import { useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { updateStaffRequest } from "../../pages/AccountManager/AccountManageSlice";
+import UploadImage from "../../ultil/UploadImage";
+import "../Food/food.style.scss";
+function ProfileViewPopup({ closeModel, data, listRole }) {
   const [imageUrl, setImageUrl] = useState("");
+  const dispatch = useDispatch();
+  const getRoleName = (roleId) => {
+    return listRole.find((role) => role.roleId === +roleId)["roleName"];
+  };
+  const handleUpdateProfile = useCallback(
+    (values) => {
+      let updateProfile = {
+        staffId: values.staffId,
+        staffFullName: values.staffFullName,
+        staffEmail: values.staffEmail,
+        staffAvatarUrl: values.staffAvatarUrl,
+        staffActivityStatus: values.staffActivityStatus,
+        staffStatus: values.staffStatus,
+        theAccountForStaff: {
+          accountId: values.accountId,
+          phoneNumber: values.phoneNumber,
+          password: values.password,
+          roleId: values.roleId,
+          status: values.status,
+        },
+      };
+      // console.log("Profile Update: ", updateProfile);
+      dispatch(updateStaffRequest(updateProfile));
+      closeModel(false);
+    },
+    [closeModel, dispatch]
+  );
+
+  const formik = useFormik({
+    initialValues: {
+      staffId: data.staffId,
+      staffFullName: data.staffFullName,
+      staffEmail: data.staffEmail,
+      staffAvatarUrl: data.staffAvatarUrl,
+      staffActivityStatus: data.staffActivityStatus,
+      staffStatus: data.staffStatus,
+      accountId: data.theAccountForStaff.accountId,
+      phoneNumber: data.theAccountForStaff.phoneNumber,
+      password: data.theAccountForStaff.password,
+      roleId: data.theAccountForStaff.roleId,
+      status: data.theAccountForStaff.status,
+    },
+    onSubmit: (values, { resetForm }) => {
+      handleUpdateProfile(values);
+      resetForm({ values: "" });
+    },
+  });
 
   return (
     <div className="popup ">
       <form
+        onSubmit={formik.handleSubmit}
         className="form-up"
-        noValidate
-        autoComplete="off"
-        style={{ height: "400px" }}
+        style={{ height: "600px", width: "530px" }}
       >
         <div className="food__title unselectable">Thông tin cá nhân</div>
         <div className="left">
           <div className="img__item">
             <img
               className="image"
-              src={
-                "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
-              }
+              src={imageUrl ? imageUrl : data.staffAvatarUrl}
               alt=""
             />
           </div>
@@ -27,44 +75,34 @@ function ProfileViewPopup({ closeModel }) {
             <label className="label__title">Họ tên:</label>
             <input
               type="text"
-              // value={formik.values.foodName}
-              // onChange={formik.handleChange}
+              id="staffFullName"
+              name="staffFullName"
+              value={formik.values.staffFullName}
+              onChange={formik.handleChange}
             />
             <label className="label__title">Số điện thoại:</label>
             <input
               type="text"
-              // value={formik.values.price}
-              // onChange={formik.handleChange}
+              id="phoneNumber"
+              name="phoneNumber"
+              value={formik.values.phoneNumber}
+              onChange={formik.handleChange}
             />
             <label className="label__title">Email:</label>
             <input
               type="text"
-              // value={formik.values.price}
-              // onChange={formik.handleChange}
+              id="staffEmail"
+              name="staffEmail"
+              value={formik.values.staffEmail}
+              onChange={formik.handleChange}
             />
-            <label className="label__title">Trạng thái:</label>
-            <input
-              className="checkBoxStatus type"
-              type="checkbox"
-              id="status"
-              name="status"
-              // value={formik.values.status}
-              // onChange={formik.handleChange}
-              checked={true}
-            />
-          </div>
-        </div>
-        <div className="right">
-          <div className="listitem">
             <label className="label__title">Chức vụ:</label>
             <input
               type="text"
-              id="price"
-              name="price"
-              // value={formik.values.price}
-              // onChange={formik.handleChange}
+              disabled
+              value={getRoleName(data.theAccountForStaff.roleId)}
             />
-            <label className="label__title">Hình ảnh</label>
+            <label className="label__title">Hình ảnh:</label>
             <UploadImage getImageURL={setImageUrl} />
             <div className="food__button">
               <button type="submit" className="btn">
@@ -75,7 +113,7 @@ function ProfileViewPopup({ closeModel }) {
                 className="btn cancel"
                 onClick={() => closeModel(false)}
               >
-                Huỷ
+                Đóng
               </button>
             </div>
           </div>

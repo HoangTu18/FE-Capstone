@@ -1,26 +1,52 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { openNotification } from "../NotificationConfirm/NotificationConfirm";
 import "./adminpage.style.scss";
 import ProfileViewPopup from "./ViewProfilePopup";
 import { USER_LOGIN } from "../../ultil/settingSystem";
+import SettingViewPopup from "./ViewSettingPopup";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getRoleRequest } from "../../pages/AccountManager/AccountManageSlice";
 function AdminPage({ children }) {
   const navigate = useNavigate();
   const [popupProfile, setPopupProfile] = useState(false);
+  const [popupSetting, setPopupSetting] = useState(false);
   const logout = () => {
     localStorage.clear();
     navigate("/login");
     openNotification("success", "Thành Công", "Bạn đã thao tác thành công");
   };
   const staff = useRef(JSON.parse(localStorage.getItem(USER_LOGIN)));
+  const dispatch = useDispatch();
+  const listRole = useSelector((state) => state.accountManage.listRole);
+
+  useEffect(() => {
+    dispatch(getRoleRequest());
+  }, [dispatch]);
   const showProfile = () => {
     setPopupProfile(!popupProfile);
   };
-
+  const showSetting = () => {
+    setPopupSetting(!popupSetting);
+  };
   return (
     <div className="admin-page">
-      {popupProfile ? <ProfileViewPopup closeModel={setPopupProfile} /> : <></>}
+      {popupProfile ? (
+        <ProfileViewPopup
+          closeModel={setPopupProfile}
+          data={staff.current}
+          listRole={listRole}
+        />
+      ) : (
+        <></>
+      )}
+      {popupSetting ? (
+        <SettingViewPopup closeModel={setPopupSetting} data={staff.current} />
+      ) : (
+        <></>
+      )}
       <div className="admin-page__header">
         <h4>Hello, {staff.current.staffFullName}</h4>
         <div className="dropdown">
@@ -47,18 +73,23 @@ function AdminPage({ children }) {
             ></i>
           </div>
           <ul className="dropdown__list">
-            <li className="dropdown__item">
+            <li
+              className="dropdown__item"
+              onClick={() => {
+                showProfile();
+              }}
+            >
               <i className="fa-solid fa-user"></i>
-              <span
-                className="dropdown__text unselectable"
-                onClick={() => {
-                  showProfile();
-                }}
-              >
+              <span className="dropdown__text unselectable">
                 Thông tin cá nhân
               </span>
             </li>
-            <li className="dropdown__item">
+            <li
+              className="dropdown__item"
+              onClick={() => {
+                showSetting();
+              }}
+            >
               <i className="fa-solid fa-gear"></i>
               <span className="dropdown__text unselectable">Cài đặt</span>
             </li>
