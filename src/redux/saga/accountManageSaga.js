@@ -11,7 +11,7 @@ import {
   updateStaffRequest,
 } from "../../pages/AccountManager/AccountManageSlice";
 import { accountService } from "../../services/accountService";
-import { STATUS_CODE } from "../../ultil/settingSystem";
+import { STATUS_CODE, USER_LOGIN } from "../../ultil/settingSystem";
 import { openNotification } from "../../components/NotificationConfirm/NotificationConfirm";
 import {
   hideLoading,
@@ -99,6 +99,7 @@ function* updateStaff(action) {
     });
     if (staff.status === STATUS_CODE.SUCCESS) {
       yield put(getAccountRequest());
+      localStorage.setItem(USER_LOGIN, JSON.stringify(staff.data));
     }
     yield hideLoading();
     openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");

@@ -18,11 +18,11 @@ function AdminPage({ children }) {
     navigate("/login");
     openNotification("success", "Thành Công", "Bạn đã thao tác thành công");
   };
-  let staff = useRef(JSON.parse(localStorage.getItem(USER_LOGIN)));
+  let staff = JSON.parse(localStorage.getItem(USER_LOGIN));
 
-  useCallback(() => {
-    staff.current = JSON.parse(localStorage.getItem(USER_LOGIN));
-  }, []);
+  // useCallback(() => {
+  //   staff.current = JSON.parse(localStorage.getItem(USER_LOGIN));
+  // }, []);
 
   const dispatch = useDispatch();
   const listRole = useSelector((state) => state.accountManage.listRole);
@@ -41,36 +41,36 @@ function AdminPage({ children }) {
       {popupProfile ? (
         <ProfileViewPopup
           closeModel={setPopupProfile}
-          data={staff.current}
+          data={staff}
           listRole={listRole}
         />
       ) : (
         <></>
       )}
       {popupSetting ? (
-        <SettingViewPopup closeModel={setPopupSetting} data={staff.current} />
+        <SettingViewPopup closeModel={setPopupSetting} data={staff} />
       ) : (
         <></>
       )}
       <div className="admin-page__header">
-        <h4>Hello, {staff.current.staffFullName}</h4>
+        <h4>Hello, {staff.staffFullName}</h4>
         <div className="dropdown">
           <div className="dropdown__select">
             <img
               style={{ marginLeft: "30px" }}
               src={
-                staff.current.staffAvatarUrl
-                  ? staff.current.staffAvatarUrl
+                staff.staffAvatarUrl
+                  ? staff.staffAvatarUrl
                   : "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
               }
               alt=""
             />
             <span className="dropdown__text unselectable">
-              {staff.current.staffFullName.split(" ")[
-                staff.current.staffFullName.split(" ").length - 1
+              {staff.staffFullName.split(" ")[
+                staff.staffFullName.split(" ").length - 1
               ] +
                 " " +
-                staff.current.staffFullName.split(" ")[0]}
+                staff.staffFullName.split(" ")[0]}
             </span>
             <i
               class="fa-sharp fa-solid fa-caret-down dropdown__caret"
