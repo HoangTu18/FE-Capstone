@@ -2,7 +2,10 @@ import { useFormik } from "formik";
 import "../Food/food.style.scss";
 import * as Yup from "yup";
 import { useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { updateStaffRequest } from "../../pages/AccountManager/AccountManageSlice";
 function SettingViewPopup({ closeModel, data }) {
+  const dispatch = useDispatch();
   const handleUpdatePassword = useCallback(
     (values) => {
       let updatePassword = {
@@ -20,10 +23,11 @@ function SettingViewPopup({ closeModel, data }) {
           status: values.status,
         },
       };
-      console.log("New ", updatePassword);
+      // console.log("New ", updatePassword);
+      dispatch(updateStaffRequest(updatePassword));
       closeModel(false);
     },
-    [closeModel]
+    [closeModel,dispatch]
   );
   const formik = useFormik({
     initialValues: {
