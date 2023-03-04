@@ -11,6 +11,9 @@ import ConfirmPopup from "../Confirm/ConfirmPopup.jsx";
 import { truncateString } from "../../ultil/stringUtil";
 import "./table.scss";
 import useSelection from "antd/es/table/hooks/useSelection.js";
+import { deletePromotionRequest, getPromotionRequest } from "../../pages/PromotionManage/PromotionManageSlice.js";
+import PromotionView from "../Promotion/PromotionViewPopup.jsx";
+import PromotionUpdate from "../Promotion/PromotionUpdatePopup.jsx";
 
 const TablePromotion = (props) => {
   const dispatch = useDispatch();
@@ -31,6 +34,9 @@ const TablePromotion = (props) => {
     setItemOffset(newOffset);
   };
   const eventList = useSelector((state) => state.eventManage.listEvent);
+  const promotionList = useSelector(
+    (state) => state.promotionManage.listPromotion
+  );
   const [popupView, setPopupView] = useState(false);
   const [popupEdit, setPopupEdit] = useState(false);
   const [popupDelete, setPopupDelete] = useState(false);
@@ -39,10 +45,11 @@ const TablePromotion = (props) => {
 
   useEffect(() => {
     dispatch(getEventRequest());
+    dispatch(getPromotionRequest());
   }, [dispatch]);
 
   const getEventName = (eventId) => {
-    let data = eventList.find((item) => item.id === eventId);
+    let data = eventList.find((item) => item.eventId === +eventId);
     if (data !== undefined) {
       return data.eventName;
     }
@@ -64,24 +71,34 @@ const TablePromotion = (props) => {
   };
 
   if (confirm) {
+    console.log("a");
     setConfirm(false);
-    // dispatch(deleteEventRequest(newData));
+    dispatch(deletePromotionRequest(newData));
     setPopupDelete(!popupDelete);
   }
 
   return (
     <div>
-      {/* {popupView ? (
-        <EventView closeModel={setPopupView} data={newData} />
+      {popupView ? (
+        <PromotionView
+          closeModel={setPopupView}
+          data={newData}
+          listEvent={eventList}
+        />
       ) : (
         Fragment
       )}
       {popupEdit ? (
-        <EventEdit closeModel={setPopupEdit} data={newData} />
+        <PromotionUpdate
+          closeModel={setPopupEdit}
+          data={newData}
+          listEvent={eventList}
+          listPromo={promotionList}
+        />
       ) : (
         Fragment
       )}
-    */}
+
       {popupDelete ? (
         <ConfirmPopup
           closeModel={setPopupDelete}
@@ -136,7 +153,7 @@ const TablePromotion = (props) => {
                       <Icon
                         className="icon"
                         icon="material-symbols:delete-outline-rounded"
-                        onClick={() => showDelete(item.eventId)}
+                        onClick={() => showDelete(item.id)}
                       />
                     </td>
                   </tr>

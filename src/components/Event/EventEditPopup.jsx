@@ -113,10 +113,10 @@ function EventEdit({ data, closeModel }) {
             <img
               className="image"
               src={
-                imageUrl
+                data.image_url
+                  ? data.image_url
+                  : imageUrl
                   ? imageUrl
-                  : data.imgUrl
-                  ? data.imgUrl
                   : "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
               }
               alt=""

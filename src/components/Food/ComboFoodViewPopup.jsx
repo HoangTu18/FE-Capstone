@@ -1,17 +1,10 @@
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { updateComboFoodRequest } from "../../pages/FoodManager/foodManageSlice";
-import UploadImage from "../../ultil/UploadImage";
 import "./food.style.scss";
 function ComboFoodView({ closeModel, data, listCate }) {
-  const dispatch = useDispatch();
-  const [imageUrl, setImageUrl] = useState("");
   const [listFood, setListFood] = useState([]);
   const [selected, setSelected] = useState([]);
-  const dataSelected = [];
 
   useEffect(() => {
     if (data.comboItems !== [] && selected.length === 0) {
@@ -30,9 +23,10 @@ function ComboFoodView({ closeModel, data, listCate }) {
   }, [data.comboItems, selected]);
 
   const handleChangeCate = (e) => {
+    console.log("Head", listFood);
     setListFood([]);
     listCate.forEach((item) => {
-      if (item.id === e.target.value) {
+      if (item.id === +e.target.value) {
         item.foodList.forEach((food) => {
           let data = selected.find((item) => item.id === food.id);
           let checked = false;
@@ -55,81 +49,7 @@ function ComboFoodView({ closeModel, data, listCate }) {
       }
     });
   };
-  const handleChange = (e) => {
-    document.getElementById(e.target.id).disabled = !e.target.checked;
-    let isChecked = e.target.checked;
-    let foodId = +e.target.id;
-    if (selected.length === 0) {
-      if (isChecked) {
-        let newData = listFood.find((item) => item.id === foodId);
-        newData["isChecked"] = true;
-        setSelected((prev) => [...prev, newData]);
-      }
-    } else if (selected.length !== 0) {
-      let existingFood = selected.find((item) => item.id === foodId);
-      if (isChecked) {
-        if (!existingFood) {
-          let newData = listFood.find((item) => item.id === foodId);
-          newData["isChecked"] = true;
-          setSelected((prev) => [...prev, newData]);
-        }
-      } else {
-        if (existingFood) {
-          let index = selected.findIndex((obj) => obj === existingFood);
-          if (index > -1) {
-            selected.splice(index, 1);
-            setSelected((prev) => [...prev]);
-            let newIndex = listFood.findIndex((item) => item.id === foodId);
-            if (newIndex > -1) {
-              listFood[newIndex]["isChecked"] = false;
-            }
-            setListFood(listFood);
-          }
-        }
-      }
-    }
-  };
 
-  const handleRemoveSelected = (itemId) => {
-    let selectedCopy = [...selected];
-    let index = selectedCopy.findIndex((obj) => obj.id === itemId);
-    if (index > -1) {
-      selectedCopy.splice(index, 1);
-      setSelected(selectedCopy);
-      let newIndex = listFood.findIndex((item) => item.id === itemId);
-      if (newIndex > -1) {
-        listFood[newIndex]["isChecked"] = false;
-      }
-      setListFood(listFood);
-    }
-  };
-  const handleQuantityChange = (e) => {
-    let foodId = +e.target.id;
-    let quantity = +e.target.value;
-    let foundIndex = selected.findIndex((obj) => obj.id === foodId);
-    if (foundIndex > -1) {
-      selected[foundIndex]["quantity"] = quantity;
-      setSelected((prev) => [...prev]);
-    }
-  };
-
-  const handleUpdateFood = useCallback(
-    (values) => {
-      let combofood = {
-        id: values.id,
-        comboName: values.comboName,
-        description: values.description,
-        comboPrice: +values.comboPrice,
-        image: imageUrl,
-        comboItems: dataSelected,
-        status: values.status,
-      };
-      console.log("COMBO FOOD", combofood);
-      closeModel(false);
-      dispatch(updateComboFoodRequest(combofood));
-    },
-    [closeModel, imageUrl, dataSelected, dispatch]
-  );
   const formik = useFormik({
     initialValues: {
       id: data.id,
@@ -139,17 +59,6 @@ function ComboFoodView({ closeModel, data, listCate }) {
       image: data.imageUrl,
       comboItems: [],
       status: true,
-    },
-    onSubmit: (values, { resetForm }) => {
-      selected.forEach((item) => {
-        dataSelected.push({
-          foodId: item.id,
-          name: item.label,
-          quantity: item.quantity,
-        });
-      });
-      handleUpdateFood(values);
-      resetForm({ values: "" });
     },
   });
   return (
@@ -174,14 +83,14 @@ function ComboFoodView({ closeModel, data, listCate }) {
             <label className="label__title">Giá (VND):</label>
             <input type="text" disabled value={formik.values.comboPrice} />
             <label className="label__title">
-              {" "}
               Mô tả: <span className="proirity">*</span>
             </label>
-            <textarea type="text" value={formik.values.description} />
+            <textarea type="text" disabled value={formik.values.description} />
             <label className="label__title">Trạng thái:</label>
             <input
               className="checkBoxStatus type"
               type="checkbox"
+              disabled
               checked={formik.values.status}
             />
           </div>
@@ -218,7 +127,6 @@ function ComboFoodView({ closeModel, data, listCate }) {
                         type="checkbox"
                         checked={item.isChecked}
                         disabled
-                        onChange={handleChange}
                       />
                     </li>
                   );

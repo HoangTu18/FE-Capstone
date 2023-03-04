@@ -4,6 +4,8 @@ import AdminPage from "../../components/AdminPage/adminpage.component";
 import TablePromotion from "../../components/MyTable/TablePromotion";
 import { searchByName } from "../../ultil/stringUtil";
 import { getPromotionRequest } from "./PromotionManageSlice";
+import PromotionAdd from "../../components/Promotion/PromotionAddPopup";
+import { getEventRequest } from "../EventManager/eventManagerSlice";
 
 function PromotionManager() {
   const promotionTableHead = [
@@ -23,18 +25,28 @@ function PromotionManager() {
   const [query, setQuery] = useState("");
 
   const dispatch = useDispatch();
+
   const promotionList = useSelector(
     (state) => state.promotionManage.listPromotion
   );
+  const eventList = useSelector((state) => state.eventManage.listEvent);
 
   useEffect(() => {
     dispatch(getPromotionRequest());
-    console.log(promotionList);
+    dispatch(getEventRequest());
   }, [dispatch]);
 
   return (
     <div>
-      {/* {createPopup ? <EventAdd closeModel={setCreatePopup} /> : <></>} */}
+      {createPopup ? (
+        <PromotionAdd
+          closeModel={setCreatePopup}
+          listPromo={promotionList}
+          listEvent={eventList}
+        />
+      ) : (
+        <></>
+      )}
       <AdminPage>
         <div className="toptable">
           <h1 style={{ marginLeft: "30px" }}>Danh sách các khuyến mãi</h1>
@@ -42,7 +54,7 @@ function PromotionManager() {
             <div className="topnav__right-item">
               <div
                 className="button"
-                // onClick={() => setCreatePopup(!createPopup)}
+                onClick={() => setCreatePopup(!createPopup)}
               >
                 Thêm mã khuyến mãi +
               </div>

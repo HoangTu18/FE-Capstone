@@ -30,7 +30,7 @@ function EventAdd({ closeModel }) {
   const handleChangeCate = (e) => {
     options.length = 0;
     cateData.forEach((item) => {
-      if (item.id === e.target.value) {
+      if (item.id === +e.target.value) {
         item.foodList.forEach((food) => {
           options.push({
             value: food.id,
@@ -62,7 +62,7 @@ function EventAdd({ closeModel }) {
 
   const formik = useFormik({
     initialValues: {
-      eventId: "E_",
+      eventId: 0,
       eventName: "",
       description: "",
       image_url: "",
@@ -102,6 +102,7 @@ function EventAdd({ closeModel }) {
               Mã sự kiện:<span className="proirity">*</span>
             </label>
             <input
+              disabled
               type="text"
               id="eventId"
               value={formik.values.eventId}
@@ -175,6 +176,7 @@ function EventAdd({ closeModel }) {
             <label className="combo-edit_label">
               Các món đã chọn:
               <Select
+                className="select_react"
                 isMulti
                 options={options}
                 onChange={handleSelectChange}

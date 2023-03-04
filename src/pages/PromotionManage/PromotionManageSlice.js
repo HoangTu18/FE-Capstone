@@ -15,15 +15,15 @@ export const promotionManageSlice = createSlice({
     getPromotionFailure: (state) => {
       return state;
     },
-    creatPromotionRequest: (state, action) => {},
-    createPromotionFaiture: (state) => {
+    insertPromotionRequest: (state, action) => {},
+    insertPromotionFaiture: (state) => {
       return state;
     },
     updatePromotionRequest: (state, action) => {},
     updatePromotionFailure: (state) => {
       return state;
     },
-    deletePromotionequest: (state) => {},
+    deletePromotionRequest: (state) => {},
     deletePromotionFailure: (state) => {
       return state;
     },
@@ -34,10 +34,12 @@ export const {
   getPromotionRequest,
   getPromotionSuccess,
   getPromotionFailure,
-  creatPromotionRequest,
-  createPromotionFaiture,
+  insertPromotionRequest,
+  insertPromotionFaiture,
   updatePromotionRequest,
   updatePromotionFailure,
+  deletePromotionRequest,
+  deletePromotionFailure,
 } = promotionManageSlice.actions;
 
 export default promotionManageSlice.reducer;

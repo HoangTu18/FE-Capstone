@@ -158,8 +158,8 @@ function* deleteFood(action) {
     });
     if (listFood.status === STATUS_CODE.SUCCESS) {
       yield put(getFoodRequest());
+      yield put(hideLoading());
     }
-    yield put(hideLoading());
     openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
   } catch (error) {
     console.log(error);

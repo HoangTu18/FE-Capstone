@@ -4,10 +4,12 @@ import {
   getPromotionRequest,
   getPromotionSuccess,
   getPromotionFailure,
-  creatPromotionRequest,
-  createPromotionFaiture,
+  insertPromotionRequest,
+  insertPromotionFaiture,
   updatePromotionRequest,
   updatePromotionFailure,
+  deletePromotionRequest,
+  deletePromotionFailure,
 } from "../../pages/PromotionManage/PromotionManageSlice";
 
 import { promotionService } from "../../services/promotionService";
@@ -37,4 +39,72 @@ function* getPromotion() {
 
 export function* followActiongetPromotions() {
   yield takeLatest(getPromotionRequest, getPromotion);
+}
+
+function* insertPromotion(action) {
+  try {
+    yield put(showLoading());
+    let listPromotion = yield call(() => {
+      return promotionService.insertPromotion(action.payload);
+    });
+    if (listPromotion.status === STATUS_CODE.SUCCESS) {
+      yield put(getPromotionRequest());
+      openNotification(
+        "success",
+        "Thành Công",
+        "Thao tác của bạn đã thành công"
+      );
+    }
+  } catch (error) {
+    yield put(hideLoading());
+    openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
+  }
+}
+
+export function* followActioninsertPromotions() {
+  yield takeLatest(insertPromotionRequest, insertPromotion);
+}
+
+function* updatePromotion(action) {
+  try {
+    yield put(showLoading());
+    let listPromotion = yield call(() => {
+      return promotionService.updatePromotion(action.payload);
+    });
+    if (listPromotion.status === STATUS_CODE.SUCCESS) {
+      yield put(getPromotionRequest());
+    }
+    yield hideLoading();
+    openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
+  } catch (error) {
+    console.log(error);
+    yield hideLoading();
+    yield put(updatePromotionFailure(action));
+    openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
+  }
+}
+export function* followActionUpdatePromotion() {
+  yield takeLatest(updatePromotionRequest, updatePromotion);
+}
+
+function* deletePromotion(action) {
+  try {
+    yield put(showLoading());
+    let listPromotion = yield call(() => {
+      return promotionService.deletePromotion(action.payload);
+    });
+    if (listPromotion.status === STATUS_CODE.SUCCESS) {
+      yield put(getPromotionRequest());
+    }
+    yield put(hideLoading());
+    openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
+  } catch (error) {
+    console.log(error);
+    yield put(hideLoading());
+    openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
+  }
+}
+
+export function* followActionDeletePromotion() {
+  yield takeLatest(deletePromotionRequest, deletePromotion);
 }

@@ -36,8 +36,8 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
       imgUrl: "",
       status: true,
       purchaseNum: "",
-      cateId: "ca_00",
-      regionId: "re_00",
+      cateId: 1,
+      regionId: 1,
     },
     onSubmit: (values, { resetForm }) => {
       handleInsertFood(values);

@@ -32,7 +32,7 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
   const handleChangeCate = (e) => {
     setListFood([]);
     listCate.forEach((item) => {
-      if (item.id === e.target.value) {
+      if (item.id === +e.target.value) {
         item.foodList.forEach((food) => {
           let data = selected.find((item) => item.id === food.id);
           let checked = false;

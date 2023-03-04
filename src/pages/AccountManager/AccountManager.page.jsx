@@ -46,7 +46,7 @@ function AccountManager() {
             </div>
             <div className="topnav__right-item">
               <div className="topnav__search">
-                <input
+                <inputF
                   type="text"
                   placeholder="nhập tên nhân viên để tìm..."
                   onChange={(e) => setQuery(e.target.value)}

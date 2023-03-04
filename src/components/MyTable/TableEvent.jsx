@@ -97,16 +97,13 @@ const TableEvent = (props) => {
                     <td>#{item.eventId}</td>
                     <td>{item.eventName}</td>
                     <td>
-                      {item.foodList === null
-                        ? ""
-                        : item.foodList
-                            .map((item, index) => {
-                              if (index >= 3) return null;
-                              return truncateString(item.foodName, 8);
-                            })
-                            .join(", ")}
+                      {item.foodList.length <= 0
+                        ? "Chưa có món"
+                        : item.foodList.map((item, index) => {
+                            if (index >= 3) return null;
+                            return truncateString(item.foodName, 7) + ", ";
+                          })}
                     </td>
-
                     {item.status ? (
                       <td className="status green">Hoạt động</td>
                     ) : (

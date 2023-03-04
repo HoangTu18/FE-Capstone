@@ -56,5 +56,8 @@ export default function* rootSaga() {
     loginSaga.followActionLogin(),
     //Sage Promotion,
     promotionSaga.followActiongetPromotions(),
+    promotionSaga.followActioninsertPromotions(),
+    promotionSaga.followActionUpdatePromotion(),
+    promotionSaga.followActionDeletePromotion(),
   ]);
 }
