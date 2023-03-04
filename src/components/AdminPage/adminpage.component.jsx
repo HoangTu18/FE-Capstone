@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { openNotification } from "../NotificationConfirm/NotificationConfirm";
@@ -18,7 +18,12 @@ function AdminPage({ children }) {
     navigate("/login");
     openNotification("success", "Thành Công", "Bạn đã thao tác thành công");
   };
-  const staff = useRef(JSON.parse(localStorage.getItem(USER_LOGIN)));
+  let staff = useRef(JSON.parse(localStorage.getItem(USER_LOGIN)));
+
+  useCallback(() => {
+    staff.current = JSON.parse(localStorage.getItem(USER_LOGIN));
+  }, []);
+
   const dispatch = useDispatch();
   const listRole = useSelector((state) => state.accountManage.listRole);
 
