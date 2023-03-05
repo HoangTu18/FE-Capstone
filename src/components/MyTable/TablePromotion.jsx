@@ -4,13 +4,10 @@ import { useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  deleteEventRequest,
   getEventRequest,
 } from "../../pages/EventManager/eventManagerSlice.js";
 import ConfirmPopup from "../Confirm/ConfirmPopup.jsx";
-import { truncateString } from "../../ultil/stringUtil";
 import "./table.scss";
-import useSelection from "antd/es/table/hooks/useSelection.js";
 import { deletePromotionRequest, getPromotionRequest } from "../../pages/PromotionManage/PromotionManageSlice.js";
 import PromotionView from "../Promotion/PromotionViewPopup.jsx";
 import PromotionUpdate from "../Promotion/PromotionUpdatePopup.jsx";

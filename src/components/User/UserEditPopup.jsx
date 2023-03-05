@@ -22,7 +22,7 @@ function UserEdit({ data, closeModel }) {
           status: true,
         },
       };
-      console.log("STAFF", staff);
+      // console.log("STAFF", staff);
       closeModel(false);
       dispatch(updateStaffRequest(staff));
     },

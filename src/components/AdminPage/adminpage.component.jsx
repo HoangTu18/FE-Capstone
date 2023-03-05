@@ -73,7 +73,7 @@ function AdminPage({ children }) {
                 staff.staffFullName.split(" ")[0]}
             </span>
             <i
-              class="fa-sharp fa-solid fa-caret-down dropdown__caret"
+              className="fa-sharp fa-solid fa-caret-down dropdown__caret"
               style={{ color: "black" }}
             ></i>
           </div>

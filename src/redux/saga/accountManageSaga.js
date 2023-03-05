@@ -99,7 +99,10 @@ function* updateStaff(action) {
     });
     if (staff.status === STATUS_CODE.SUCCESS) {
       yield put(getAccountRequest());
-      localStorage.setItem(USER_LOGIN, JSON.stringify(staff.data));
+      const currentStaff = JSON.parse(localStorage.getItem(USER_LOGIN));
+      if (action.payload.staffId === currentStaff.staffId) {
+        localStorage.setItem(USER_LOGIN, JSON.stringify(staff.data));
+      }
     }
     yield hideLoading();
     openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
