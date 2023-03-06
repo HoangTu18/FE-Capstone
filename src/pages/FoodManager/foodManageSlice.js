@@ -4,7 +4,6 @@ export const FoodManageSlice = createSlice({
   name: "foodManage",
   initialState: {
     listFood: [],
-    listCategory: [],
     listComboFood: [],
   },
   reducers: {
@@ -16,16 +15,6 @@ export const FoodManageSlice = createSlice({
       state.listFood = action.payload;
     },
     getFoodFailure: (state) => {
-      return state;
-    },
-    //Get All Category
-    getCategoryRequest: (state) => {
-      return state;
-    },
-    getCategorySuccess: (state, action) => {
-      state.listCategory = action.payload;
-    },
-    getCategorydFailure: (state) => {
       return state;
     },
     insertFoodRequest: (state, action) => {},
@@ -55,9 +44,6 @@ export const {
   getFoodRequest,
   getFoodSuccess,
   getFoodFailure,
-  getCategoryRequest,
-  getCategorySuccess,
-  getCategorydFailure,
   insertFoodRequest,
   updateFoodRequest,
   deleteFoodRequest,

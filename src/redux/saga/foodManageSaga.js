@@ -4,9 +4,6 @@ import {
   getFoodRequest,
   getFoodSuccess,
   getFoodFailure,
-  getCategoryRequest,
-  getCategorySuccess,
-  getCategorydFailure,
   updateFoodRequest,
   deleteFoodRequest,
   insertFoodRequest,
@@ -17,7 +14,7 @@ import {
   updateComboFoodRequest,
   deleteComboFoodRequest,
 } from "../../pages/FoodManager/foodManageSlice";
-
+import { getCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
 import { getRegionRequest } from "../../pages/RegionManage/RegionManageSlice";
 
 import { foodService } from "../../services/foodService";
@@ -47,27 +44,6 @@ function* getFood() {
 
 export function* followActiongetFoods() {
   yield takeLatest(getFoodRequest, getFood);
-}
-
-function* getCategory() {
-  try {
-    yield put(showLoading());
-    let listFood = yield call(() => {
-      return foodService.getCategory();
-    });
-    if (listFood.status === STATUS_CODE.SUCCESS) {
-      yield put(getCategorySuccess(listFood.data));
-    }
-    yield put(hideLoading());
-  } catch (error) {
-    yield put(getCategorydFailure(error));
-    yield put(hideLoading());
-    openNotification("error", "Thất bại", "Thao tác của bạn đã thất bại");
-  }
-}
-
-export function* followActiongetCategory() {
-  yield takeLatest(getCategoryRequest, getCategory);
 }
 
 function* insertFood(action) {

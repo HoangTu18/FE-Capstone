@@ -3,10 +3,9 @@ import React, { Fragment, useState } from "react";
 import { useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteFoodRequest,
-  getCategoryRequest,
-} from "../../pages/FoodManager/foodManageSlice";
+import { deleteFoodRequest } from "../../pages/FoodManager/foodManageSlice";
+import { getCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
+
 import ConfirmPopup from "../Confirm/ConfirmPopup";
 import FoodEdit from "../Food/FoodEditPopup";
 import "./table.scss";
@@ -60,7 +59,7 @@ const TableFood = (props) => {
     dispatch(deleteFoodRequest(newData));
     setPopupDelete(!popupDelete);
   }
-  const cateData = useSelector((state) => state.foodManage.listCategory);
+  const cateData = useSelector((state) => state.categoryManage.listCategory);
   const regionData = useSelector((state) => state.regionManage.listRegion);
 
   useEffect(() => {

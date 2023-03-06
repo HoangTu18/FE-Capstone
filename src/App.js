@@ -11,6 +11,7 @@ import EventManager from "./pages/EventManager/eventManager.page";
 import OrderManage from "./pages/OrderManage/OrderManage";
 import ServiceManager from "./pages/ServiceManage/ServiceManager.page";
 import PromotionManager from "./pages/PromotionManage/promotionmanager.page";
+import CategoryManager from "./pages/CategoryManager/CategoryManager.page";
 import PrivateRoute from "./ultil/ProtectedRoute/PrivateRoute";
 import { USER_LOGIN } from "./ultil/settingSystem";
 import PrivateAdmin from "./ultil/ProtectedRoute/PrivateAdmin";
@@ -81,6 +82,14 @@ function App() {
                 element={
                   <PrivateOwner>
                     <PromotionManager />
+                  </PrivateOwner>
+                }
+              />
+              <Route
+                path="category"
+                element={
+                  <PrivateOwner>
+                    <CategoryManager />
                   </PrivateOwner>
                 }
               />

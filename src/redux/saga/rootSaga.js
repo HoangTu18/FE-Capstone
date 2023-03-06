@@ -9,6 +9,7 @@ import * as regionSaga from "./regionManageSaga";
 import * as serviceSaga from "./serviceManageSaga";
 import * as loginSaga from "./loginManageSaga";
 import * as promotionSaga from "./promotionSage";
+import * as categorySaga from "./categoryManageSaga";
 export default function* rootSaga() {
   yield all([
     // Saga Staff
@@ -27,7 +28,6 @@ export default function* rootSaga() {
     eventSaga.followActionDeleteEvent(),
     //Saga Food
     foodSaga.followActiongetFoods(),
-    foodSaga.followActiongetCategory(),
     foodSaga.followActionUpdateFood(),
     foodSaga.followActionDeleteFood(),
     foodSaga.followActionInsertFood(),
@@ -59,5 +59,10 @@ export default function* rootSaga() {
     promotionSaga.followActioninsertPromotions(),
     promotionSaga.followActionUpdatePromotion(),
     promotionSaga.followActionDeletePromotion(),
+    //Saga Category,
+    categorySaga.followActiongetCategories(),
+    categorySaga.followActioninsertCategories(),
+    categorySaga.followActionUpdateCategories(),
+    categorySaga.followActionDeleteCategories(),
   ]);
 }

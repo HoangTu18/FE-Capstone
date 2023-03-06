@@ -3,10 +3,8 @@ import { useCallback, useEffect, useState } from "react";
 import Select from "react-select";
 import "../Food/food.style.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategoryRequest } from "../../pages/FoodManager/foodManageSlice";
+import { getCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
 import { updateEventRequest } from "../../pages/EventManager/eventManagerSlice";
-import UploadImage from "../../ultil/UploadImage";
-
 let options = [];
 
 function EventView({ data, closeModel }) {

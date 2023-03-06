@@ -10,6 +10,7 @@ import FoodAdd from "../../components/Food/FoodAddPopup";
 import { searchByName } from "../../ultil/stringUtil";
 import TableComboFood from "../../components/MyTable/TableComboFood";
 import ComboFoodAdd from "../../components/Food/ComboFoodAddPopup";
+import { getCategoryRequest } from "../CategoryManager/CategoryManageSlice";
 function FoodManager() {
   const foodTableHeadTab1 = [
     "Mã món ăn",
@@ -36,7 +37,7 @@ function FoodManager() {
   const dispatch = useDispatch();
 
   const dataFoods = useSelector((state) => state.foodManage.listFood);
-  const listCate = useSelector((state) => state.foodManage.listCategory);
+  const listCate = useSelector((state) => state.categoryManage.listCategory);
   const listComboFood = useSelector((state) => state.foodManage.listComboFood);
   const listRegion = useSelector((state) => state.regionManage.listRegion);
 
@@ -44,6 +45,7 @@ function FoodManager() {
     dispatch(getFoodRequest());
     dispatch(getRegionRequest());
     dispatch(getComboFoodRequest());
+    dispatch(getCategoryRequest());
   }, [dispatch]);
 
   const [tab, setTab] = useState("tab1");
@@ -103,7 +105,7 @@ function FoodManager() {
                         placeholder="nhập tên món để tìm..."
                         onChange={(e) => setQuery(e.target.value)}
                       />
-                 <i class="fa-solid fa-magnifying-glass"></i>
+                      <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
                   </div>
                   <div className="topnav__right-item"></div>
@@ -144,7 +146,7 @@ function FoodManager() {
                         placeholder="nhập tên combo để tìm..."
                         onChange={(e) => setQuery(e.target.value)}
                       />
-                 <i class="fa-solid fa-magnifying-glass"></i>
+                      <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
                   </div>
                   <div className="topnav__right-item"></div>

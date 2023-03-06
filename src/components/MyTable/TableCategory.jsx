@@ -1,22 +1,20 @@
-import { Icon } from "@iconify/react";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { useEffect } from "react";
 import ReactPaginate from "react-paginate";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteComboFoodRequest,
-} from "../../pages/FoodManager/foodManageSlice";
-import { getCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
-
-import ConfirmPopup from "../Confirm/ConfirmPopup";
-
+import { useDispatch } from "react-redux";
 import "./table.scss";
 import { truncateString } from "../../ultil/stringUtil";
 import { formatToVND } from "../../ultil/numberUltil";
-import ComboFoodEdit from "../Food/ComboFoodEditPop";
-import ComboFoodView from "../Food/ComboFoodViewPopup";
+import { Icon } from "@iconify/react";
+import ConfirmPopup from "../Confirm/ConfirmPopup";
+import ServiceEdit from "../Service/ServiceEditPopup";
+import ServiceView from "../Service/ServiceViewPopup";
+import { deleteServiceRequest } from "../../pages/ServiceManage/ServiceManageSlice";
+import { deleteCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
+import CategoryView from "../Category/CategoryViewPopup";
+import CategoryEdit from "../Category/CategoryEditPopup";
 
-const TableComboFood = (props) => {
+const TableCategory = (props) => {
   const dispatch = useDispatch();
 
   //Handle paging
@@ -58,45 +56,31 @@ const TableComboFood = (props) => {
 
   if (confirm) {
     setConfirm(false);
-    dispatch(deleteComboFoodRequest(newData));
+    dispatch(deleteCategoryRequest(newData));
     setPopupDelete(!popupDelete);
   }
-  const cateData = useSelector((state) => state.foodManage.listCategory);
-
-  useEffect(() => {
-    dispatch(getCategoryRequest());
-  }, [dispatch]);
-
   return (
     <div>
       {popupView ? (
-        <ComboFoodView
-          closeModel={setPopupView}
-          data={newData}
-          listCate={cateData}
-        />
+        <CategoryView closeModel={setPopupView} data={newData} />
       ) : (
-        <></>
+        Fragment
       )}
       {popupEdit ? (
-        <ComboFoodEdit
-          closeModel={setPopupEdit}
-          data={newData}
-          listCate={cateData}
-        />
+        <CategoryEdit closeModel={setPopupEdit} data={newData} />
       ) : (
-        <></>
+        Fragment
       )}
       {popupDelete ? (
         <ConfirmPopup
           closeModel={setPopupDelete}
-          title={"Bạn có muốn huỷ kích hoạt combo này không?"}
+          title={"Bạn có muốn huỷ kích hoạt danh mục này không?"}
           btnYes={"Có"}
           btnNo={"Không"}
           confirm={setConfirm}
         />
       ) : (
-        <></>
+        Fragment
       )}
       <div className="table-wrapper">
         <table>
@@ -111,19 +95,14 @@ const TableComboFood = (props) => {
           ) : null}
           {currentItems ? (
             <>
-              {currentItems.map((item, index) => (
-                <tbody key={index}>
+              {currentItems.map((item) => (
+                <tbody key={item.id}>
                   <tr>
                     <td>#{item.id}</td>
                     <td>
-                      {item.comboName === null
+                      {item.categoryName === null
                         ? "null"
-                        : truncateString(item.comboName, 15)}
-                    </td>
-                    <td>
-                      {item.comboPrice === null
-                        ? "null"
-                        : formatToVND(item.comboPrice)}
+                        : truncateString(item.categoryName, 17)}
                     </td>
                     {item.status ? (
                       <td className="status green">Hoạt động</td>
@@ -176,4 +155,4 @@ const TableComboFood = (props) => {
   );
 };
 
-export default TableComboFood;
+export default TableCategory;

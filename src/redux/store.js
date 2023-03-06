@@ -11,6 +11,7 @@ import regionManageReducer from "../pages/RegionManage/RegionManageSlice";
 import serviceManageReducer from "../pages/ServiceManage/ServiceManageSlice";
 import loginManageReducer from "../pages/Login/LoginManageSlice";
 import promotionManageReducer from "../pages/PromotionManage/PromotionManageSlice";
+import categoryManageReducer from "../pages/CategoryManager/CategoryManageSlice";
 import rootSaga from "./saga/rootSaga";
 const saga = createSagaMiddleware();
 const store = configureStore({
@@ -26,6 +27,7 @@ const store = configureStore({
     serviceManage: serviceManageReducer,
     loginManage: loginManageReducer,
     promotionManage: promotionManageReducer,
+    categoryManage: categoryManageReducer,
   },
   middleware: [saga],
 });

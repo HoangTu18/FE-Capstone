@@ -80,7 +80,15 @@ function Dashboard() {
             }
             url={"promotion"}
             text={"Quản lý voucher"}
-            icon={<i class="fa-solid fa-ticket-simple"></i>}
+            icon={<i className="fa-solid fa-ticket-simple"></i>}
+          />
+          <DashboardItem
+            isActive={
+              location.pathname.split("/")[2] === "category" ? true : false
+            }
+            url={"category"}
+            text={"Quản lý danh mục"}
+            icon={<i className="fa-solid fa-list"></i>}
           />
         </div>
       );
