@@ -1,10 +1,17 @@
 import "./useredit.style.scss";
 import { useFormik } from "formik";
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateStaffRequest } from "../../pages/AccountManager/AccountManageSlice";
+import { USER_LOGIN } from "../../ultil/settingSystem";
 function UserEdit({ data, closeModel }) {
   const dispatch = useDispatch();
+  console.log("DATA", data);
+  const roleUser = JSON.parse(localStorage.getItem(USER_LOGIN))
+    .theAccountForStaff.roleId;
+  const listRestaurant = useSelector(
+    (state) => state.restaurantManage.listRestaurant
+  );
   const handleUpdateStaff = useCallback(
     (values) => {
       let staff = {
@@ -47,6 +54,51 @@ function UserEdit({ data, closeModel }) {
       resetForm({ values: "" });
     },
   });
+  const renderListRestaurant = (role) => {
+    if (role === 3) {
+      return (
+        <select
+          onChange={formik.handleChange}
+          value={formik.values.restaurantId}
+          id="restaurantId"
+          name="restaurantId"
+        >
+          {listRestaurant &&
+            listRestaurant.map((item, index) => {
+              return (
+                <option key={index} value={item.restaurantId}>
+                  {item.restaurantName}
+                </option>
+              );
+            })}
+        </select>
+      );
+    } else if (role === 4) {
+      return (
+        <select
+          onChange={formik.handleChange}
+          value={formik.values.restaurantId}
+          id="restaurantId"
+          name="restaurantId"
+        >
+          {listRestaurant &&
+            listRestaurant.map((item, index) => {
+              return (
+                <option key={index} value={item.restaurantId}>
+                  {item.restaurantName}
+                </option>
+              );
+            })}
+        </select>
+      );
+    } else {
+      return (
+        <select disabled>
+          <option>Bạn không thể chọn</option>
+        </select>
+      );
+    }
+  };
   return (
     <div className="modelBackground">
       <div className="form-popup">
@@ -119,6 +171,8 @@ function UserEdit({ data, closeModel }) {
               value={formik.values.roleId}
               onChange={formik.handleChange}
             >
+              <option value={2}>ADMIN</option>
+              <option value={1}>OWNER</option>
               <option value={3}>MANAGER</option>
               <option value={4}>STAFF</option>
             </select>
@@ -144,7 +198,28 @@ function UserEdit({ data, closeModel }) {
               value={formik.values.phoneNumber}
               onChange={formik.handleChange}
             />
-
+            {roleUser === 3 ? (
+              <>
+                <label>Hoạt động: </label>
+                <br></br>
+                <select
+                  id="staffActivityStatus"
+                  name="staffActivityStatus"
+                  value={formik.values.staffActivityStatus}
+                  onChange={formik.handleChange}
+                >
+                  <option value={"avaiable"}>Sẵn sàng</option>
+                  <option value={"busy"}>Đang bận</option>
+                </select>
+              </>
+            ) : (
+              <></>
+            )}
+            <label>
+              Cửa hàng: <span className="proirity">*</span>
+            </label>
+            {renderListRestaurant(parseInt(formik.values.roleId))}
+            <br></br>
             <label>Trạng thái: </label>
             <br></br>
             <input

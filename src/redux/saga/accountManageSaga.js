@@ -67,8 +67,13 @@ function* createStaff(action) {
         parseInt(action.payload.roleId) === 3 ||
         parseInt(action.payload.roleId) === 4
       ) {
+        let staffListAdd = [];
+        staffListAdd.push({ staffId: staff.data.staffId });
         let restaurant = yield call(() => {
-          return restaurantService.updateRestaurant(action.payload.restaurant);
+          return restaurantService.updateRestaurant({
+            restaurantId: action.payload.restaurantId,
+            staffList: staffListAdd,
+          });
         });
         if (restaurant.status === STATUS_CODE.SUCCESS) {
           openNotification(
@@ -108,7 +113,7 @@ function* updateStaff(action) {
     openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
   } catch (error) {
     console.log(error);
-    yield hideLoading();
+    yield put(hideLoading());
     openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
   }
 }

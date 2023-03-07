@@ -7,6 +7,9 @@ class RestaurantService extends BaseService {
   getRestaurantByStaffId = (id) => {
     return this.get(`manager/${id}`);
   };
+  getRestaurantById = (id) => {
+    return this.get(`restaurants/${id}`);
+  };
   createRestaurant = (model) => {
     return this.post(`restaurants`, model);
   };

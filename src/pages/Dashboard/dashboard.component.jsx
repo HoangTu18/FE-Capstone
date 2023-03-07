@@ -104,6 +104,16 @@ function Dashboard() {
             text={"Quản lí đơn hàng"}
             icon={<i className="fa-solid fa-receipt"></i>}
           />
+          <DashboardItem
+            isActive={
+              location.pathname.split("/")[2] === "staffOfRestaurant"
+                ? true
+                : false
+            }
+            url={"staffOfRestaurant"}
+            text={"Nhân viên nhà hàng"}
+            icon={<i class="fa-solid fa-users"></i>}
+          />
         </div>
       );
     }
