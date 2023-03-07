@@ -16,6 +16,7 @@ import { USER_LOGIN } from "./ultil/settingSystem";
 import PrivateAdmin from "./ultil/ProtectedRoute/PrivateAdmin";
 import PrivateOwner from "./ultil/ProtectedRoute/PrivateOwner";
 import PrivateManager from "./ultil/ProtectedRoute/PrivateManager";
+import StaffOfRestaurant from "./pages/StaffOfRestaurant/StaffOfRestaurant";
 function App() {
   return (
     <div>
@@ -89,6 +90,14 @@ function App() {
                 element={
                   <PrivateManager>
                     <OrderManage />
+                  </PrivateManager>
+                }
+              />
+              <Route
+                path="staffOfRestaurant"
+                element={
+                  <PrivateManager>
+                    <StaffOfRestaurant />
                   </PrivateManager>
                 }
               />

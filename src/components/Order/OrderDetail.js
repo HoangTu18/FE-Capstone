@@ -9,17 +9,38 @@ import { updateOrderRequest } from "../../pages/OrderManage/OrderManageSlice";
 function OrderDetail({ data, closeModel }) {
   const dispatch = useDispatch();
   const orderItem = useSelector((state) => state.orderManage.orderItem);
-  const listStaff = useSelector(
+  const restaurantDetail = useSelector(
     (state) => state.restaurantManage.restaurantItem
-  )?.staffList.filter(
-    (item) =>
-      item.theAccountForStaff.roleId === 4 &&
-      item.staffActivityStatus?.toString() === "available"
   );
+  const handleListStaff = () => {
+    if (!restaurantDetail) {
+      return JSON.parse(localStorage.getItem(RESTAURANT_INFO)).staffList.filter(
+        (item) =>
+          item.theAccountForStaff.roleId === 4 &&
+          item.staffActivityStatus?.toString() === "available"
+      );
+    } else {
+      return restaurantDetail.staffList?.filter(
+        (item) =>
+          item.theAccountForStaff.roleId === 4 &&
+          item.staffActivityStatus?.toString() === "available"
+      );
+    }
+  };
+  console.log("RESTAURANT", restaurantDetail);
+  const handleStaffDetail = (id) => {
+    return (
+      restaurantDetail &&
+      restaurantDetail.staffList?.find((item) => parseInt(item.staffId) === id)
+    );
+  };
+  console.log("Thanh AN", handleStaffDetail(59));
   const restaurantId = JSON.parse(
     localStorage.getItem(RESTAURANT_INFO)
   )?.restaurantId;
-  const [staffId, setStaffId] = useState(listStaff[0]?.staffId);
+  const [staffId, setStaffId] = useState(
+    handleListStaff() ? handleListStaff()[0]?.staffId : null
+  );
   const staffTableHead = [
     "Mã sản phẩm",
     "Tên sản phẩm",
@@ -77,7 +98,7 @@ function OrderDetail({ data, closeModel }) {
     dispatch(
       updateOrderRequest({
         infoUpdate: {
-          staffId: parseInt(staffId),
+          staffId: 1,
           status: "deny",
           orderId: parseInt(orderItem.id),
         },
@@ -126,18 +147,23 @@ function OrderDetail({ data, closeModel }) {
             </div>
             <div className="body_model_detail_item">
               Nhân viên phụ trách:
-              <div className="selected_staff">
-                <select onChange={(e) => setStaffId(e.target.value)}>
-                  {listStaff &&
-                    listStaff.map((item, index) => {
+              {orderItem.status === "pending" ? (
+                <div className="selected_staff">
+                  <select onChange={(e) => setStaffId(e.target.value)}>
+                    {handleListStaff()?.map((item, index) => {
                       return (
                         <option key={index} value={item.staffId}>
                           {item.staffFullName}
                         </option>
                       );
                     })}
-                </select>
-              </div>
+                  </select>
+                </div>
+              ) : (
+                <span>
+                  {handleStaffDetail(orderItem.staffId)?.staffFullName}
+                </span>
+              )}
             </div>
           </div>
           <div className="col-8">

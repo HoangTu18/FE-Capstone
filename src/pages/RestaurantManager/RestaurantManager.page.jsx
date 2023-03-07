@@ -11,6 +11,7 @@ function RestaurantManager() {
   const listRestaurant = useSelector(
     (state) => state.restaurantManage.listRestaurant
   );
+  console.log("RENDER");
   const restaurantTableHead = [
     "Mã nhà hàng",
     "Tên nhà hàng",
@@ -44,24 +45,18 @@ function RestaurantManager() {
 
   const [createPopup, setCreatePopup] = useState(false);
   const [query, setQuery] = useState("");
-  // const searchByName = (data) => {
-  //   return data.filter((item) =>
-  //     query.toLowerCase() === "hoạt động"
-  //       ? item.status?.toString().includes(true)
-  //       : query.toLowerCase() === "không hoạt động"
-  //       ? item.status.toString().includes(false)
-  //       : item.restaurantName?.toLowerCase().includes(query.toLowerCase()) ||
-  //         item.restaurantNumber.includes(query) ||
-  //         item.restaurantId?.toString().includes(query)
-  //   );
-  // };
   useEffect(() => {
+    console.log("USEEFFECT");
     dispatch(getRestaurantRequest());
   }, [dispatch]);
 
   return (
     <div>
-      {createPopup ? <RestaurantCreate closeModel={setCreatePopup}/>: Fragment}
+      {createPopup ? (
+        <RestaurantCreate closeModel={setCreatePopup} />
+      ) : (
+        Fragment
+      )}
       <AdminPage>
         <div className="toptable">
           <h1 style={{ marginLeft: "30px" }}>Danh sách nhà hàng</h1>
@@ -81,7 +76,7 @@ function RestaurantManager() {
                   placeholder="nhập tên nhà hàng để tìm.."
                   onChange={(e) => setQuery(e.target.value)}
                 />
-           <i class="fa-solid fa-magnifying-glass"></i>
+                <i class="fa-solid fa-magnifying-glass"></i>
               </div>
             </div>
             <div className="topnav__right-item"></div>

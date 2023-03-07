@@ -7,27 +7,13 @@ import {
   getRoleRequest,
 } from "../../pages/AccountManager/AccountManageSlice";
 import { useEffect } from "react";
-import {
-  createRestaurantRequest,
-  getRestaurantRequest,
-  updateRestaurantRequest,
-} from "../../pages/RestaurantManager/RestaurantManageSlice";
+import { getRestaurantRequest } from "../../pages/RestaurantManager/RestaurantManageSlice";
 function UserCreate({ closeModel }) {
   const dispatch = useDispatch();
   const listRole = useSelector((state) => state.accountManage.listRole);
   const listRestaurant = useSelector(
     (state) => state.restaurantManage.listRestaurant
   );
-  // const listResNotHaveManager = () => {
-  //   let listRes = [];
-  //   listRes = listRestaurant?.filter((item) => {
-  //     return item.staffList.find(
-  //       (i) =>
-  //         i.theAccountForStaff.roleId === 4 && i.theAccountForStaff.roleId !== 3
-  //     );
-  //   });
-  //   return listRes;
-  // };
   useEffect(() => {
     dispatch(getRoleRequest());
     dispatch(getRestaurantRequest());
@@ -39,7 +25,6 @@ function UserCreate({ closeModel }) {
         staffAvatarUrl: "url-test v1",
         staffEmail: values.staffEmail,
         staffFullName: values.staffFullName,
-        staffId: values.staffId,
         staffStatus: true,
         theAccountForStaff: {
           accountId: values.accountId,
@@ -53,19 +38,12 @@ function UserCreate({ closeModel }) {
         let resById = listRestaurant?.find(
           (item) => item.restaurantId === values.restaurantId
         );
-        let staffList = [];
-        staffList.push({ staffId: values.staffId });
-
-        let restaurant = {
-          restaurantId: resById.restaurantId,
-          staffList: staffList,
-        };
         // dispatch(updateRestaurantRequest(restaurant));
         dispatch(
           createAccountRequest({
             staff: staff,
             roleId: values.roleId,
-            restaurant: restaurant,
+            restaurantId: resById.restaurantId,
           })
         );
       } else {
@@ -93,14 +71,13 @@ function UserCreate({ closeModel }) {
       staffActivityStatus: "",
       staffAvatarUrl: "",
       staffStatus: true,
-      restaurantId: "r_01",
+      restaurantId: 1,
     },
     onSubmit: (values, { resetForm }) => {
       handleAddStaff(values);
       resetForm({ values: "" });
     },
   });
-  console.log("THANH EN", formik.values.restaurantId);
   const renderListRestaurant = (role) => {
     if (role === 3) {
       return (
@@ -169,6 +146,7 @@ function UserCreate({ closeModel }) {
               Mã nhân viên: <span className="proirity">*</span>
             </label>
             <input
+              disabled
               type="text"
               id="staffId"
               name="staffId"

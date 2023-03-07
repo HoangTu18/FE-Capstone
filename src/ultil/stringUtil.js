@@ -5,7 +5,7 @@ export const removeAccents = (str) => {
 export const searchByName = (listData, query, field1, field2 = "") => {
   const searchWithoutAccents = removeAccents(query);
   const searchRegex = new RegExp(searchWithoutAccents, "i");
-  return listData.filter((obj) => {
+  return listData?.filter((obj) => {
     // console.log(obj[field1]);
     return searchRegex.test(
       removeAccents(

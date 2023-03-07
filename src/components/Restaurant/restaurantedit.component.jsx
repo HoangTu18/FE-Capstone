@@ -3,23 +3,39 @@ import { useCallback } from "react";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { updateRestaurantRequest } from "../../pages/RestaurantManager/RestaurantManageSlice";
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from "react-places-autocomplete";
+import { useState } from "react";
 function RestaurantEdit({ data, closeModel }) {
   const dispatch = useDispatch();
+  const [address, setAddress] = useState(data.restaurantLocation);
+  const [coordinates, setCoordinates] = useState({
+    lat: data.latitude,
+    lng: data.longitude,
+  });
+  const handleSelect = async (value) => {
+    const result = await geocodeByAddress(value);
+    const ll = await getLatLng(result[0]);
+    setCoordinates(ll);
+    setAddress(value);
+  };
   const handleEditRestaurant = useCallback(
     (values) => {
       let restaurant = {
         restaurantId: values.restaurantId,
-        restaurantLocation: values.restaurantLocation,
-        latitude: values.latitude,
-        longitude: values.longitude,
+        restaurantLocation: address,
+        latitude: coordinates.lat,
+        longitude: coordinates.lng,
         restaurantName: values.restaurantName,
         restaurantNumber: values.restaurantNumber,
         status: values.status,
       };
-      dispatch(updateRestaurantRequest(restaurant))
-      closeModel(false)
+      dispatch(updateRestaurantRequest(restaurant));
+      closeModel(false);
     },
-    [dispatch,closeModel]
+    [dispatch, closeModel, coordinates.lat, coordinates.lng, address]
   );
   const formik = useFormik({
     initialValues: {
@@ -61,6 +77,7 @@ function RestaurantEdit({ data, closeModel }) {
             <label>Mã nhà hàng:</label>
             <input
               type="text"
+              disabled
               id="restaurantId"
               name="restaurantId"
               value={formik.values.restaurantId}
@@ -90,7 +107,8 @@ function RestaurantEdit({ data, closeModel }) {
               Người quản lý: <span className="proirity">*</span>
             </label>
             <select
-              type="text"
+              id="staffList"
+              name="staffList"
               value={formik.values.staffList}
               onChange={formik.handleChange}
             >
@@ -105,14 +123,75 @@ function RestaurantEdit({ data, closeModel }) {
             <label>
               Địa chỉ: <span className="proirity">*</span>
             </label>
+            <PlacesAutocomplete
+              value={address}
+              onChange={setAddress}
+              onSelect={handleSelect}
+            >
+              {({
+                getInputProps,
+                suggestions,
+                getSuggestionItemProps,
+                loading,
+              }) => (
+                <div>
+                  <input
+                    {...getInputProps({
+                      placeholder: "Nhập địa chỉ ...",
+                      className: "location-search-input",
+                    })}
+                    // name="restaurantLocation"
+                    // id="restaurantLocation"
+                    // value={formik.values.restaurantLocation}
+                    // onChange={formik.handleChange}
+                  />
+                  <div className="autocomplete-dropdown-container">
+                    {loading && <div>Loading...</div>}
+                    {suggestions.map((suggestion) => {
+                      const className = suggestion.active
+                        ? "suggestion-item--active"
+                        : "suggestion-item";
+                      // inline style for demonstration purpose
+                      const style = suggestion.active
+                        ? {
+                            backgroundColor: "#fafafa",
+                            cursor: "pointer",
+                            border: "1px solid #c4c4c4",
+                          }
+                        : { backgroundColor: "#ffffff", cursor: "pointer" };
+                      return (
+                        <div
+                          {...getSuggestionItemProps(suggestion, {
+                            className,
+                            style,
+                          })}
+                        >
+                          <span>{suggestion.description}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </PlacesAutocomplete>
+            <label>Kinh độ:</label>
             <input
+              disabled
               type="text"
-              id="restaurantLocation"
-              name="restaurantLocation"
-              value={formik.values.restaurantLocation}
-              onChange={formik.handleChange}
+              id="longitude"
+              name="longitude"
+              // onChange={formik.handleChange}
+              value={coordinates.lng}
             />
-
+            <label>Vĩ độ:</label>
+            <input
+              disabled
+              type="text"
+              id="latitude"
+              name="latitude"
+              // onChange={formik.handleChange}
+              value={coordinates.lat}
+            />
             <label>Trạng thái: </label>
             <br></br>
             <input

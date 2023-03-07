@@ -9,6 +9,7 @@ import * as regionSaga from "./regionManageSaga";
 import * as serviceSaga from "./serviceManageSaga";
 import * as loginSaga from "./loginManageSaga";
 import * as promotionSaga from "./promotionSage";
+import * as staffOfResSaga from "./staffOfRestaurantSaga";
 export default function* rootSaga() {
   yield all([
     // Saga Staff
@@ -59,5 +60,7 @@ export default function* rootSaga() {
     promotionSaga.followActioninsertPromotions(),
     promotionSaga.followActionUpdatePromotion(),
     promotionSaga.followActionDeletePromotion(),
+    //Saga Staff Of Restaurant
+    staffOfResSaga.followActionGetStaffOfRes(),
   ]);
 }
