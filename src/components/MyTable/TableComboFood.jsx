@@ -61,7 +61,7 @@ const TableComboFood = (props) => {
     dispatch(deleteComboFoodRequest(newData));
     setPopupDelete(!popupDelete);
   }
-  const cateData = useSelector((state) => state.foodManage.listCategory);
+  const cateData = useSelector((state) => state.categoryManage.listCategory);
 
   useEffect(() => {
     dispatch(getCategoryRequest());

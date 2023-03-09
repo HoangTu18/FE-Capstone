@@ -9,7 +9,7 @@ let options = [];
 
 function EventView({ data, closeModel }) {
   const dispatch = useDispatch();
-  const cateData = useSelector((state) => state.foodManage.listCategory);
+  const cateData = useSelector((state) => state.categoryManage.listCategory);
   const [selectedOption, setSelectedOption] = useState([]);
   const [selected, setSelected] = useState([]);
 

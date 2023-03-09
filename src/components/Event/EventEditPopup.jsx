@@ -11,7 +11,7 @@ let options = [];
 
 function EventEdit({ data, closeModel }) {
   const dispatch = useDispatch();
-  const cateData = useSelector((state) => state.foodManage.listCategory);
+  const cateData = useSelector((state) => state.categoryManage.listCategory);
   const [selectedOption, setSelectedOption] = useState([]);
   const [selected, setSelected] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
