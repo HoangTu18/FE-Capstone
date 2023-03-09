@@ -19,6 +19,9 @@ class RestaurantService extends BaseService {
   deleteRestaurant = (id) => {
     return this.delete(`restaurants/${id}`);
   };
+  removeStaffFromRes = (id) => {
+    return this.delete(`restaurants/remove/${id}`);
+  };
 }
 
 export const restaurantService = new RestaurantService();

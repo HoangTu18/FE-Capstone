@@ -1,9 +1,7 @@
 import "./OrderDetail.style.scss";
-import { useFormik } from "formik";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TableOrderDetail from "../MyTable/TableOrderDetail";
-import { getAccountRequest } from "../../pages/AccountManager/AccountManageSlice";
 import { RESTAURANT_INFO } from "../../ultil/settingSystem";
 import { updateOrderRequest } from "../../pages/OrderManage/OrderManageSlice";
 function OrderDetail({ data, closeModel }) {

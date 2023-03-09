@@ -5,7 +5,6 @@ import UserEdit from "../User/UserEditPopup";
 import ConfirmPopup from "../Confirm/ConfirmPopup";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
-import { getRestaurantRequest } from "../../pages/RestaurantManager/RestaurantManageSlice";
 
 import {
   deleteStaffRequest,

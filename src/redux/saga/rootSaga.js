@@ -42,6 +42,8 @@ export default function* rootSaga() {
     restaurantSaga.followActionCreateRestaurant(),
     restaurantSaga.followActionUpdateRestaurant(),
     restaurantSaga.followActionDeleteRestaurant(),
+    restaurantSaga.followActionGetRestaurantByStaff(),
+    restaurantSaga.followActionRemoveStaffFromRes(),
     //Saga Order
     orderSaga.followActionGetOrder(),
     orderSaga.followActionGetOrderById(),

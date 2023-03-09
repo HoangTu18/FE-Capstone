@@ -4,6 +4,8 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateStaffRequest } from "../../pages/AccountManager/AccountManageSlice";
 import { USER_LOGIN } from "../../ultil/settingSystem";
+import { removeStaffFromRes } from "../../pages/RestaurantManager/RestaurantManageSlice";
+import { openNotification } from "../NotificationConfirm/NotificationConfirm";
 function UserEdit({ data, closeModel }) {
   const dispatch = useDispatch();
   console.log("DATA", data);
@@ -15,25 +17,48 @@ function UserEdit({ data, closeModel }) {
   const handleUpdateStaff = useCallback(
     (values) => {
       let staff = {
-        staffActivityStatus: "available",
-        staffAvatarUrl: "url-test v1",
+        staffActivityStatus: values.staffActivityStatus,
+        staffAvatarUrl: values.staffAvatarUrl,
         staffEmail: values.staffEmail,
         staffFullName: values.staffFullName,
         staffId: values.staffId,
-        staffStatus: true,
+        staffStatus: values.staffStatus,
         theAccountForStaff: {
           accountId: values.accountId,
           password: values.password,
           phoneNumber: values.phoneNumber,
           roleId: parseInt(values.roleId),
-          status: true,
+          status: values.status,
         },
       };
-      // console.log("STAFF", staff);
+      if (parseInt(values.roleId) === 3 || parseInt(values.roleId) === 4) {
+        if (
+          values.restaurantId !== data.theRestaurant.restaurantId ||
+          data.theRestaurant === null
+        ) {
+          if (data.staffActivityStatus === "available") {
+            dispatch(
+              removeStaffFromRes({
+                staffId: values.staffId,
+                staff: staff,
+                roleId: values.roleId,
+                restaurantId: values.restaurantId,
+              })
+            );
+          } else {
+            openNotification(
+              "warning",
+              "Cảnh Báo",
+              "Nhân viên đang bận không thê chuyển chi nhánh"
+            );
+          }
+        } else {
+          dispatch(updateStaffRequest(staff));
+        }
+      }
       closeModel(false);
-      dispatch(updateStaffRequest(staff));
     },
-    [dispatch, closeModel]
+    [dispatch, closeModel, data.theRestaurant, data.staffActivityStatus]
   );
   const formik = useFormik({
     initialValues: {
@@ -48,6 +73,7 @@ function UserEdit({ data, closeModel }) {
       staffActivityStatus: data.staffActivityStatus,
       staffAvatarUrl: data.staffAvatarUrl,
       staffStatus: data.staffStatus,
+      restaurantId: data.theRestaurant?.restaurantId,
     },
     onSubmit: (values, { resetForm }) => {
       handleUpdateStaff(values);

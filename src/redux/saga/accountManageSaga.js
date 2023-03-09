@@ -1,4 +1,4 @@
-import { call, put, take, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import {
   createAccountRequest,
   deleteStaffRequest,
@@ -62,7 +62,6 @@ function* createStaff(action) {
       return accountService.createStaff(action.payload.staff);
     });
     if (staff.status === STATUS_CODE.SUCCESS) {
-      console.log("STAFF SAGA", staff);
       if (
         parseInt(action.payload.roleId) === 3 ||
         parseInt(action.payload.roleId) === 4

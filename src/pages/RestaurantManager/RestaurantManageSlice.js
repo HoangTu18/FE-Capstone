@@ -18,6 +18,7 @@ export const restaurantManageSlice = createSlice({
       return state;
     },
     //Get Restaurant By Staff
+    getRestaurantByStaffRequest: (state, action) => {},
     getRestaurantByStaffSuccess: (state, action) => {
       state.restaurantItem = action.payload;
     },
@@ -36,6 +37,9 @@ export const restaurantManageSlice = createSlice({
     deleteRestaurantFailure: (state) => {
       return state;
     },
+    //Remove Staff From Restaurant
+    removeStaffFromRes: (state, action) => {},
+    removeStaffFromResSuccess: (state) => {},
   },
 });
 
@@ -43,6 +47,7 @@ export const {
   getRestaurantRequest,
   getRestaurantSuccess,
   getRestaurantFailure,
+  getRestaurantByStaffRequest,
   getRestaurantByStaffSuccess,
   createRestaurantRequest,
   createRestaurantFaiture,
@@ -50,6 +55,8 @@ export const {
   updateRestaurantFailure,
   deleteRetaurantRequest,
   deleteRestaurantFailure,
+  removeStaffFromRes,
+  removeStaffFromResSuccess,
 } = restaurantManageSlice.actions;
 
 export default restaurantManageSlice.reducer;
