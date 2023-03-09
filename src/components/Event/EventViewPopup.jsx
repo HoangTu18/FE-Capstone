@@ -1,68 +1,68 @@
 import { useFormik } from "formik";
-import { useCallback, useEffect, useState } from "react";
-import Select from "react-select";
+import { useEffect, useState } from "react";
 import "../Food/food.style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
-import { updateEventRequest } from "../../pages/EventManager/eventManagerSlice";
-let options = [];
 
-function EventView({ data, closeModel }) {
+function EventView({ closeModel, data }) {
   const dispatch = useDispatch();
-  const cateData = useSelector((state) => state.categoryManage.listCategory);
-  const [selectedOption, setSelectedOption] = useState([]);
+  const listCate = useSelector((state) => state.categoryManage.listCategory);
+  const [listFood, setListFood] = useState([]);
   const [selected, setSelected] = useState([]);
-
-  console.log(data.imgUrl);
-  useEffect(() => {
-    if (
-      selectedOption.length <= 0 &&
-      selected.length <= 0 &&
-      data.foodList.length > 0
-    ) {
-      data.foodList.forEach((item) => {
-        selected.push({
-          id: item.id,
-        });
-        selectedOption.push({
-          value: item.id,
-          label: item.foodName,
-        });
-        options.push({
-          value: item.id,
-          label: item.foodName,
-        });
-      });
-    }
-  }, [data.foodList, selected, selectedOption]);
 
   useEffect(() => {
     dispatch(getCategoryRequest());
   }, [dispatch]);
 
-  const handleSelectChange = (selectedOption) => {
-    setSelectedOption(selectedOption);
-  };
+  useEffect(() => {
+    if (listFood.length === 0) {
+      handleChangeCate(1);
+    }
+  }, []);
 
-  const handleUpdateEvent = useCallback(
-    (values) => {
-      let event = {
-        eventId: values.eventId,
-        eventName: values.eventName,
-        description: values.description,
-        image_url: values.image_url,
-        fromDate: values.fromDate,
-        toDate: values.toDate,
-        status: values.status,
-        foodList: selected,
-      };
-      console.log("EVENT", event.foodList);
-      dispatch(updateEventRequest(event));
-      options = [];
-      closeModel(false);
-    },
-    [closeModel, dispatch, selected]
-  );
+  useEffect(() => {
+    if (
+      data.foodList !== [] &&
+      selected.length === 0 &&
+      listFood.length === 0
+    ) {
+      data.foodList.forEach((item) => {
+        setSelected((prev) => [
+          ...prev,
+          {
+            id: item.id,
+            label: item.foodName,
+            isChecked: true,
+          },
+        ]);
+      });
+      // handleChangeCate(1);
+    }
+  }, []);
+
+  const handleChangeCate = (e) => {
+    let eId = e !== 1 ? +e.target.value : 1;
+    setListFood([]);
+    listCate.forEach((item) => {
+      if (item.id === eId) {
+        item.foodList.forEach((food) => {
+          let data = selected.find((item) => item.id === food.id);
+          let checked = false;
+          if (data !== undefined) {
+            checked = data["isChecked"];
+          }
+          setListFood((prev) => [
+            ...prev,
+            {
+              id: food.id,
+              label: food.foodName,
+              isChecked: checked,
+            },
+          ]);
+        });
+      }
+    });
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -75,100 +75,105 @@ function EventView({ data, closeModel }) {
       status: data.status,
       foodList: data.foodList,
     },
-    onSubmit: (values, { resetForm }) => {
-      selected.length = 0;
-      selectedOption.forEach((item) => {
-        selected.push({ id: item.value });
-      });
-      handleUpdateEvent(values);
-      resetForm({ values: "" });
-    },
   });
   return (
     <div className="popup">
       <form
+        className="form-up"
+        style={{ width: "1000px" }}
         noValidate
         autoComplete="off"
         onSubmit={formik.handleSubmit}
-        className="form-up"
       >
         <div className="food__title unselectable">Thông tin sự kiện</div>
-        <div className="left">
+        <div className="left" style={{ width: "50%" }}>
           <div className="img__item">
             <img
               className="image"
               src={
-                data.imgUrl
-                  ? data.imgUrl
+                data.image_url
+                  ? data.image_url
                   : "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
               }
               alt=""
             />
           </div>
           <div className="listitem">
+            <label className="label__title">Mã sự kiện:</label>
+            <input disabled type="text" value={formik.values.eventId} />
             <label className="label__title">
-              Mã sự kiện:<span className="proirity">*</span>
+              Tên sự kiện: <span className="proirity">*</span>
             </label>
-            <input type="text" value={formik.values.eventId} disabled />
-            <label className="label__title">
-              Tên sự kiện:<span className="proirity">*</span>
-            </label>
-            <input type="text" value={formik.values.eventName} disabled />
+            <input disabled type="text" value={formik.values.eventName} />
             <label className="label__title">
               Thời gian:<span className="proirity">*</span>
             </label>
-            <label className="label__title smallText">Từ ngày:</label>
-            <input
-              type="date"
-              disabled
-              value={formik.values.fromDate.slice(0, 10)}
-            />
+            <input disabled type="date" value={formik.values.fromDate} />
             <label className="label__title smallText"> Đến ngày:</label>
-
-            <input
-              type="date"
-              value={formik.values.toDate.slice(0, 10)}
-              disabled
-            />
+            <input disabled type="date" value={formik.values.toDate} />
+            <label className="label__title">Mô tả:</label>
+            <textarea disabled type="text" value={formik.values.description} />
             <label className="label__title">Trạng thái:</label>
             <input
               className="checkBoxStatus type"
               type="checkbox"
+              id="status"
+              name="status"
               disabled
               checked={formik.values.status}
             />
           </div>
         </div>
-        <div className="right">
-          <div className="listitem">
-            <label className="label__title">Mô tả:</label>
-            <textarea type="text" disabled value={formik.values.description} />
-            <h3>Chọn món ăn</h3>
-            <label className="combo-edit_label">
-              Loại: <span className="proirity">*</span>
-              <select id="cateId" name="cateId" disabled>
-                {cateData.map((item) => {
+        <div className="right" style={{ width: "50%" }}>
+          <div className="listitem" style={{ width: "450px" }}>
+            <label className="label__title">Loại:</label>
+            <select id="cateId" name="cateId" onChange={handleChangeCate}>
+              {listCate.map((item) => {
+                return (
+                  <option key={item.id} value={item.id}>
+                    {item.categoryName}
+                  </option>
+                );
+              })}
+            </select>
+            <label className="label__title">Danh sách món ăn:</label>
+            <div className="list__food">
+              <ul>
+                {listFood.map((item) => {
                   return (
-                    <option key={item.id} value={item.id}>
-                      {item.categoryName}
-                    </option>
+                    <li key={item.id}>
+                      <span className="title unselectable">{item.label}</span>
+                      <input
+                        type="checkbox"
+                        checked={item.isChecked}
+                        onClick={() =>
+                          (document.getElementById(item.id).checked =
+                            !item.isChecked)
+                        }
+                        disabled
+                        id={item.id}
+                      />
+                    </li>
                   );
                 })}
-              </select>
-            </label>
-            <label className="combo-edit_label">
-              Các món đã chọn:
-              <Select
-                isMulti
-                isDisabled
-                value={selectedOption.map(
-                  (item, index) => selectedOption[index]
-                )}
-                options={options}
-                placeholder={"Chọn món..."}
-                noOptionsMessage={() => "Không có món trong mục này"}
-              />
-            </label>
+              </ul>
+            </div>
+            <label className="label__title">Các món đã chọn:</label>
+            <div className="list__food1">
+              <ul>
+                {selected.map((item) => {
+                  return (
+                    <li key={item.id}>
+                      <span className="title unselectable">{item.label}</span>
+                      <i
+                        className="fa-solid fa-trash btn__remove unselectable"
+                        disabled
+                      />
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
             <div className="food__button">
               <button type="submit" className="btn">
                 Lưu

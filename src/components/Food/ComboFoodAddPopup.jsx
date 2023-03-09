@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { insertComboFoodRequest } from "../../pages/FoodManager/foodManageSlice";
@@ -13,10 +13,17 @@ function ComboFoodAdd({ closeModel, listCate }) {
   const [selected, setSelected] = useState([]);
   const dataSelected = [];
 
+  useEffect(() => {
+    if (listFood.length === 0) {
+      handleChangeCate(1);
+    }
+  }, []);
+
   const handleChangeCate = (e) => {
+    let eId = e !== 1 ? +e.target.value : 1;
     setListFood([]);
     listCate.forEach((item) => {
-      if (item.id === +e.target.value) {
+      if (item.id === eId) {
         item.foodList.forEach((food) => {
           let data = selected.find((item) => item.id === food.id);
           let checked = false;
@@ -36,6 +43,7 @@ function ComboFoodAdd({ closeModel, listCate }) {
       }
     });
   };
+
   const handleChange = (e) => {
     document.getElementById(e.target.id).disabled = !e.target.checked;
     let isChecked = e.target.checked;

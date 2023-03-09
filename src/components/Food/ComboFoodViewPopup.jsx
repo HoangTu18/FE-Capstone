@@ -7,7 +7,11 @@ function ComboFoodView({ closeModel, data, listCate }) {
   const [selected, setSelected] = useState([]);
 
   useEffect(() => {
-    if (data.comboItems !== [] && selected.length === 0) {
+    if (
+      data.comboItems !== [] &&
+      selected.length === 0 &&
+      listFood.length === 0
+    ) {
       data.comboItems.forEach((item) => {
         setSelected((prev) => [
           ...prev,
@@ -19,14 +23,14 @@ function ComboFoodView({ closeModel, data, listCate }) {
           },
         ]);
       });
+      handleChangeCate(1);
     }
-  }, [data.comboItems, selected]);
-
+  }, []);
   const handleChangeCate = (e) => {
-    console.log("Head", listFood);
+    let eId = e !== 1 ? +e.target.value : 1;
     setListFood([]);
     listCate.forEach((item) => {
-      if (item.id === +e.target.value) {
+      if (item.id === eId) {
         item.foodList.forEach((food) => {
           let data = selected.find((item) => item.id === food.id);
           let checked = false;

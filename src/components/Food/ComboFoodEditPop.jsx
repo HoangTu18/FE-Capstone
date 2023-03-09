@@ -14,7 +14,11 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
   const dataSelected = [];
 
   useEffect(() => {
-    if (data.comboItems !== [] && selected.length === 0) {
+    if (
+      data.comboItems !== [] &&
+      selected.length === 0 &&
+      listFood.length === 0
+    ) {
       data.comboItems.forEach((item) => {
         setSelected((prev) => [
           ...prev,
@@ -26,19 +30,20 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
           },
         ]);
       });
+      handleChangeCate(1);
     }
-  }, [data.comboItems, selected]);
+  }, []);
 
   const handleChangeCate = (e) => {
+    let eId = e !== 1 ? +e.target.value : 1;
     setListFood([]);
     listCate.forEach((item) => {
-      if (item.id === +e.target.value) {
+      if (item.id === eId) {
         item.foodList.forEach((food) => {
           let data = selected.find((item) => item.id === food.id);
           let checked = false;
           let quantity = 1;
           if (data !== undefined) {
-            console.log(data);
             checked = data["isChecked"];
             quantity = data["quantity"];
           }
