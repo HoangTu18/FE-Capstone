@@ -44,6 +44,14 @@ function Dashboard() {
       return (
         <div className="dashboard__left__items">
           <DashboardItem
+            isActive={
+              location.pathname.split("/")[2] === "overview" ? true : false
+            }
+            url={"overview"}
+            text={"Tổng quan"}
+            icon={<i class="fa-solid fa-chart-simple"></i>}
+          />
+          <DashboardItem
             isActive={location.pathname.split("/")[2] === "food" ? true : false}
             url={"food"}
             text={"Danh sách món"}
@@ -96,6 +104,14 @@ function Dashboard() {
       //ROLE MANAGER
       return (
         <div className="dashboard__left__items">
+          <DashboardItem
+            isActive={
+              location.pathname.split("/")[2] === "overviewOfRes" ? true : false
+            }
+            url={"overviewOfRes"}
+            text={"Tổng quan"}
+            icon={<i class="fa-solid fa-chart-simple"></i>}
+          />
           <DashboardItem
             isActive={
               location.pathname.split("/")[2] === "order" ? true : false

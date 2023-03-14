@@ -33,7 +33,7 @@ function* login(action) {
       if (parseInt(infoLogin?.data.theAccountForStaff.roleId) === 2) {
         action.payload.navigate("/dashboard/employee");
       } else if (parseInt(infoLogin?.data.theAccountForStaff.roleId) === 1) {
-        action.payload.navigate("/dashboard/food");
+        action.payload.navigate("/dashboard/overview");
       } else if (parseInt(infoLogin?.data.theAccountForStaff.roleId) === 3) {
         let restaurant = yield call(() => {
           return restaurantService.getRestaurantByStaffId(
@@ -47,7 +47,7 @@ function* login(action) {
             RESTAURANT_INFO,
             JSON.stringify(restaurant.data)
           );
-          action.payload.navigate("/dashboard/order");
+          action.payload.navigate("/dashboard/overviewOfRes");
         }
       }
     }

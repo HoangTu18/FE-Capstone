@@ -11,6 +11,7 @@ import * as loginSaga from "./loginManageSaga";
 import * as promotionSaga from "./promotionSage";
 import * as categorySaga from "./categoryManageSaga";
 import * as staffOfResSaga from "./staffOfRestaurantSaga";
+import * as statisticSaga from "./statisticManagerSaga";
 export default function* rootSaga() {
   yield all([
     // Saga Staff
@@ -69,5 +70,8 @@ export default function* rootSaga() {
     categorySaga.followActionDeleteCategories(),
     //Saga Staff Of Restaurant
     staffOfResSaga.followActionGetStaffOfRes(),
+    //Saga Statistic
+    statisticSaga.followActionGetStatistic(),
+    statisticSaga.followActionGetRevenueBetween(),
   ]);
 }

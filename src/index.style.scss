@@ -87,6 +87,7 @@ input:focus {
 .icon {
   cursor: pointer;
 }
+
 .unselectable {
   -webkit-user-select: none;
   -webkit-touch-callout: none;
@@ -94,6 +95,7 @@ input:focus {
   -ms-user-select: none;
   user-select: none;
 }
+
 label {
   -webkit-user-select: none;
   -webkit-touch-callout: none;
