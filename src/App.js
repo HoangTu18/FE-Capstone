@@ -1,3 +1,4 @@
+// import "./antd/dist/antd.css";
 import { Route, Routes } from "react-router-dom";
 import AccountManager from "./pages/AccountManager/AccountManager.page";
 import CustomerManager from "./pages/CustomerManager/CustomerManager.page";
@@ -18,6 +19,8 @@ import PrivateAdmin from "./ultil/ProtectedRoute/PrivateAdmin";
 import PrivateOwner from "./ultil/ProtectedRoute/PrivateOwner";
 import PrivateManager from "./ultil/ProtectedRoute/PrivateManager";
 import StaffOfRestaurant from "./pages/StaffOfRestaurant/StaffOfRestaurant";
+import Overview from "./pages/Overview/Overview";
+import OverviewOfRes from "./pages/OverviewOfRes/OverviewOfRes";
 function App() {
   return (
     <div>
@@ -44,6 +47,14 @@ function App() {
                   <PrivateAdmin>
                     <CustomerManager />
                   </PrivateAdmin>
+                }
+              />
+              <Route //ROLE OWNER
+                path="overview"
+                element={
+                  <PrivateOwner>
+                    <Overview />
+                  </PrivateOwner>
                 }
               />
               <Route //ROLE OWNER
@@ -92,6 +103,14 @@ function App() {
                   <PrivateOwner>
                     <CategoryManager />
                   </PrivateOwner>
+                }
+              />
+              <Route //ROLE MANAGER
+                path="overview"
+                element={
+                  <PrivateManager>
+                    <OverviewOfRes />
+                  </PrivateManager>
                 }
               />
               <Route // ROLE MANAGER

@@ -7,7 +7,7 @@ const PrivateManager = ({ children }) => {
   if (role === 1) {
     return <Navigate to="/dashboard/food" />;
   } else if (role === 2) {
-    return <Navigate to="/dashboard/employee" />;
+    return <Navigate to="/dashboard/overview" />;
   } else {
     return children;
   }
