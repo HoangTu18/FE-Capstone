@@ -1,12 +1,12 @@
 .model_order_detail {
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   position: absolute;
   background-color: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
   width: 90%;
-  height: auto;
-  border: 1px solid #c4c4c4;
+  height: 90%;
   padding: 20px;
   .top_model_right {
     display: flex;

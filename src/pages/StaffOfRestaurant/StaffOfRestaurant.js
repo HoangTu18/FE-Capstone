@@ -43,7 +43,7 @@ function StaffOfRestaurant() {
           <div className="topnav__right">
             <div className="topnav__right-item">
               <div className="topnav__search">
-                <inputF
+                <input
                   type="text"
                   placeholder="nhập tên nhân viên để tìm..."
                   onChange={(e) => setQuery(e.target.value)}

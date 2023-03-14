@@ -4,6 +4,7 @@ import ReactPaginate from "react-paginate";
 import { useDispatch } from "react-redux";
 import OrderDetail from "../Order/OrderDetail";
 import { getOrderByIdRequest } from "../../pages/OrderManage/OrderManageSlice";
+import { formatToVND } from "../../ultil/numberUltil";
 const TableOrder = (props) => {
   const dispatch = useDispatch();
   //Handle paging
@@ -21,10 +22,6 @@ const TableOrder = (props) => {
         preDate[2] + "/" + preDate[1] + "/" + preDate[0] + " " + time;
       return formattedDate;
     }
-  };
-  const formatNumber = (number) => {
-    let numFormatted = number.toLocaleString("de-DE");
-    return numFormatted;
   };
   const renderStatus = (status) => {
     switch (status) {
@@ -84,7 +81,7 @@ const TableOrder = (props) => {
                 <tbody key={index}>
                   <tr>
                     <td>#{item.id}</td>
-                    <td>{formatNumber(item.totalPrice)}</td>
+                    <td>{formatToVND(item.totalPrice)}</td>
                     <td>{formatDate(item.orderDate)}</td>
                     <td>{renderStatus(item.status)}</td>
                     <td>

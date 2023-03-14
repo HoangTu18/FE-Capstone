@@ -79,16 +79,6 @@ const OrderManage = () => {
     <AdminPage>
       <div className="order_manage_page">
         <div className="filter_section">
-          <div className="filter_section_order">
-            <div className="filter_section_order_button">
-              <i className="fa-solid fa-basket-shopping"></i>
-              <span>Đơn hàng offline</span>
-            </div>
-            <div className="filter_section_order_button">
-              <i className="fa-solid fa-cart-shopping"></i>
-              <span>Đơn hàng online</span>
-            </div>
-          </div>
           <div className="filter_section_status">
             {listStatus &&
               listStatus.map((item, index) => {

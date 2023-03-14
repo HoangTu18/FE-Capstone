@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import "./table.scss";
 import ReactPaginate from "react-paginate";
 import { useDispatch } from "react-redux";
+import { formatToVND } from "../../ultil/numberUltil";
 const TableOrderDetail = (props) => {
   const dispatch = useDispatch();
   //Handle paging
@@ -9,11 +10,6 @@ const TableOrderDetail = (props) => {
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const itemsPerPage = 7;
-
-  const formatNumber = (number) => {
-    let numFormatted = number?.toLocaleString("de-DE");
-    return numFormatted;
-  };
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
@@ -27,7 +23,7 @@ const TableOrderDetail = (props) => {
   };
   return (
     <div style={{ border: "1px solid #c4c4c4" }}>
-      <div className="table-wrapper">
+      <div className="table-wrapper" style={{ minHeight: "250px" }}>
         <table>
           {props.headData && props.renderHead ? (
             <thead>
@@ -40,17 +36,18 @@ const TableOrderDetail = (props) => {
           ) : null}
           {props.bodyData && props.renderBody ? (
             <>
-              {currentItems && currentItems.map((item, index) => (
-                <tbody key={index}>
-                  <tr>
-                    <td>#{item.order_item_id}</td>
-                    <td>{item.name}</td>
-                    <td>{formatNumber(item.price)}</td>
-                    <td>{item.quantity}</td>
-                    <td>{formatNumber(item.subTotal)}</td>
-                  </tr>
-                </tbody>
-              ))}
+              {currentItems &&
+                currentItems.map((item, index) => (
+                  <tbody key={index}>
+                    <tr>
+                      <td>#{item.order_item_id}</td>
+                      <td>{item.name}</td>
+                      <td>{formatToVND(item.price)}</td>
+                      <td>{item.quantity}</td>
+                      <td>{formatToVND(item.subTotal)}</td>
+                    </tr>
+                  </tbody>
+                ))}
             </>
           ) : null}
         </table>

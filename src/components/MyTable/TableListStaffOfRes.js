@@ -113,20 +113,16 @@ const TableListStaffOfRes = (props) => {
                           : " "}
                       </td>
                       <td>{item.theAccountForStaff.phoneNumber}</td>
-                      <td>
-                        {item.staffActivityStatus === "avaiable" ? (
-                          <td className="status green">Sẵn sàng</td>
-                        ) : (
-                          <td className="status red">Đang bận</td>
-                        )}
-                      </td>
-                      <td>
-                        {item.staffStatus ? (
-                          <td className="status green">Hoạt động</td>
-                        ) : (
-                          <td className="status red">Không hoạt động</td>
-                        )}
-                      </td>
+                      {item.staffActivityStatus === "available" ? (
+                        <td className="green">Sẵn sàng</td>
+                      ) : (
+                        <td className="red">Đang bận</td>
+                      )}
+                      {item.staffStatus ? (
+                        <td className="status green">Hoạt động</td>
+                      ) : (
+                        <td className="status red">Không hoạt động</td>
+                      )}
                       <td>
                         <Icon
                           className="icon"
