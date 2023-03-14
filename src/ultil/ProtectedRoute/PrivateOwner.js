@@ -5,9 +5,9 @@ const PrivateOwner = ({ children }) => {
   const role = JSON.parse(localStorage.getItem(USER_LOGIN)).theAccountForStaff
     .roleId;
   if (parseInt(role) === 2) {
-    return <Navigate to="/dashboard/overview" />;
+    return <Navigate to="/dashboard/employee" />;
   } else if (parseInt(role) === 3) {
-    return <Navigate to="/dashboard/order" />;
+    return <Navigate to="/dashboard/overviewOfRes" />;
   } else {
     return children;
   }

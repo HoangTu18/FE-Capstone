@@ -15,9 +15,7 @@ const Overview = () => {
   );
   const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
   const revenueByDate = useSelector((state) => state.statisticManage.revenue);
-  console.log("THANH EN", startDate, endDate);
   let statistic = useSelector((state) => state.statisticManage.statistic);
-  console.log("Thanh En", statistic);
   useEffect(() => {
     dispatch(getStatisticRequest());
     dispatch(
