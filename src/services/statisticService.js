@@ -10,6 +10,13 @@ export class StatisticService extends BaseService {
   getStatisticByDate = (model) => {
     return this.post(`revenues/bydate`, model);
   };
+  // Statistic and Revenue of Restaurant
+  getStatisticOfRes = (id) => {
+    return this.get(`statistic/byrestaurant/${id}`);
+  };
+  getRevenueOfRes = (model) => {
+    return this.post(`statistic/detail`, model);
+  };
 }
 
 export const statisticService = new StatisticService();

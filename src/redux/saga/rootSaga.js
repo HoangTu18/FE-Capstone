@@ -12,6 +12,7 @@ import * as promotionSaga from "./promotionSage";
 import * as categorySaga from "./categoryManageSaga";
 import * as staffOfResSaga from "./staffOfRestaurantSaga";
 import * as statisticSaga from "./statisticManagerSaga";
+import * as statisticOfResSaga from "./overviewOfResSaga";
 export default function* rootSaga() {
   yield all([
     // Saga Staff
@@ -73,5 +74,8 @@ export default function* rootSaga() {
     //Saga Statistic
     statisticSaga.followActionGetStatistic(),
     statisticSaga.followActionGetRevenueBetween(),
+    //Overview Of Restaurant
+    statisticOfResSaga.followActionGetStatisticOfRes(),
+    statisticOfResSaga.followActionGetRevenueOfRes(),
   ]);
 }

@@ -106,7 +106,7 @@ function App() {
                 }
               />
               <Route //ROLE MANAGER
-                path="overview"
+                path="overviewOfRes"
                 element={
                   <PrivateManager>
                     <OverviewOfRes />

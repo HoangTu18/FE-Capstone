@@ -1,57 +1,60 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { takeLatest, put, call } from "redux-saga/effects";
 import {
   hideLoading,
   showLoading,
 } from "../../components/Loading/LoadingSlice";
 import { openNotification } from "../../components/NotificationConfirm/NotificationConfirm";
 import {
-  getRevenueBetweenFailure,
-  getRevenueBetweenRequest,
-  getRevenueBetweenSuccess,
-  getStatisticFailure,
-  getStatisticRequest,
-  getStatisticSuccess,
-} from "../../pages/Overview/OverviewSlice";
+  getRevenueOfRes,
+  getRevenueOfResFailure,
+  getRevenueOfResSuccess,
+  getStatisticOfRes,
+  getStatisticOfResFailure,
+  getStatisticOfResSuccess,
+} from "../../pages/OverviewOfRes/OverviewOfResSlice";
 import { statisticService } from "../../services/statisticService";
 import { STATUS_CODE } from "../../ultil/settingSystem";
 
-function* getStatistic() {
+function* getStatistic(action) {
   try {
     yield put(showLoading());
     let statistic = yield call(() => {
-      return statisticService.getStatistic();
+      return statisticService.getStatisticOfRes(action.payload);
     });
+    console.log("HELLO SON", statistic);
     if (statistic.status === STATUS_CODE.SUCCESS) {
-      yield put(getStatisticSuccess(statistic.data));
+      yield put(getStatisticOfResSuccess(statistic.data));
     }
     yield put(hideLoading());
     openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
   } catch (error) {
-    yield put(hideLoading());
-    yield put(getStatisticFailure(error));
-    openNotification("error", "Thất Bại", "Thao tác của bãn đã thất bại");
-  }
-}
-export function* followActionGetStatistic() {
-  yield takeLatest(getStatisticRequest, getStatistic);
-}
-function* getRevenueBetween(action) {
-  try {
-    yield put(showLoading());
-    let revenue = yield call(() => {
-      return statisticService.getRevenueBetween(action.payload);
-    });
-    if (revenue.status === STATUS_CODE.SUCCESS) {
-      yield put(getRevenueBetweenSuccess(revenue.data));
-    }
-    yield put(hideLoading());
-    openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
-  } catch (error) {
-    yield put(getRevenueBetweenFailure(error));
+    yield put(getStatisticOfResFailure(error));
     yield put(hideLoading());
     openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
   }
 }
-export function* followActionGetRevenueBetween() {
-  yield takeLatest(getRevenueBetweenRequest, getRevenueBetween);
+
+export function* followActionGetStatisticOfRes() {
+  yield takeLatest(getStatisticOfRes, getStatistic);
+}
+
+function* getRevenue(action) {
+  try {
+    yield put(showLoading());
+    let revenue = yield call(() => {
+      return statisticService.getRevenueOfRes(action.payload);
+    });
+    if (revenue.status === STATUS_CODE.SUCCESS) {
+      yield put(getRevenueOfResSuccess(revenue.data));
+    }
+    yield put(hideLoading());
+    openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
+  } catch (error) {
+    yield put(getRevenueOfResFailure(error));
+    yield put(hideLoading());
+    openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
+  }
+}
+export function* followActionGetRevenueOfRes() {
+  yield takeLatest(getRevenueOfRes, getRevenue);
 }
