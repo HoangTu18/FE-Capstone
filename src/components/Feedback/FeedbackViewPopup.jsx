@@ -18,6 +18,13 @@ function FeedbackView({ closeModel, data }) {
   }, [dispatch]);
 
   const commentList = feedbackList.filter((item) => item.food.id === +data.id);
+
+  const getCusName = (customerId) => {
+    const cusName = customerList.filter(
+      (item) => item.customerId === +customerId
+    )[0].customerName;
+    return cusName ?? "Error";
+  };
   return (
     <div className="popup">
       <form
@@ -36,13 +43,7 @@ function FeedbackView({ closeModel, data }) {
                   <img className="imageFeedback" src={item.avatarUrl} alt="" />
                 </div>
                 <div className="right">
-                  <span className="name">
-                    {
-                      customerList.filter(
-                        (item) => item.customerId === +item.customerId
-                      )[0].customerName
-                    }
-                  </span>
+                  <span className="name">{getCusName(item.customerId)}</span>
                   <div className="rate">
                     <i
                       className={
