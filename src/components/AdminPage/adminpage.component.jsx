@@ -76,7 +76,7 @@ function AdminPage({ children }) {
               toggleMenuNotifi();
             }}
           >
-            <i class="fa-solid fa-bell icon"></i>
+            <i className="fa-solid fa-bell icon"></i>
             {staff.theAccountForStaff.roleId === 3 ? (
               <div className="counter animate__animated animate__heartBeat animate__infinite">
                 {
@@ -111,9 +111,9 @@ function AdminPage({ children }) {
                       <div className="sub-menu-item">
                         <p style={{ fontSize: "15px" }}>
                           {item.checked ? (
-                            <i class="fa-solid fa-bell-slash icon"></i>
+                            <i className="fa-solid fa-bell-slash icon"></i>
                           ) : (
-                            <i class="fa-regular fa-bell icon animate__animated animate__heartBeat animate__infinite"></i>
+                            <i className="fa-regular fa-bell icon animate__animated animate__heartBeat animate__infinite"></i>
                           )}
                           {item.message}
                         </p>
@@ -140,7 +140,7 @@ function AdminPage({ children }) {
                 ) : (
                   <div className="sub-menu-center">
                     <div className="sub-menu-item notifi">
-                      <i class="fa-solid fa-bell-slash icon"></i>
+                      <i className="fa-solid fa-bell-slash icon"></i>
                       <p>Bạn chưa có thông báo</p>
                     </div>
                   </div>

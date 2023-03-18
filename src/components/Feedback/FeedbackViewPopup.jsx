@@ -1,6 +1,7 @@
 import moment from "moment/moment";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getCustomerRequest } from "../../pages/CustomerManager/CustomerManageSlice";
 import { getFeedbackRequest } from "../../pages/FeedbackManager/feedbackSlice";
 import "./feedback.style.scss";
 function FeedbackView({ closeModel, data }) {
@@ -8,8 +9,12 @@ function FeedbackView({ closeModel, data }) {
   const feedbackList = useSelector(
     (state) => state.feedbackManage.listFeedback
   );
+  const customerList = useSelector(
+    (state) => state.customerManage.listCustomer
+  );
   useEffect(() => {
     dispatch(getFeedbackRequest());
+    dispatch(getCustomerRequest());
   }, [dispatch]);
 
   const commentList = feedbackList.filter((item) => item.food.id === +data.id);
@@ -28,16 +33,16 @@ function FeedbackView({ closeModel, data }) {
             return (
               <li className="box" key={index}>
                 <div className="left" style={{ margin: "10px 30px 0 0" }}>
-                  <img
-                    className="imageFeedback"
-                    src={
-                      "https://scontent.fsgn5-8.fna.fbcdn.net/v/t39.30808-6/320881319_1206837483523963_2616536678702255853_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=DQZnJQoda8gAX_JOZgj&_nc_ht=scontent.fsgn5-8.fna&oh=00_AfDVyOMrf3syzMSKMPXPc-UbjNwrexS4uSMJeskFWOIw0g&oe=641A0D3E"
-                    }
-                    alt=""
-                  />
+                  <img className="imageFeedback" src={item.avatarUrl} alt="" />
                 </div>
                 <div className="right">
-                  <span className="name">{item.accountId}</span>
+                  <span className="name">
+                    {
+                      customerList.filter(
+                        (item) => item.customerId === +item.customerId
+                      )[0].customerName
+                    }
+                  </span>
                   <div className="rate">
                     <i
                       className={

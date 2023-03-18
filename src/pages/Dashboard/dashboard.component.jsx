@@ -42,7 +42,7 @@ function Dashboard() {
             }
             url={"overview"}
             text={"Tổng quan"}
-            icon={<i class="fa-solid fa-chart-simple"></i>}
+            icon={<i className="fa-solid fa-chart-simple"></i>}
           />
           <DashboardItem
             isActive={location.pathname.split("/")[2] === "food" ? true : false}
@@ -103,7 +103,7 @@ function Dashboard() {
             }
             url={"overviewOfRes"}
             text={"Tổng quan"}
-            icon={<i class="fa-solid fa-chart-simple"></i>}
+            icon={<i className="fa-solid fa-chart-simple"></i>}
           />
           <DashboardItem
             isActive={
@@ -121,7 +121,7 @@ function Dashboard() {
             }
             url={"staffOfRestaurant"}
             text={"Nhân viên nhà hàng"}
-            icon={<i class="fa-solid fa-users"></i>}
+            icon={<i className="fa-solid fa-users"></i>}
           />
           <DashboardItem
             isActive={location.pathname.split("/")[2] === "food" ? true : false}

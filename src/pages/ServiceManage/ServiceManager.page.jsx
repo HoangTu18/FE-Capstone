@@ -51,7 +51,7 @@ function ServiceManager() {
                   placeholder="nhập tên sự kiện để tìm..."
                   onChange={(e) => setQuery(e.target.value)}
                 />
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <i className="fa-solid fa-magnifying-glass"></i>
               </div>
             </div>
             <div className="topnav__right-item"></div>
