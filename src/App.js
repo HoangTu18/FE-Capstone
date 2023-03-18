@@ -137,14 +137,6 @@ function App() {
                   </PrivateManager>
                 }
               />
-              <Route
-                path="feedbacks"
-                element={
-                  <PrivateManager>
-                    <Feedback />
-                  </PrivateManager>
-                }
-              />
             </Route>
           </Route>
         </Routes>

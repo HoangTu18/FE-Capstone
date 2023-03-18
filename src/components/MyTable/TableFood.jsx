@@ -14,6 +14,7 @@ import { formatToVND } from "../../ultil/numberUltil";
 import FoodView from "../Food/FoodViewPopup";
 import { getRegionRequest } from "../../pages/RegionManage/RegionManageSlice";
 import { USER_LOGIN } from "../../ultil/settingSystem";
+import FeedbackView from "../Feedback/FeedbackViewPopup";
 
 const TableFood = (props) => {
   const dispatch = useDispatch();
@@ -38,12 +39,18 @@ const TableFood = (props) => {
   const [popupView, setPopupView] = useState(false);
   const [popupEdit, setPopupEdit] = useState(false);
   const [popupDelete, setPopupDelete] = useState(false);
+  const [popupFeedback, setPopupFeedback] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [newData, setNewData] = useState("");
 
   const showView = (props) => {
     setNewData(props);
     setPopupView(!popupEdit);
+  };
+
+  const showFeedback = (props) => {
+    setNewData(props);
+    setPopupFeedback(!popupFeedback);
   };
 
   const showEdit = (props) => {
@@ -101,6 +108,11 @@ const TableFood = (props) => {
 
   return (
     <div>
+      {popupFeedback ? (
+        <FeedbackView closeModel={setPopupFeedback} data={newData} />
+      ) : (
+        Fragment
+      )}
       {popupView ? (
         <FoodView
           closeModel={setPopupView}
@@ -175,6 +187,14 @@ const TableFood = (props) => {
                           showView(item);
                         }}
                       />
+                      <Icon
+                        className="icon"
+                        icon="ic:outline-feedback"
+                        onClick={() => {
+                          showFeedback(item);
+                        }}
+                      />
+
                       {role !== 3 ? (
                         <>
                           <Icon

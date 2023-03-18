@@ -129,14 +129,6 @@ function Dashboard() {
             text={"Danh sách món"}
             icon={<i className="fa-solid fa-rectangle-list"></i>}
           />
-          <DashboardItem
-            isActive={
-              location.pathname.split("/")[2] === "feedbacks" ? true : false
-            }
-            url={"feedbacks"}
-            text={"Danh mục Đánh giá"}
-            icon={<i class="fa-solid fa-users"></i>}
-          />
         </div>
       );
     }
