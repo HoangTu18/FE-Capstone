@@ -28,16 +28,16 @@ function AdminPage({ children }) {
     (state) => state.notificationManage.notificationList
   );
   if (staff.theAccountForStaff.roleId === 3) {
-    setInterval(
-      () =>
-        dispatch(getNotificationRequest(staff.theAccountForStaff.accountId)),
-      60000
-    );
+    // setInterval(
+    //   () =>
+    //     dispatch(getNotificationRequest(staff.theAccountForStaff.accountId)),
+    //   60000
+    // );
   }
   useEffect(() => {
     dispatch(getRoleRequest());
     if (staff.theAccountForStaff.roleId === 3) {
-      dispatch(getNotificationRequest(staff.theAccountForStaff.accountId));
+      // dispatch(getNotificationRequest(staff.theAccountForStaff.accountId));
     }
   }, []);
   const showProfile = () => {

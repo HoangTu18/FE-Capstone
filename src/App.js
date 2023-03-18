@@ -21,6 +21,7 @@ import PrivateManager from "./ultil/ProtectedRoute/PrivateManager";
 import StaffOfRestaurant from "./pages/StaffOfRestaurant/StaffOfRestaurant";
 import Overview from "./pages/Overview/Overview";
 import OverviewOfRes from "./pages/OverviewOfRes/OverviewOfRes";
+import Feedback from "./pages/FeedbackManager/Feedback";
 function App() {
   return (
     <div>
@@ -126,6 +127,14 @@ function App() {
                 element={
                   <PrivateManager>
                     <StaffOfRestaurant />
+                  </PrivateManager>
+                }
+              />
+              <Route
+                path="feedbacks"
+                element={
+                  <PrivateManager>
+                    <Feedback />
                   </PrivateManager>
                 }
               />

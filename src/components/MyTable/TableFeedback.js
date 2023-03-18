@@ -11,10 +11,9 @@ import {
   getRoleRequest,
 } from "../../pages/AccountManager/AccountManageSlice";
 import UserView from "../User/UserViewPopup";
-const TableListStaffOfRes = (props) => {
+const TableFeedback = (props) => {
   const dispatch = useDispatch();
-  const listRole = useSelector((state) => state.accountManage.listRole);
-  //Handle paging
+
   const [itemOffset, setItemOffset] = useState(0);
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
@@ -37,58 +36,22 @@ const TableListStaffOfRes = (props) => {
   const [newId, setNewId] = useState("");
   const [confirm, setConfirm] = useState(false);
 
-  useEffect(() => {
-    dispatch(getRoleRequest());
-  }, [dispatch]);
-
-  const getRoleName = (id) => {
-    return 'bug'
-    // return listRole.find((item) => item.roleId === id)["roleName"];
-  };
-
-  const showEdit = (props) => {
-    setNewId(props);
-    setPopupEdit(!popupEdit);
-  };
+  // useEffect(() => {
+  //   dispatch(getRoleRequest());
+  // }, [dispatch]);
 
   const showView = (props) => {
     setNewId(props);
     setPopupView(!popupView);
   };
 
-  const showDelete = (props) => {
-    setNewId(props);
-    setPopupDelete(!popupDelete);
-  };
-
-  if (confirm) {
-    setConfirm(false);
-    dispatch(deleteStaffRequest(newId));
-    setPopupDelete(!popupDelete);
-  }
   return (
     <div>
-      {popupView ? (
+      {/* {popupView ? (
         <UserView closeModel={setPopupView} data={newId} />
       ) : (
         Fragment
-      )}
-      {popupEdit ? (
-        <UserEdit closeModel={setPopupEdit} data={newId} />
-      ) : (
-        Fragment
-      )}
-      {popupDelete ? (
-        <ConfirmPopup
-          closeModel={setPopupDelete}
-          title={"Bạn có muốn huỷ kích hoạt nhân viên này không?"}
-          btnYes={"Có"}
-          btnNo={"Không"}
-          confirm={setConfirm}
-        />
-      ) : (
-        Fragment
-      )}
+      )} */}
       <div className="table-wrapper">
         <table>
           {props.headData && props.renderHead ? (
@@ -106,24 +69,8 @@ const TableListStaffOfRes = (props) => {
                 currentItems.map((item, index) => (
                   <tbody key={index}>
                     <tr>
-                      <td>#{item.staffId}</td>
-                      <td>{item.staffFullName}</td>
-                      <td>
-                        {getRoleName(item.theAccountForStaff.roleId)
-                          ? getRoleName(item.theAccountForStaff.roleId)
-                          : " "}
-                      </td>
-                      <td>{item.theAccountForStaff.phoneNumber}</td>
-                      {item.staffActivityStatus === "available" ? (
-                        <td className="green">Sẵn sàng</td>
-                      ) : (
-                        <td className="red">Đang bận</td>
-                      )}
-                      {item.staffStatus ? (
-                        <td className="status green">Hoạt động</td>
-                      ) : (
-                        <td className="status red">Không hoạt động</td>
-                      )}
+                      <td>{item.food.foodName}</td>
+                      <td>{item.rate}</td>
                       <td>
                         <Icon
                           className="icon"
@@ -131,18 +78,6 @@ const TableListStaffOfRes = (props) => {
                           onClick={() => {
                             showView(item);
                           }}
-                        />
-                        <Icon
-                          className="icon"
-                          icon="bx:bx-edit-alt"
-                          onClick={() => {
-                            showEdit(item);
-                          }}
-                        />
-                        <Icon
-                          className="icon"
-                          icon="material-symbols:delete-outline-rounded"
-                          onClick={() => showDelete(item.staffId)}
                         />
                       </td>
                     </tr>
@@ -170,4 +105,4 @@ const TableListStaffOfRes = (props) => {
   );
 };
 
-export default TableListStaffOfRes;
+export default TableFeedback;

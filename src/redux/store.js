@@ -16,6 +16,8 @@ import staffOfResManageReducer from "../pages/StaffOfRestaurant/StaffOfRestauran
 import statisticReducer from "../pages/Overview/OverviewSlice";
 import overviewOfResReducer from "../pages/OverviewOfRes/OverviewOfResSlice";
 import notificationReducer from "../components/AdminPage/NotificationSlice";
+import feedbackReducer from "../pages/FeedbackManager/feedbackSlice";
+
 import rootSaga from "./saga/rootSaga";
 const saga = createSagaMiddleware();
 const store = configureStore({
@@ -36,6 +38,7 @@ const store = configureStore({
     statisticManage: statisticReducer,
     overviewOfResManage: overviewOfResReducer,
     notificationManage: notificationReducer,
+    feedbackManage: feedbackReducer,
   },
   middleware: [saga],
 });

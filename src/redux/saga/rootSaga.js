@@ -14,6 +14,8 @@ import * as staffOfResSaga from "./staffOfRestaurantSaga";
 import * as statisticSaga from "./statisticManagerSaga";
 import * as statisticOfResSaga from "./overviewOfResSaga";
 import * as notificationSaga from "./notificationManageSaga";
+import * as feedbackSaga from "./feedbackManageSaga";
+
 export default function* rootSaga() {
   yield all([
     // Saga Staff
@@ -80,5 +82,7 @@ export default function* rootSaga() {
     statisticOfResSaga.followActionGetRevenueOfRes(),
     //Notification
     notificationSaga.followActionGetNotification(),
+    //Feedback
+    feedbackSaga.followActiongetFeedbackList(),
   ]);
 }
