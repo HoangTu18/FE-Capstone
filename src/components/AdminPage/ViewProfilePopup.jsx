@@ -17,7 +17,7 @@ function ProfileViewPopup({ closeModel, data, listRole }) {
         staffId: values.staffId,
         staffFullName: values.staffFullName,
         staffEmail: values.staffEmail,
-        staffAvatarUrl: values.staffAvatarUrl,
+        staffAvatarUrl: imageUrl || values.staffAvatarUrl,
         staffActivityStatus: values.staffActivityStatus,
         staffStatus: values.staffStatus,
         theAccountForStaff: {
@@ -32,7 +32,7 @@ function ProfileViewPopup({ closeModel, data, listRole }) {
       dispatch(updateStaffRequest(updateProfile));
       closeModel(false);
     },
-    [closeModel, dispatch]
+    [closeModel, dispatch, imageUrl]
   );
 
   const formik = useFormik({
