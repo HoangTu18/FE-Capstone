@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import AdminPage from "../../components/AdminPage/adminpage.component";
 import TableFood from "../../components/MyTable/TableFood";
 import "./foodmanager.style.scss";
-import TableCombo from "../../components/MyTable/TableComboFood";
 import { useDispatch, useSelector } from "react-redux";
 import { getComboFoodRequest, getFoodRequest } from "./foodManageSlice";
 import { getRegionRequest } from "../RegionManage/RegionManageSlice";
@@ -11,6 +10,7 @@ import { searchByName } from "../../ultil/stringUtil";
 import TableComboFood from "../../components/MyTable/TableComboFood";
 import ComboFoodAdd from "../../components/Food/ComboFoodAddPopup";
 import { getCategoryRequest } from "../CategoryManager/CategoryManageSlice";
+import { USER_LOGIN } from "../../ultil/settingSystem";
 function FoodManager() {
   const foodTableHeadTab1 = [
     "Mã món ăn",
@@ -40,14 +40,14 @@ function FoodManager() {
   const listCate = useSelector((state) => state.categoryManage.listCategory);
   const listComboFood = useSelector((state) => state.foodManage.listComboFood);
   const listRegion = useSelector((state) => state.regionManage.listRegion);
-
+  const role = JSON.parse(localStorage.getItem(USER_LOGIN)).theAccountForStaff
+    .roleId;
   useEffect(() => {
     dispatch(getFoodRequest());
     dispatch(getRegionRequest());
     dispatch(getComboFoodRequest());
     dispatch(getCategoryRequest());
   }, [dispatch]);
-
   const [tab, setTab] = useState("tab1");
   return (
     <div>
@@ -91,12 +91,16 @@ function FoodManager() {
                 <h1 style={{ marginLeft: "30px" }}>Danh sách món</h1>
                 <div className="topnav__right">
                   <div className="topnav__right-item">
-                    <div
-                      className="button"
-                      onClick={() => setCreatePopup(!createPopup)}
-                    >
-                      Thêm món +
-                    </div>
+                    {role !== 3 ? (
+                      <div
+                        className="button"
+                        onClick={() => setCreatePopup(!createPopup)}
+                      >
+                        Thêm món +
+                      </div>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                   <div className="topnav__right-item">
                     <div className="topnav__search">
@@ -132,12 +136,16 @@ function FoodManager() {
                 <h1 style={{ marginLeft: "30px" }}>Danh sách combo</h1>
                 <div className="topnav__right">
                   <div className="topnav__right-item">
-                    <div
-                      className="button"
-                      onClick={() => setCreatePopupCombo(!createPopupCombo)}
-                    >
-                      Thêm combo +
-                    </div>
+                    {role !== 3 ? (
+                      <div
+                        className="button"
+                        onClick={() => setCreatePopupCombo(!createPopupCombo)}
+                      >
+                        Thêm combo +
+                      </div>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                   <div className="topnav__right-item">
                     <div className="topnav__search">

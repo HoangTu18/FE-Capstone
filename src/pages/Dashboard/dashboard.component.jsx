@@ -9,13 +9,6 @@ function Dashboard() {
   const location = useLocation();
   const role = JSON.parse(localStorage.getItem(USER_LOGIN))?.theAccountForStaff
     .roleId;
-  const navigate = useNavigate();
-
-  const logout = () => {
-    localStorage.clear();
-    navigate("/login");
-    openNotification("success", "Thành Công", "Bạn đã đăng xuất thành công");
-  };
   const renderByAuth = () => {
     if (role === 2) {
       //ROLE ADMIN
@@ -131,10 +124,14 @@ function Dashboard() {
             icon={<i class="fa-solid fa-users"></i>}
           />
           <DashboardItem
+            isActive={location.pathname.split("/")[2] === "food" ? true : false}
+            url={"food"}
+            text={"Danh sách món"}
+            icon={<i className="fa-solid fa-rectangle-list"></i>}
+          />
+          <DashboardItem
             isActive={
-              location.pathname.split("/")[2] === "feedbacks"
-                ? true
-                : false
+              location.pathname.split("/")[2] === "feedbacks" ? true : false
             }
             url={"feedbacks"}
             text={"Danh mục Đánh giá"}

@@ -3,9 +3,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteComboFoodRequest,
-} from "../../pages/FoodManager/foodManageSlice";
+import { deleteComboFoodRequest } from "../../pages/FoodManager/foodManageSlice";
 import { getCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
 
 import ConfirmPopup from "../Confirm/ConfirmPopup";
@@ -15,6 +13,7 @@ import { truncateString } from "../../ultil/stringUtil";
 import { formatToVND } from "../../ultil/numberUltil";
 import ComboFoodEdit from "../Food/ComboFoodEditPop";
 import ComboFoodView from "../Food/ComboFoodViewPopup";
+import { USER_LOGIN } from "../../ultil/settingSystem";
 
 const TableComboFood = (props) => {
   const dispatch = useDispatch();
@@ -41,7 +40,8 @@ const TableComboFood = (props) => {
   const [popupDelete, setPopupDelete] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [newData, setNewData] = useState("");
-
+  const role = JSON.parse(localStorage.getItem(USER_LOGIN)).theAccountForStaff
+    .roleId;
   const showView = (props) => {
     setNewData(props);
     setPopupView(!popupEdit);
@@ -138,18 +138,25 @@ const TableComboFood = (props) => {
                           showView(item);
                         }}
                       />
-                      <Icon
-                        className="icon"
-                        icon="bx:bx-edit-alt"
-                        onClick={() => {
-                          showEdit(item);
-                        }}
-                      />
-                      <Icon
-                        className="icon"
-                        icon="material-symbols:delete-outline-rounded"
-                        onClick={() => showDelete(item.id)}
-                      />
+                      {role !== 3 ? (
+                        <>
+                          {" "}
+                          <Icon
+                            className="icon"
+                            icon="bx:bx-edit-alt"
+                            onClick={() => {
+                              showEdit(item);
+                            }}
+                          />
+                          <Icon
+                            className="icon"
+                            icon="material-symbols:delete-outline-rounded"
+                            onClick={() => showDelete(item.id)}
+                          />
+                        </>
+                      ) : (
+                        <></>
+                      )}
                     </td>
                   </tr>
                 </tbody>

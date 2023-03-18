@@ -13,6 +13,7 @@ import { truncateString } from "../../ultil/stringUtil";
 import { formatToVND } from "../../ultil/numberUltil";
 import FoodView from "../Food/FoodViewPopup";
 import { getRegionRequest } from "../../pages/RegionManage/RegionManageSlice";
+import { USER_LOGIN } from "../../ultil/settingSystem";
 
 const TableFood = (props) => {
   const dispatch = useDispatch();
@@ -61,7 +62,8 @@ const TableFood = (props) => {
   }
   const cateData = useSelector((state) => state.categoryManage.listCategory);
   const regionData = useSelector((state) => state.regionManage.listRegion);
-
+  const role = JSON.parse(localStorage.getItem(USER_LOGIN)).theAccountForStaff
+    .roleId;
   useEffect(() => {
     dispatch(getCategoryRequest());
     dispatch(getRegionRequest());
@@ -173,18 +175,24 @@ const TableFood = (props) => {
                           showView(item);
                         }}
                       />
-                      <Icon
-                        className="icon"
-                        icon="bx:bx-edit-alt"
-                        onClick={() => {
-                          showEdit(item);
-                        }}
-                      />
-                      <Icon
-                        className="icon"
-                        icon="material-symbols:delete-outline-rounded"
-                        onClick={() => showDelete(item.id)}
-                      />
+                      {role !== 3 ? (
+                        <>
+                          <Icon
+                            className="icon"
+                            icon="bx:bx-edit-alt"
+                            onClick={() => {
+                              showEdit(item);
+                            }}
+                          />
+                          <Icon
+                            className="icon"
+                            icon="material-symbols:delete-outline-rounded"
+                            onClick={() => showDelete(item.id)}
+                          />
+                        </>
+                      ) : (
+                        <></>
+                      )}
                     </td>
                   </tr>
                 </tbody>

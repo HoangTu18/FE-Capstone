@@ -41,7 +41,6 @@ function App() {
                   </PrivateAdmin>
                 }
               />
-
               <Route
                 path="customer"
                 element={
@@ -127,6 +126,14 @@ function App() {
                 element={
                   <PrivateManager>
                     <StaffOfRestaurant />
+                  </PrivateManager>
+                }
+              />
+              <Route
+                path="food"
+                element={
+                  <PrivateManager>
+                    <FoodManager />
                   </PrivateManager>
                 }
               />
