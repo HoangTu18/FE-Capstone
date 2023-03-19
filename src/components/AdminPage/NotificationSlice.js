@@ -14,6 +14,9 @@ export const NotificationSlice = createSlice({
     getNotificationFailure: (state) => {
       return state;
     },
+    // Checked Notification
+    checkedNotificationRequest: (state, action) => {},
+    checkedNotificationSuccess: (state, action) => {},
   },
 });
 
@@ -21,5 +24,7 @@ export const {
   getNotificationRequest,
   getNotificationSuccess,
   getNotificationFailure,
+  checkedNotificationRequest,
+  checkedNotificationSuccess,
 } = NotificationSlice.actions;
 export default NotificationSlice.reducer;

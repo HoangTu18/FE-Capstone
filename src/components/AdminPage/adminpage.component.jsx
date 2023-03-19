@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { openNotification } from "../NotificationConfirm/NotificationConfirm";
 import "./adminpage.style.scss";
@@ -8,17 +8,27 @@ import SettingViewPopup from "./ViewSettingPopup";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getRoleRequest } from "../../pages/AccountManager/AccountManageSlice";
-import { getNotificationRequest } from "./NotificationSlice";
+import {
+  checkedNotificationRequest,
+  getNotificationRequest,
+} from "./NotificationSlice";
 import NotificationSound from "../../assets/notification2.mp3";
 import ReactHowler from "react-howler";
+import { useMemo } from "react";
 function AdminPage({ children }) {
   const navigate = useNavigate();
   const [popupProfile, setPopupProfile] = useState(false);
   const [popupSetting, setPopupSetting] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  window.onscroll = () => {
+    setIsScrolled(window.pageYOffset === 0 ? false : true);
+    return () => (window.onscroll = null);
+  };
   const logout = () => {
     localStorage.clear();
     navigate("/login");
     openNotification("success", "Thành Công", "Bạn đã thao tác thành công");
+    // clearTimeout(refersh);
   };
   let staff = JSON.parse(localStorage.getItem(USER_LOGIN));
   let subMenuNotifi = document.getElementById("subMenuNotifi");
@@ -27,19 +37,42 @@ function AdminPage({ children }) {
   const listNotification = useSelector(
     (state) => state.notificationManage.notificationList
   );
-  if (staff.theAccountForStaff.roleId === 3) {
-    // setInterval(
-    //   () =>
-    //     dispatch(getNotificationRequest(staff.theAccountForStaff.accountId)),
-    //   60000
-    // );
-  }
+  // const refetchNotification = () => {
+  //   if (staff.theAccountForStaff.roleId === 3) {
+  //     dispatch(getNotificationRequest(staff.theAccountForStaff.accountId));
+  //     clearTimeout(refersh);
+  //   }
+  // };
+  // const refersh = setTimeout(refetchNotification, 120 * 1000);
+  const handleCheckedNotification = useCallback(
+    (id, accountId) => {
+      dispatch(
+        checkedNotificationRequest({
+          id: id,
+          accountId: staff.theAccountForStaff.accountId,
+        })
+      );
+    },
+    [dispatch]
+  );
+  const handleSound = () => {
+    return <ReactHowler src={NotificationSound} playing={true} />;
+  };
+  const handleNotification = useMemo(() => {
+    let list = [];
+    list = listNotification.filter((item) => !item.checked);
+    if (list.length !== 0) {
+      list.forEach((_) => {
+        openNotification("warning", "Thông Báo", "Bạn có thông báo mới");
+      });
+    }
+  }, [listNotification]);
   useEffect(() => {
     dispatch(getRoleRequest());
     if (staff.theAccountForStaff.roleId === 3) {
-      // dispatch(getNotificationRequest(staff.theAccountForStaff.accountId));
+      dispatch(getNotificationRequest(staff.theAccountForStaff.accountId));
     }
-  }, []);
+  }, [dispatch]);
   const showProfile = () => {
     setPopupProfile(!popupProfile);
   };
@@ -87,33 +120,31 @@ function AdminPage({ children }) {
             ) : (
               <div className="counter">0</div>
             )}
-
             <div className="sub-menu-notifi" id="subMenuNotifi">
               <div className="sub-menu">
                 <div className="sub-menu-top">
                   <div>
                     <span>Thông báo mới nhận</span>
                   </div>
-                  {listNotification.length > 0 && (
-                    <ReactHowler src={NotificationSound} playing={true} />
-                  )}
-                  {listNotification.length > 0 &&
-                    openNotification(
-                      "warning",
-                      "Thông Báo",
-                      "Bạn có thông báo mới"
-                    )}
                 </div>
                 {staff.theAccountForStaff.roleId === 3 &&
                 listNotification.length !== 0 ? (
                   <div className="sub-menu-center">
                     {listNotification.map((item, index) => (
-                      <div className="sub-menu-item">
+                      <div className="sub-menu-item" key={item.id}>
+                        {item.checked === false ? handleSound() : ""}
+                        {item.checked === false ? handleNotification : ""}
                         <p style={{ fontSize: "15px" }}>
                           {item.checked ? (
-                            <i className="fa-solid fa-bell-slash icon"></i>
+                            <i
+                              class="fa-solid fa-bell-slash icon"
+                              onClick={() => handleCheckedNotification(item.id)}
+                            ></i>
                           ) : (
-                            <i className="fa-regular fa-bell icon animate__animated animate__heartBeat animate__infinite"></i>
+                            <i
+                              class="fa-regular fa-bell icon animate__animated animate__heartBeat animate__infinite"
+                              onClick={() => handleCheckedNotification(item.id)}
+                            ></i>
                           )}
                           {item.message}
                         </p>

@@ -21,7 +21,6 @@ function* getStatistic(action) {
     let statistic = yield call(() => {
       return statisticService.getStatisticOfRes(action.payload);
     });
-    console.log("HELLO SON", statistic);
     if (statistic.status === STATUS_CODE.SUCCESS) {
       yield put(getStatisticOfResSuccess(statistic.data));
     }

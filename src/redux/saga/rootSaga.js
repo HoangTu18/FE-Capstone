@@ -84,5 +84,6 @@ export default function* rootSaga() {
     notificationSaga.followActionGetNotification(),
     //Feedback
     feedbackSaga.followActiongetFeedbackList(),
+    notificationSaga.followActionCheckedNotification(),
   ]);
 }
