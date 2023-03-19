@@ -80,5 +80,6 @@ export default function* rootSaga() {
     statisticOfResSaga.followActionGetRevenueOfRes(),
     //Notification
     notificationSaga.followActionGetNotification(),
+    notificationSaga.followActionCheckedNotification(),
   ]);
 }

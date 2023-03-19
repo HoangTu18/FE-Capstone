@@ -13,7 +13,6 @@ import { restaurantService } from "../../services/restaurantService";
 import { STATUS_CODE } from "../../ultil/settingSystem";
 
 function* getStaffOfRes(action) {
-  console.log("ACTION", action);
   try {
     yield put(showLoading());
     let listStaff = yield call(() => {
