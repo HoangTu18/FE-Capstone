@@ -20,10 +20,13 @@ function FeedbackView({ closeModel, data }) {
   const commentList = feedbackList.filter((item) => item.food.id === +data.id);
 
   const getCusName = (customerId) => {
-    const cusName = customerList.filter(
+    const foundItem = customerList.find(
       (item) => item.customerId === +customerId
-    )[0].customerName;
-    return cusName ?? "Error";
+    );
+    if (!foundItem) {
+      return "Error: customer ID not found";
+    }
+    return foundItem.customerName;
   };
   return (
     <div className="popup">

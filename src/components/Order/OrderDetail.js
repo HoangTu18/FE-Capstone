@@ -1,16 +1,16 @@
 import "./OrderDetail.style.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TableOrderDetail from "../MyTable/TableOrderDetail";
 import { RESTAURANT_INFO } from "../../ultil/settingSystem";
 import { updateOrderRequest } from "../../pages/OrderManage/OrderManageSlice";
+import { getRestaurantByStaffRequest } from "../../pages/RestaurantManager/RestaurantManageSlice";
 function OrderDetail({ closeModel }) {
   const dispatch = useDispatch();
   const orderItem = useSelector((state) => state.orderManage.orderItem);
   const restaurantDetail = useSelector(
     (state) => state.restaurantManage.restaurantItem
   );
-
   const handleListStaff = () => {
     if (!restaurantDetail) {
       return JSON.parse(localStorage.getItem(RESTAURANT_INFO)).staffList.filter(
@@ -29,13 +29,13 @@ function OrderDetail({ closeModel }) {
   const handleStaffDetail = (id) => {
     return (
       restaurantDetail &&
-      restaurantDetail.staffList?.find((item) => parseInt(item.staffId) === id)
+      restaurantDetail.staffList?.find((item) => item.staffId === +id)
     );
   };
+  console.log("ré", restaurantDetail);
   const restaurantId = JSON.parse(
     localStorage.getItem(RESTAURANT_INFO)
   )?.restaurantId;
-  console.log(restaurantId);
   const [staffId, setStaffId] = useState(
     handleListStaff() ? handleListStaff()[0]?.staffId : null
   );
@@ -160,8 +160,12 @@ function OrderDetail({ closeModel }) {
               </div>
             </div>
             <div className="col-8">
-              <div className="body_model_detail_item">Cửa hàng:</div>
-              <div className="body_model_detail_item">SĐT cửa hàng:</div>
+              <div className="body_model_detail_item">
+                Cửa hàng: {restaurantDetail.restaurantName}
+              </div>
+              <div className="body_model_detail_item">
+                SĐT cửa hàng: {restaurantDetail.restaurantNumber}
+              </div>
               <div className="body_model_detail_item">
                 Địa chỉ:<span>{orderItem.deliveryAddress}</span>
               </div>
