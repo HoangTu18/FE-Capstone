@@ -25,7 +25,7 @@ function* getStatistic(action) {
       yield put(getStatisticOfResSuccess(statistic.data));
     }
     yield put(hideLoading());
-    openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
+    // openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
   } catch (error) {
     yield put(getStatisticOfResFailure(error));
     yield put(hideLoading());
@@ -47,7 +47,7 @@ function* getRevenue(action) {
       yield put(getRevenueOfResSuccess(revenue.data));
     }
     yield put(hideLoading());
-    openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
+    // openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
   } catch (error) {
     yield put(getRevenueOfResFailure(error));
     yield put(hideLoading());

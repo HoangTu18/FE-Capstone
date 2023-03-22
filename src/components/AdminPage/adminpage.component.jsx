@@ -1,3 +1,4 @@
+import React from "react";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { openNotification } from "../NotificationConfirm/NotificationConfirm";
@@ -19,16 +20,11 @@ function AdminPage({ children }) {
   const navigate = useNavigate();
   const [popupProfile, setPopupProfile] = useState(false);
   const [popupSetting, setPopupSetting] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  window.onscroll = () => {
-    setIsScrolled(window.pageYOffset === 0 ? false : true);
-    return () => (window.onscroll = null);
-  };
+  const [isNotifi, setIsNotifi] = useState(false);
   const logout = () => {
     localStorage.clear();
     navigate("/login");
     openNotification("success", "Thành Công", "Bạn đã thao tác thành công");
-    // clearTimeout(refersh);
   };
   let staff = JSON.parse(localStorage.getItem(USER_LOGIN));
   let subMenuNotifi = document.getElementById("subMenuNotifi");
@@ -37,36 +33,82 @@ function AdminPage({ children }) {
   const listNotification = useSelector(
     (state) => state.notificationManage.notificationList
   );
-  // const refetchNotification = () => {
-  //   if (staff.theAccountForStaff.roleId === 3) {
-  //     dispatch(getNotificationRequest(staff.theAccountForStaff.accountId));
-  //     clearTimeout(refersh);
-  //   }
-  // };
-  // const refersh = setTimeout(refetchNotification, 120 * 1000);
   const handleCheckedNotification = useCallback(
-    (id, accountId) => {
+    (id, status, accountId) => {
       dispatch(
         checkedNotificationRequest({
           id: id,
           accountId: staff.theAccountForStaff.accountId,
         })
       );
+      if (status) {
+        setIsNotifi(true);
+      }
     },
     [dispatch]
   );
-  const handleSound = () => {
+  const handleSound = useCallback(() => {
     return <ReactHowler src={NotificationSound} playing={true} />;
-  };
-  const handleNotification = useMemo(() => {
-    let list = [];
-    list = listNotification.filter((item) => !item.checked);
-    if (list.length !== 0) {
-      list.forEach((_) => {
-        openNotification("warning", "Thông Báo", "Bạn có thông báo mới");
-      });
-    }
-  }, [listNotification]);
+  }, []);
+  const handleNotification = useCallback(
+    (status) => {
+      console.log("THANH EN");
+      const listNotifi = listNotification.filter(
+        (item) => item.checked === status
+      );
+      if (!status) {
+        return listNotifi.map((noti, index) => (
+          <div className="sub-menu-item" key={noti.id}>
+            {staff.theAccountForStaff.roleId === 3 ? handleSound() : ""}
+            {/* {isNotifi &&
+              openNotification("warning", "Thông Báo", "Bạn có thông báo mới")} */}
+            <p style={{ fontSize: "15px" }}>
+              {noti.checked ? (
+                <i
+                  class="fa-solid fa-bell-slash icon"
+                  onClick={() =>
+                    handleCheckedNotification(noti.id, noti.checked)
+                  }
+                ></i>
+              ) : (
+                <i
+                  class="fa-regular fa-bell icon animate__animated animate__heartBeat animate__infinite"
+                  onClick={() =>
+                    handleCheckedNotification(noti.id, noti.checked)
+                  }
+                ></i>
+              )}
+              {noti.message}
+            </p>
+          </div>
+        ));
+      } else {
+        return listNotifi.map((item, index) => (
+          <div className="sub-menu-item" key={item.id}>
+            <p style={{ fontSize: "15px" }}>
+              {item.checked ? (
+                <i
+                  class="fa-solid fa-bell-slash icon"
+                  onClick={() =>
+                    handleCheckedNotification(item.id, item.checked)
+                  }
+                ></i>
+              ) : (
+                <i
+                  class="fa-regular fa-bell icon animate__animated animate__heartBeat animate__infinite"
+                  onClick={() =>
+                    handleCheckedNotification(item.id, item.checked)
+                  }
+                ></i>
+              )}
+              {item.message}
+            </p>
+          </div>
+        ));
+      }
+    },
+    [listNotification, isNotifi, handleCheckedNotification, handleSound]
+  );
   useEffect(() => {
     dispatch(getRoleRequest());
     if (staff.theAccountForStaff.roleId === 3) {
@@ -84,6 +126,7 @@ function AdminPage({ children }) {
   };
   return (
     <div className="admin-page">
+      {console.log("SONNN")}
       {popupProfile ? (
         <ProfileViewPopup
           closeModel={setPopupProfile}
@@ -130,26 +173,25 @@ function AdminPage({ children }) {
                 {staff.theAccountForStaff.roleId === 3 &&
                 listNotification.length !== 0 ? (
                   <div className="sub-menu-center">
-                    {listNotification.map((item, index) => (
-                      <div className="sub-menu-item" key={item.id}>
-                        {item.checked === false ? handleSound() : ""}
-                        {item.checked === false ? handleNotification : ""}
-                        <p style={{ fontSize: "15px" }}>
-                          {item.checked ? (
-                            <i
-                              class="fa-solid fa-bell-slash icon"
-                              onClick={() => handleCheckedNotification(item.id)}
-                            ></i>
-                          ) : (
-                            <i
-                              class="fa-regular fa-bell icon animate__animated animate__heartBeat animate__infinite"
-                              onClick={() => handleCheckedNotification(item.id)}
-                            ></i>
-                          )}
-                          {item.message}
-                        </p>
+                    {listNotification.filter((item) => !item.checked).length !==
+                      0 && (
+                      <div className="menu-notCheck">
+                        <div className="menu-notCheck-title">
+                          <span>Chưa đọc</span>
+                        </div>
+                        <div className="menu-checked-detail">
+                          {handleNotification(false)}
+                        </div>
                       </div>
-                    ))}
+                    )}
+                    <div className="menu-checked">
+                      <div className="menu-checked-title">
+                        <span>Đã đọc</span>
+                      </div>
+                      <div className="menu-checked-detail">
+                        {handleNotification(true)}
+                      </div>
+                    </div>
                     <div className="sub-menu-footer">
                       {staff.theAccountForStaff.roleId === 3 &&
                       listNotification.length !== 0 ? (

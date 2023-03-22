@@ -82,6 +82,20 @@
               audio {
                 display: none;
               }
+              .menu-checked .menu-checked-title {
+                display: flex;
+                justify-content: flex-end;
+                color: #00b14f;
+                padding-right: 10px;
+                font-size: 15px;
+              }
+              .menu-notCheck .menu-notCheck-title {
+                display: flex;
+                justify-content: flex-end;
+                padding-right: 10px;
+                color: #00b14f;
+                font-size: 15px;
+              }
             }
             .sub-menu-footer {
               margin-top: 20px;

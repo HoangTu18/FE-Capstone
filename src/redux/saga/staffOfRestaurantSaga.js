@@ -22,7 +22,7 @@ function* getStaffOfRes(action) {
       yield put(getStaffOfResSuccess(listStaff.data));
     }
     yield put(hideLoading());
-    openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
+    // openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
   } catch (error) {
     yield put(getStaffOfResFailure(error));
     yield put(hideLoading());

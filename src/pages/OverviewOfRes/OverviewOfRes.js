@@ -24,6 +24,8 @@ const OverviewOfRes = () => {
   );
   let statistic = useSelector((state) => state.overviewOfResManage.statistic);
   useEffect(() => {
+    console.log("Hello be An");
+
     dispatch(getStatisticOfRes(restaurantId));
     dispatch(
       getRevenueOfRes({
