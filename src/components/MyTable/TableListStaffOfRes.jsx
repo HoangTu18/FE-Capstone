@@ -42,8 +42,7 @@ const TableListStaffOfRes = (props) => {
   }, [dispatch]);
 
   const getRoleName = (id) => {
-    return 'bug'
-    // return listRole.find((item) => item.roleId === id)["roleName"];
+    return listRole.find((item) => item.roleId === id)["roleName"];
   };
 
   const showEdit = (props) => {
