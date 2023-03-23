@@ -113,11 +113,11 @@ const TableListStaffOfRes = (props) => {
                           : " "}
                       </td>
                       <td>{item.theAccountForStaff.phoneNumber}</td>
-                      {item.staffActivityStatus === "available" ? (
+                      {/* {item.staffActivityStatus === "available" ? (
                         <td className="green">Sẵn sàng</td>
                       ) : (
                         <td className="red">Đang bận</td>
-                      )}
+                      )} */}
                       <td>
                         <Icon
                           className="icon"

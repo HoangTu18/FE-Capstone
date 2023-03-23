@@ -12,27 +12,23 @@ function OrderDetail({ closeModel }) {
     (state) => state.restaurantManage.restaurantItem
   );
   const handleListStaff = () => {
-    if (!restaurantDetail) {
+    if (restaurantDetail !== undefined) {
       return JSON.parse(localStorage.getItem(RESTAURANT_INFO)).staffList.filter(
-        (item) =>
-          item.theAccountForStaff.roleId === 4 &&
-          item.staffActivityStatus?.toString() === "available"
+        (item) => item?.theAccountForStaff?.roleId === 4
       );
     } else {
       return restaurantDetail.staffList?.filter(
-        (item) =>
-          item.theAccountForStaff.roleId === 4 &&
-          item.staffActivityStatus?.toString() === "available"
+        (item) => item.theAccountForStaff.roleId === 4
       );
     }
   };
+
   const handleStaffDetail = (id) => {
     return (
       restaurantDetail &&
       restaurantDetail.staffList?.find((item) => item.staffId === +id)
     );
   };
-  console.log("ré", restaurantDetail);
   const restaurantId = JSON.parse(
     localStorage.getItem(RESTAURANT_INFO)
   )?.restaurantId;

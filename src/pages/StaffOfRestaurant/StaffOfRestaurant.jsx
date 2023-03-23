@@ -13,7 +13,7 @@ function StaffOfRestaurant() {
     "Tên nhân viên",
     "Chức danh",
     "Số điện thoại",
-    "Hoạt động",
+    // "Hoạt động",
     "Hành động",
   ];
 
