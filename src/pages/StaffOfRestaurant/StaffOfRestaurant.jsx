@@ -14,7 +14,6 @@ function StaffOfRestaurant() {
     "Chức danh",
     "Số điện thoại",
     "Hoạt động",
-    "Trạng thái",
     "Hành động",
   ];
 

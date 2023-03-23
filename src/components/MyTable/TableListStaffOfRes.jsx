@@ -118,11 +118,6 @@ const TableListStaffOfRes = (props) => {
                       ) : (
                         <td className="red">Đang bận</td>
                       )}
-                      {item.staffStatus ? (
-                        <td className="status green">Hoạt động</td>
-                      ) : (
-                        <td className="status red">Không hoạt động</td>
-                      )}
                       <td>
                         <Icon
                           className="icon"
