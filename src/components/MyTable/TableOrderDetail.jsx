@@ -9,7 +9,7 @@ const TableOrderDetail = (props) => {
   const [itemOffset, setItemOffset] = useState(0);
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
-  const itemsPerPage = 7;
+  const itemsPerPage = 3;
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
@@ -40,11 +40,11 @@ const TableOrderDetail = (props) => {
                 currentItems.map((item, index) => (
                   <tbody key={index}>
                     <tr>
-                      <td>#{item.order_item_id}</td>
+                      <td>#{item.id}</td>
                       <td>{item.name}</td>
                       <td>{formatToVND(item.price)}</td>
                       <td>{item.quantity}</td>
-                      <td>{formatToVND(item.subTotal)}</td>
+                      <td>{formatToVND(item.total)}</td>
                     </tr>
                   </tbody>
                 ))}
