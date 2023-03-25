@@ -14,12 +14,10 @@ const OrderManage = () => {
   const listOrder = useSelector(orderRemainingSelector);
   const resId = JSON.parse(localStorage.getItem(RESTAURANT_INFO))?.restaurantId;
   const [status, setStatus] = useState("pending");
-  console.log("res", resId);
   useEffect(() => {
     dispatch(getOrderRequest(resId));
     dispatch(getAccountRequest());
   }, [dispatch, resId]);
-  console.log("listOrder", listOrder);
   const renderHead = (item, index) => <th key={index}>{item}</th>;
   const renderBody = (item, index) => <tr key={index}></tr>;
   const listStatus = [

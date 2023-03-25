@@ -52,7 +52,6 @@ function AdminPage({ children }) {
   }, []);
   const handleNotification = useCallback(
     (status) => {
-      console.log("THANH EN");
       const listNotifi = listNotification.filter(
         (item) => item.checked === status
       );
@@ -126,7 +125,6 @@ function AdminPage({ children }) {
   };
   return (
     <div className="admin-page">
-      {console.log("SONNN")}
       {popupProfile ? (
         <ProfileViewPopup
           closeModel={setPopupProfile}
