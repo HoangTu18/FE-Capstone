@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import TableOrderDetail from "../MyTable/TableOrderDetail";
 import { RESTAURANT_INFO } from "../../ultil/settingSystem";
 import { updateOrderRequest } from "../../pages/OrderManage/OrderManageSlice";
-import { getRestaurantByStaffRequest } from "../../pages/RestaurantManager/RestaurantManageSlice";
 function OrderDetail({ closeModel }) {
   const dispatch = useDispatch();
   const orderItem = useSelector((state) => state.orderManage.orderItem);
@@ -24,59 +23,57 @@ function OrderDetail({ closeModel }) {
     }
   };
 
-  useEffect(() => {
-    setMergeData([]);
-    console.log(orderItem);
-    // if (orderItem?.comboList.length > 0) {
-    //   orderItem.comboList.forEach((combo) => {
-    //     setMergeData((prev) => [...prev, combo]);
-    //   });
-    // }
-    if (orderItem?.itemList.length > 0) {
-      orderItem.itemList.forEach((item) => {
-        setMergeData((prev) => [
-          ...prev,
-          {
-            id: item.id,
-            name: item.name,
-            price: item.price,
-            quantity: item.quantity,
-            total: item.subTotal,
-          },
-        ]);
-      });
-    }
-    if (orderItem?.party.itemList.length > 0) {
-      const quantityTable = orderItem.party.quantity;
-      orderItem.party.itemList.forEach((partyItem) => {
-        setMergeData((prev) => [
-          ...prev,
-          {
-            id: partyItem.id,
-            name: partyItem.foodName,
-            price: partyItem.price,
-            quantity: quantityTable,
-            total: partyItem.price * quantityTable,
-          },
-        ]);
-      });
-    }
-    if (orderItem?.serviceList.length > 0) {
-      orderItem.serviceList.forEach((service) => {
-        setMergeData((prev) => [
-          ...prev,
-          {
-            id: service.id,
-            name: service.serviceName,
-            price: service.servicePrice,
-            quantity: 1,
-            total: service.servicePrice,
-          },
-        ]);
-      });
-    }
-  }, []);
-  console.log(mergeData);
+  // useEffect(() => {
+  //   setMergeData([]);
+  //   // if (orderItem?.comboList.length > 0) {
+  //   //   orderItem.comboList.forEach((combo) => {
+  //   //     setMergeData((prev) => [...prev, combo]);
+  //   //   });
+  //   // }
+  //   if (orderItem?.itemList?.length > 0) {
+  //     orderItem.itemList.forEach((item) => {
+  //       setMergeData((prev) => [
+  //         ...prev,
+  //         {
+  //           id: item.id,
+  //           name: item.name,
+  //           price: item.price,
+  //           quantity: item.quantity,
+  //           total: item.subTotal,
+  //         },
+  //       ]);
+  //     });
+  //   }
+  //   if (orderItem?.party.itemList?.length > 0) {
+  //     const quantityTable = orderItem.party.quantity;
+  //     orderItem.party.itemList.forEach((partyItem) => {
+  //       setMergeData((prev) => [
+  //         ...prev,
+  //         {
+  //           id: partyItem.id,
+  //           name: partyItem.foodName,
+  //           price: partyItem.price,
+  //           quantity: quantityTable,
+  //           total: partyItem.price * quantityTable,
+  //         },
+  //       ]);
+  //     });
+  //   }
+  //   if (orderItem?.serviceList?.length > 0) {
+  //     orderItem.serviceList.forEach((service) => {
+  //       setMergeData((prev) => [
+  //         ...prev,
+  //         {
+  //           id: service.id,
+  //           name: service.serviceName,
+  //           price: service.servicePrice,
+  //           quantity: 1,
+  //           total: service.servicePrice,
+  //         },
+  //       ]);
+  //     });
+  //   }
+  // }, []);
   const handleStaffDetail = (id) => {
     return (
       restaurantDetail &&
@@ -226,7 +223,7 @@ function OrderDetail({ closeModel }) {
           <TableOrderDetail
             headData={staffTableHead}
             renderHead={(item, index) => renderHead(item, index)}
-            bodyData={mergeData}
+            bodyData={orderItem.itemList}
             renderBody={(item, index) => renderBody(item, index)}
           />
         </div>
