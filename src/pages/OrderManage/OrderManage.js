@@ -96,7 +96,7 @@ const OrderManage = () => {
                   <TableOrder
                     headData={staffTableHead}
                     renderHead={(item, index) => renderHead(item, index)}
-                    bodyData={listOrder}
+                    bodyData={listOrder.reverse()}
                     renderBody={(item, index) => renderBody(item, index)}
                   />
                 </div>

@@ -56,7 +56,7 @@ function OrderDetail({ closeModel }) {
             name: partyItem.foodName,
             price: partyItem.price,
             quantity: quantityTable,
-            total: partyItem.price,
+            total: partyItem.price * quantityTable,
           },
         ]);
       });
