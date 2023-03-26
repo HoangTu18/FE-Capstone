@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
 import { insertEventRequest } from "../../pages/EventManager/eventManagerSlice";
 import UploadImage from "../../ultil/UploadImage";
+import * as Yup from 'yup';
 
 function EventAdd({ closeModel }) {
   const dispatch = useDispatch();
@@ -124,17 +125,27 @@ function EventAdd({ closeModel }) {
     return result;
   };
 
+  const initialValues = {
+    eventId: 0,
+    eventName: "",
+    description: "",
+    image_url: "",
+    fromDate: "",
+    toDate: "",
+    status: "",
+    foodList: [],
+  };
+
+  const validation = Yup.object().shape({
+    eventName: Yup.string().required('Vui lòng nhập tên sự kiện!'),
+    fromDate: Yup.string().required('Vui lòng chọn ngày bắt đầu!'),
+    toDate: Yup.string().required('Vui lòng chọn ngày kết thúc!'),
+    description: Yup.string().required('Vui lòng nhập mô tả!'),
+  });
+
   const formik = useFormik({
-    initialValues: {
-      eventId: 0,
-      eventName: "",
-      description: "",
-      image_url: "",
-      fromDate: "",
-      toDate: "",
-      status: "",
-      foodList: [],
-    },
+    initialValues: initialValues,
+    validationSchema: validation,
     onSubmit: (values, { resetForm }) => {
       selected.forEach((item, index) => {
         dataSelected.push({
@@ -151,6 +162,7 @@ function EventAdd({ closeModel }) {
       resetForm({ values: "" });
     },
   });
+
   return (
     <div className="popup">
       <form
@@ -174,14 +186,8 @@ function EventAdd({ closeModel }) {
             />
           </div>
           <div className="listitem">
-            <label className="label__title">Mã sự kiện:</label>
-            <input
-              disabled
-              type="text"
-              id="eventId"
-              value={formik.values.eventId}
-              onChange={formik.handleChange}
-            />
+            <label hidden className="label__title">Mã sự kiện:</label>
+            <input hidden disabled type="text" id="eventId" value={formik.values.eventId} onChange={formik.handleChange} />
             <label className="label__title">
               Tên sự kiện: <span className="proirity">*</span>
             </label>
@@ -190,7 +196,13 @@ function EventAdd({ closeModel }) {
               id="eventName"
               value={formik.values.eventName}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.eventName ? (
+              <div className="error__message">
+                <span>{formik.errors.eventName}</span>
+              </div>
+            ) : null}
             <label className="label__title">
               Thời gian:<span className="proirity">*</span>
             </label>
@@ -199,14 +211,26 @@ function EventAdd({ closeModel }) {
               id="fromDate"
               value={formik.values.fromDate}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.fromDate ? (
+              <div className="error__message">
+                <span>{formik.errors.fromDate}</span>
+              </div>
+            ) : null}
             <label className="label__title smallText"> Đến ngày:</label>
             <input
               type="date"
               id="toDate"
               value={formik.values.toDate}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.toDate ? (
+              <div className="error__message">
+                <span>{formik.errors.toDate}</span>
+              </div>
+            ) : null}
             <label className="label__title">Hình ảnh</label>
             <UploadImage getImageURL={setImageUrl} />
             <label className="label__title">Mô tả:</label>
@@ -216,7 +240,13 @@ function EventAdd({ closeModel }) {
               name="description"
               value={formik.values.description}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.description ? (
+              <div className="error__message">
+                <span>{formik.errors.description}</span>
+              </div>
+            ) : null}
             <label className="label__title">Trạng thái:</label>
             <input
               className="checkBoxStatus type"

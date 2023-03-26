@@ -4,6 +4,8 @@ import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { updateFoodRequest } from "../../pages/FoodManager/foodManageSlice";
 import UploadImage from "../../ultil/UploadImage";
+import * as Yup from 'yup';
+
 function FoodEdit({
   data,
   closeModel,
@@ -33,23 +35,34 @@ function FoodEdit({
     },
     [dispatch, closeModel]
   );
+
+  const initialValues = {
+    id: data.id,
+    foodName: data.foodName,
+    description: data.description,
+    price: data.price,
+    imgUrl: data.imgUrl,
+    status: data.status,
+    purchaseNum: data.purchaseNum,
+    cateId: cateId,
+    regionId: regionId,
+  };
+
+  const validation = Yup.object().shape({
+    foodName: Yup.string().required('Vui lòng nhập tên món ăn!'),
+    description: Yup.string().required('Vui lòng nhập mô tả món ăn!'),
+    price: Yup.string().required('Vui lòng nhập giá món ăn!')
+  });
+
   const formik = useFormik({
-    initialValues: {
-      id: data.id,
-      foodName: data.foodName,
-      description: data.description,
-      price: data.price,
-      imgUrl: data.imgUrl,
-      status: data.status,
-      purchaseNum: data.purchaseNum,
-      cateId: cateId,
-      regionId: regionId,
-    },
+    initialValues: initialValues,
+    validationSchema: validation,
     onSubmit: (values, { resetForm }) => {
       handleUpdateFood(values);
       resetForm({ values: "" });
     },
   });
+
   return (
     <div className="popup">
       <form
@@ -92,7 +105,13 @@ function FoodEdit({
               name="foodName"
               value={formik.values.foodName}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.foodName ? (
+              <div className="error__message">
+                <span>{formik.errors.foodName}</span>
+              </div>
+            ) : null}
             <label className="label__title">Giá (VND):</label>
             <input
               type="text"
@@ -100,7 +119,13 @@ function FoodEdit({
               name="price"
               value={formik.values.price}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.price ? (
+              <div className="error__message">
+                <span>{formik.errors.price}</span>
+              </div>
+            ) : null}
             <label className="label__title">Loại:</label>
             <select
               id="cateId"
@@ -159,7 +184,13 @@ function FoodEdit({
               name="description"
               value={formik.values.description}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.description ? (
+              <div className="error__message">
+                <span>{formik.errors.description}</span>
+              </div>
+            ) : null}
             <div className="food__button">
               <button type="submit" className="btn">
                 Lưu

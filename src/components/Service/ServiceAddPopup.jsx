@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { insertServiceRequest } from "../../pages/ServiceManage/ServiceManageSlice";
 import UploadImage from "../../ultil/UploadImage";
 import "../Food/food.style.scss";
+import * as Yup from 'yup';
 
 function ServiceAdd({ closeModel }) {
   const [imageUrl, setImageUrl] = useState("");
@@ -25,20 +26,31 @@ function ServiceAdd({ closeModel }) {
     },
     [dispatch, closeModel, imageUrl]
   );
+
+  const initialValues = {
+    id: 0,
+    serviceName: "",
+    serviceImage: "",
+    serviceDescription: "",
+    servicePrice: "",
+    status: true,
+  };
+
+  const validation = Yup.object().shape({
+    serviceName: Yup.string().required('Vui lòng nhập tên dịch vụ!'),
+    servicePrice: Yup.string().required('Vui lòng nhập giá dịch vụ!'),
+    serviceDescription: Yup.string().required('Vui lòng nhập mô tả dịch vụ!'),
+  });
+
   const formik = useFormik({
-    initialValues: {
-      id: 0,
-      serviceName: "",
-      serviceImage: "",
-      serviceDescription: "",
-      servicePrice: "",
-      status: true,
-    },
+    initialValues: initialValues,
+    validationSchema: validation,
     onSubmit: (values, { resetForm }) => {
       handleInsertService(values);
       resetForm({ values: "" });
     },
   });
+
   return (
     <div className="popup">
       <form
@@ -62,17 +74,10 @@ function ServiceAdd({ closeModel }) {
             />
           </div>
           <div className="listitem">
-            <label className="label__title">
+            <label hidden className="label__title">
               Mã dịch vụ: <span className="proirity">*</span>
             </label>
-            <input
-              disabled
-              type="text"
-              id="id"
-              name="id"
-              value={formik.values.id}
-              onChange={formik.handleChange}
-            />
+            <input hidden disabled type="text" id="id" name="id" value={formik.values.id} onChange={formik.handleChange} />
             <label className="label__title">Tên dịch vụ:</label>
             <input
               type="text"
@@ -80,7 +85,13 @@ function ServiceAdd({ closeModel }) {
               name="serviceName"
               value={formik.values.serviceName}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.serviceName ? (
+              <div className="error__message">
+                <span>{formik.errors.serviceName}</span>
+              </div>
+            ) : null}
             <label className="label__title">Giá (VND):</label>
             <input
               type="text"
@@ -88,7 +99,13 @@ function ServiceAdd({ closeModel }) {
               name="servicePrice"
               value={formik.values.servicePrice}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.servicePrice ? (
+              <div className="error__message">
+                <span>{formik.errors.servicePrice}</span>
+              </div>
+            ) : null}
             <label className="label__title">Trạng thái:</label>
             <input
               className="checkBoxStatus type"
@@ -115,7 +132,13 @@ function ServiceAdd({ closeModel }) {
               name="serviceDescription"
               value={formik.values.serviceDescription}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.serviceDescription ? (
+              <div className="error__message">
+                <span>{formik.errors.serviceDescription}</span>
+              </div>
+            ) : null}
             <div className="food__button">
               <button type="submit" className="btn">
                 Lưu

@@ -3,12 +3,12 @@ import { useCallback, useState } from "react";
 import "../Food/food.style.scss";
 import { useDispatch } from "react-redux";
 import { updatePromotionRequest } from "../../pages/PromotionManage/PromotionManageSlice";
+import * as Yup from 'yup';
 
 function PromotionUpdate({ closeModel, data, listPromo, listEvent }) {
   const dispatch = useDispatch();
   const [event, setEvent] = useState();
 
-  console.log(data);
   const handleInsertPromotion = useCallback(
     (values) => {
       let promo = {
@@ -24,19 +24,28 @@ function PromotionUpdate({ closeModel, data, listPromo, listEvent }) {
     [closeModel, dispatch]
   );
 
+  const initialValues = {
+    id: data.id,
+    promotionCode: data.promotionCode,
+    eventId: data.eventId !== null ? data.eventId : 1,
+    discountPercent: data.discountPercent,
+    status: data.status,
+  };
+
+  const validation = Yup.object().shape({
+    promotionCode: Yup.string().required('Vui lòng nhập code khuyến mãi!'),
+    discountPercent: Yup.string().required('Vui lòng nhập phần trăm khuyến mãi!'),
+  });
+
   const formik = useFormik({
-    initialValues: {
-      id: data.id,
-      promotionCode: data.promotionCode,
-      eventId: data.eventId !== null ? data.eventId : 1,
-      discountPercent: data.discountPercent,
-      status: data.status,
-    },
+    initialValues: initialValues,
+    validationSchema: validation,
     onSubmit: (values, { resetForm }) => {
       handleInsertPromotion(values);
       resetForm({ values: "" });
     },
   });
+
   return (
     <div className="popup">
       <form
@@ -69,7 +78,13 @@ function PromotionUpdate({ closeModel, data, listPromo, listEvent }) {
               id="discountPercent"
               value={formik.values.discountPercent}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.discountPercent ? (
+              <div className="error__message">
+                <span>{formik.errors.discountPercent}</span>
+              </div>
+            ) : null}
             <label className="label__title">
               Code khuyến mãi:<span className="proirity">*</span>
             </label>
@@ -78,7 +93,13 @@ function PromotionUpdate({ closeModel, data, listPromo, listEvent }) {
               id="promotionCode"
               value={formik.values.promotionCode}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.promotionCode ? (
+              <div className="error__message">
+                <span>{formik.errors.promotionCode}</span>
+              </div>
+            ) : null}
             <label className="label__title">
               Sự kiện đi kèm:<span className="proirity">*</span>
             </label>

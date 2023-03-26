@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { useCallback } from "react";
 import "../Food/food.style.scss";
 import { useDispatch } from "react-redux";
+import * as Yup from 'yup';
 import { updateCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
 
 function CategoryEdit({ closeModel, data }) {
@@ -22,18 +23,26 @@ function CategoryEdit({ closeModel, data }) {
     [closeModel, dispatch]
   );
 
+  const initialValues = {
+    id: data.id,
+    categoryName: data.categoryName,
+    foodList: [],
+    status: data.status,
+  };
+
+  const validation = Yup.object().shape({
+    categoryName: Yup.string().required('Vui lòng nhập tên danh mục!'),
+  });
+
   const formik = useFormik({
-    initialValues: {
-      id: data.id,
-      categoryName: data.categoryName,
-      foodList: [],
-      status: data.status,
-    },
+    initialValues: initialValues,
+    validationSchema: validation,
     onSubmit: (values, { resetForm }) => {
       handleInsertCategory(values);
       resetForm({ values: "" });
     },
   });
+
   return (
     <div className="popup">
       <form
@@ -64,7 +73,13 @@ function CategoryEdit({ closeModel, data }) {
               id="categoryName"
               value={formik.values.categoryName}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.categoryName ? (
+              <div className="error__message">
+                <span>{formik.errors.categoryName}</span>
+              </div>
+            ) : null}
             <label className="label__title">Trạng thái:</label>
             <input
               className="checkBoxStatus type"

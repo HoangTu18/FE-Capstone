@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { useCallback } from "react";
 import "../Food/food.style.scss";
 import { useDispatch } from "react-redux";
+import * as Yup from 'yup';
 import { insertCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
 
 function CategoryAdd({ closeModel }) {
@@ -22,18 +23,26 @@ function CategoryAdd({ closeModel }) {
     [closeModel, dispatch]
   );
 
+  const initialValues = {
+    id: 0,
+    categoryName: "",
+    foodList: [],
+    status: true,
+  };
+
+  const validation = Yup.object().shape({
+    categoryName: Yup.string().required('Vui lòng nhập tên danh mục!'),
+  });
+
   const formik = useFormik({
-    initialValues: {
-      id: 0,
-      categoryName: "",
-      foodList: [],
-      status: true,
-    },
+    initialValues: initialValues,
+    validationSchema: validation,
     onSubmit: (values, { resetForm }) => {
       handleInsertCategory(values);
       resetForm({ values: "" });
     },
   });
+
   return (
     <div className="popup">
       <form
@@ -46,16 +55,10 @@ function CategoryAdd({ closeModel }) {
         <div className="food__title unselectable">Thông tin danh mục</div>
         <div className="center">
           <div className="listitem">
-            <label className="label__title">
+            <label hidden className="label__title">
               Mã danh mục:<span className="proirity">*</span>
             </label>
-            <input
-              disabled
-              type="text"
-              id="id"
-              value={formik.values.id}
-              onChange={formik.handleChange}
-            />
+            <input hidden disabled type="text" id="id" value={formik.values.id} onChange={formik.handleChange} />
             <label className="label__title">
               Tên danh mục:<span className="proirity">*</span>
             </label>
@@ -64,7 +67,13 @@ function CategoryAdd({ closeModel }) {
               id="categoryName"
               value={formik.values.categoryName}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.categoryName ? (
+              <div className="error__message">
+                <span>{formik.errors.categoryName}</span>
+              </div>
+            ) : null}
             <label className="label__title">Trạng thái:</label>
             <input
               className="checkBoxStatus type"
