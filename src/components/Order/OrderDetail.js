@@ -22,12 +22,12 @@ function OrderDetail({ closeModel }) {
       );
     }
   };
-
+  console.log(orderItem.itemList);
   useEffect(() => {
     setMergeData([]);
     console.log("Length: ", Object.keys(orderItem).length);
     console.log("Object: ", orderItem);
-    if (Object.keys(orderItem).length !== 0 || orderItem !== null) {
+    if (Object.keys(orderItem).length !== 0) {
       if (orderItem?.itemList?.length > 0) {
         orderItem.itemList.forEach((item) => {
           setMergeData((prev) => [
