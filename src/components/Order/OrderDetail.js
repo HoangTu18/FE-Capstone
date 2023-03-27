@@ -25,7 +25,8 @@ function OrderDetail({ closeModel }) {
 
   useEffect(() => {
     setMergeData([]);
-    // console.log(orderItem);
+    console.log("Length: ", Object.keys(orderItem).length);
+    console.log("Object: ", orderItem);
     if (Object.keys(orderItem).length !== 0 || orderItem !== null) {
       if (orderItem?.itemList?.length > 0) {
         orderItem.itemList.forEach((item) => {
