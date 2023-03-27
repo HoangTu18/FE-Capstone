@@ -64,14 +64,14 @@ function AdminPage({ children }) {
             <p style={{ fontSize: "15px" }}>
               {noti.checked ? (
                 <i
-                className="fa-solid fa-bell-slash icon"
+                  className="fa-solid fa-bell-slash icon"
                   onClick={() =>
                     handleCheckedNotification(noti.id, noti.checked)
                   }
                 ></i>
               ) : (
                 <i
-                className="fa-regular fa-bell icon animate__animated animate__heartBeat animate__infinite"
+                  className="fa-regular fa-bell icon animate__animated animate__heartBeat animate__infinite"
                   onClick={() =>
                     handleCheckedNotification(noti.id, noti.checked)
                   }
@@ -87,14 +87,14 @@ function AdminPage({ children }) {
             <p style={{ fontSize: "15px" }}>
               {item.checked ? (
                 <i
-                className="fa-solid fa-bell-slash icon"
+                  className="fa-solid fa-bell-slash icon"
                   onClick={() =>
                     handleCheckedNotification(item.id, item.checked)
                   }
                 ></i>
               ) : (
                 <i
-                className="fa-regular fa-bell icon animate__animated animate__heartBeat animate__infinite"
+                  className="fa-regular fa-bell icon animate__animated animate__heartBeat animate__infinite"
                   onClick={() =>
                     handleCheckedNotification(item.id, item.checked)
                   }
