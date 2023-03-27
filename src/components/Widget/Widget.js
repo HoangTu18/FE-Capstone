@@ -6,7 +6,6 @@ const Widget = ({ data, title, icon }) => {
     <div className="widget">
       <div className="left">
         <span className="title">{title.toUpperCase()}</span>
-        <span className="counter">{formatToVND(data)}</span>
       </div>
       <div className="right">
         <i className={`${icon} icon`}></i>

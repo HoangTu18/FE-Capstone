@@ -8,12 +8,10 @@ function OrderDetail({ closeModel }) {
   const dispatch = useDispatch();
   const orderItem = useSelector((state) => state.orderManage.orderItem);
   const [mergeData, setMergeData] = useState([]);
-  const restaurantDetail = useSelector(
-    (state) => state.restaurantManage.restaurantItem
-  );
+  const restaurantDetail = JSON.parse(localStorage.getItem(RESTAURANT_INFO));
   const handleListStaff = () => {
     if (restaurantDetail !== undefined) {
-      return JSON.parse(localStorage.getItem(RESTAURANT_INFO)).staffList.filter(
+      return restaurantDetail?.staffList.filter(
         (item) => item?.theAccountForStaff?.roleId === 4
       );
     } else {
