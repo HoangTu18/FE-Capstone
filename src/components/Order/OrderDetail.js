@@ -20,7 +20,6 @@ function OrderDetail({ closeModel }) {
       );
     }
   };
-  console.log(orderItem.itemList);
   useEffect(() => {
     setMergeData([]);
     console.log("Length: ", Object.keys(orderItem).length);
@@ -41,11 +40,6 @@ function OrderDetail({ closeModel }) {
           ]);
         });
       }
-      // if (orderItem?.comboList.length > 0) {
-      //   orderItem.comboList.forEach((combo) => {
-      //     setMergeData((prev) => [...prev, combo]);
-      //   });
-      // }
       if (orderItem?.party !== null) {
         if (orderItem?.party.itemList?.length > 0) {
           const quantityTable = orderItem.party.quantity;
@@ -137,6 +131,7 @@ function OrderDetail({ closeModel }) {
           restaurantId: restaurantId,
         })
       );
+      closeModel(false);
     } else {
       dispatch(
         updateOrderRequest({
@@ -162,6 +157,7 @@ function OrderDetail({ closeModel }) {
         restaurantId: restaurantId,
       })
     );
+    closeModel(false);
   };
   return (
     <div className="popup">
