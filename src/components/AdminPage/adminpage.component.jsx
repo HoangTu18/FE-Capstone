@@ -52,7 +52,6 @@ function AdminPage({ children }) {
   }, []);
   const handleNotification = useCallback(
     (status) => {
-      console.log("THANH EN");
       const listNotifi = listNotification.filter(
         (item) => item.checked === status
       );
@@ -126,7 +125,6 @@ function AdminPage({ children }) {
   };
   return (
     <div className="admin-page">
-      {console.log("SONNN")}
       {popupProfile ? (
         <ProfileViewPopup
           closeModel={setPopupProfile}
@@ -146,32 +144,31 @@ function AdminPage({ children }) {
           <h4>Hello, {staff.staffFullName}</h4>
         </div>
         <div className="admin-page__header-right">
-          <div
-            className="notification"
-            onClick={() => {
-              toggleMenuNotifi();
-            }}
-          >
-            <i className="fa-solid fa-bell icon"></i>
-            {staff.theAccountForStaff.roleId === 3 ? (
-              <div className="counter animate__animated animate__heartBeat animate__infinite">
-                {
-                  listNotification.filter((item) => item.checked === false)
-                    ?.length
-                }
-              </div>
-            ) : (
-              <div className="counter">0</div>
-            )}
-            <div className="sub-menu-notifi" id="subMenuNotifi">
-              <div className="sub-menu">
-                <div className="sub-menu-top">
-                  <div>
-                    <span>Thông báo mới nhận</span>
-                  </div>
+          {staff.theAccountForStaff.roleId === 3 && (
+            <div
+              className="notification"
+              onClick={() => {
+                toggleMenuNotifi();
+              }}
+            >
+              <i className="fa-solid fa-bell icon"></i>
+              {staff.theAccountForStaff.roleId === 3 ? (
+                <div className="counter animate__animated animate__heartBeat animate__infinite">
+                  {
+                    listNotification.filter((item) => item.checked === false)
+                      ?.length
+                  }
                 </div>
-                {staff.theAccountForStaff.roleId === 3 &&
-                listNotification.length !== 0 ? (
+              ) : (
+                <div className="counter">0</div>
+              )}
+              <div className="sub-menu-notifi" id="subMenuNotifi">
+                <div className="sub-menu">
+                  <div className="sub-menu-top">
+                    <div>
+                      <span>Thông báo mới nhận</span>
+                    </div>
+                  </div>
                   <div className="sub-menu-center">
                     {listNotification.filter((item) => !item.checked).length !==
                       0 && (
@@ -193,34 +190,20 @@ function AdminPage({ children }) {
                       </div>
                     </div>
                     <div className="sub-menu-footer">
-                      {staff.theAccountForStaff.roleId === 3 &&
-                      listNotification.length !== 0 ? (
-                        <div
-                          className="buttonViewAll"
-                          // onClick={() => {
-                          //   handleViewAllNotifi();
-                          // }}
-                        >
-                          <p>Xem tất cả</p>
-                        </div>
-                      ) : (
-                        <div className="buttonViewAll">
-                          <span>Xem tất cả</span>
-                        </div>
-                      )}
+                      <div
+                        className="buttonViewAll"
+                        // onClick={() => {
+                        //   handleViewAllNotifi();
+                        // }}
+                      >
+                        <p>Xem tất cả</p>
+                      </div>
                     </div>
                   </div>
-                ) : (
-                  <div className="sub-menu-center">
-                    <div className="sub-menu-item notifi">
-                      <i className="fa-solid fa-bell-slash icon"></i>
-                      <p>Bạn chưa có thông báo</p>
-                    </div>
-                  </div>
-                )}
+                </div>
               </div>
             </div>
-          </div>
+          )}
           <div className="dropdown">
             <div className="dropdown__select">
               <img

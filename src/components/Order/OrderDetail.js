@@ -8,12 +8,11 @@ import { getRestaurantByStaffRequest } from "../../pages/RestaurantManager/Resta
 function OrderDetail({ closeModel }) {
   const dispatch = useDispatch();
   const orderItem = useSelector((state) => state.orderManage.orderItem);
-  const restaurantDetail = useSelector(
-    (state) => state.restaurantManage.restaurantItem
-  );
+  console.log("HOANG TU", orderItem);
+  const restaurantDetail = JSON.parse(localStorage.getItem(RESTAURANT_INFO));
   const handleListStaff = () => {
     if (!restaurantDetail) {
-      return JSON.parse(localStorage.getItem(RESTAURANT_INFO)).staffList.filter(
+      return restaurantDetail?.staffList.filter(
         (item) =>
           item.theAccountForStaff.roleId === 4 &&
           item.staffActivityStatus?.toString() === "available"
@@ -32,7 +31,6 @@ function OrderDetail({ closeModel }) {
       restaurantDetail.staffList?.find((item) => item.staffId === +id)
     );
   };
-  console.log("ré", restaurantDetail);
   const restaurantId = JSON.parse(
     localStorage.getItem(RESTAURANT_INFO)
   )?.restaurantId;
