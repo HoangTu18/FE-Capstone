@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import loadingReducer from "../components/Loading/LoadingSlice";
 import accountManageReducer from "../pages/AccountManager/AccountManageSlice";
-import custonmerManageReducer from "../pages/CustomerManager/CustomerManageSlice";
+import customerManageReducer from "../pages/CustomerManager/CustomerManageSlice";
 import eventManageReducer from "../pages/EventManager/eventManagerSlice";
 import foodManageReducer from "../pages/FoodManager/foodManageSlice";
 import restaurantManageReducer from "../pages/RestaurantManager/RestaurantManageSlice";
@@ -24,7 +24,7 @@ const store = configureStore({
   reducer: {
     loading: loadingReducer,
     accountManage: accountManageReducer,
-    customerManage: custonmerManageReducer,
+    customerManage: customerManageReducer,
     eventManage: eventManageReducer,
     foodManage: foodManageReducer,
     restaurantManage: restaurantManageReducer,

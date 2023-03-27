@@ -28,10 +28,10 @@ function App() {
       <Loading />
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Login />} />
+          <Route path="login" element={<Login />} />
+          <Route path="" element={<Login />} />
           <Route element={<PrivateRoute />}>
-            <Route path="/dashboard" element={<Dashboard />}>
+            <Route path="dashboard" element={<Dashboard />}>
               {/* <Route path="" element={<AccountManager />} /> */}
               <Route //ROLE ADMIN
                 path="employee"
