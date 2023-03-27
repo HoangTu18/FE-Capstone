@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
 import { insertEventRequest } from "../../pages/EventManager/eventManagerSlice";
 import UploadImage from "../../ultil/UploadImage";
+import * as Yup from 'yup';
 
 function EventEdit({ closeModel, data }) {
   const dispatch = useDispatch();
@@ -138,17 +139,27 @@ function EventEdit({ closeModel, data }) {
     return result;
   };
 
+  const initialValues = {
+    eventId: data.eventId,
+    eventName: data.eventName,
+    description: data.description,
+    image_url: data.image_url,
+    fromDate: data.fromDate,
+    toDate: data.toDate,
+    status: data.status,
+    foodList: data.foodList,
+  };
+
+  const validation = Yup.object().shape({
+    eventName: Yup.string().required('Vui lòng nhập tên sự kiện!'),
+    fromDate: Yup.string().required('Vui lòng chọn ngày bắt đầu!'),
+    toDate: Yup.string().required('Vui lòng chọn ngày kết thúc!'),
+    description: Yup.string().required('Vui lòng nhập mô tả!'),
+  });
+
   const formik = useFormik({
-    initialValues: {
-      eventId: data.eventId,
-      eventName: data.eventName,
-      description: data.description,
-      image_url: data.image_url,
-      fromDate: data.fromDate,
-      toDate: data.toDate,
-      status: data.status,
-      foodList: data.foodList,
-    },
+    initialValues: initialValues,
+    validationSchema: validation,
     onSubmit: (values, { resetForm }) => {
       selected.forEach((item, index) => {
         dataSelected.push({
@@ -165,6 +176,7 @@ function EventEdit({ closeModel, data }) {
       resetForm({ values: "" });
     },
   });
+
   return (
     <div className="popup">
       <form
@@ -204,7 +216,13 @@ function EventEdit({ closeModel, data }) {
               id="eventName"
               value={formik.values.eventName}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.eventName ? (
+              <div className="error__message">
+                <span>{formik.errors.eventName}</span>
+              </div>
+            ) : null}
             <label className="label__title">
               Thời gian:<span className="proirity">*</span>
             </label>
@@ -213,14 +231,26 @@ function EventEdit({ closeModel, data }) {
               id="fromDate"
               value={formik.values.fromDate}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.fromDate ? (
+              <div className="error__message">
+                <span>{formik.errors.fromDate}</span>
+              </div>
+            ) : null}
             <label className="label__title smallText"> Đến ngày:</label>
             <input
               type="date"
               id="toDate"
               value={formik.values.toDate}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.toDate ? (
+              <div className="error__message">
+                <span>{formik.errors.toDate}</span>
+              </div>
+            ) : null}
             <label className="label__title">Hình ảnh</label>
             <UploadImage getImageURL={setImageUrl} />
             <label className="label__title">Mô tả:</label>
@@ -230,7 +260,13 @@ function EventEdit({ closeModel, data }) {
               name="description"
               value={formik.values.description}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.description ? (
+              <div className="error__message">
+                <span>{formik.errors.description}</span>
+              </div>
+            ) : null}
             <label className="label__title">Trạng thái:</label>
             <input
               className="checkBoxStatus type"

@@ -7,6 +7,8 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
+import * as Yup from 'yup';
+
 function RestaurantCreate({ data, closeModel }) {
   const dispatch = useDispatch();
   const [address, setAddress] = useState("");
@@ -14,16 +16,16 @@ function RestaurantCreate({ data, closeModel }) {
     lat: 0,
     lng: 0,
   });
-  console.log("SEARCH", address, coordinates);
+
   const handleSelect = async (value) => {
     const result = await geocodeByAddress(value);
     const ll = await getLatLng(result[0]);
     setCoordinates(ll);
     setAddress(value);
   };
+
   const handleCreateRestaurant = useCallback(
     (values) => {
-      console.log("RERENDER");
       let restaurant = {
         restaurantId: values.restaurantId,
         restaurantLocation: address,
@@ -33,27 +35,37 @@ function RestaurantCreate({ data, closeModel }) {
         restaurantNumber: values.restaurantNumber,
         status: values.status,
       };
-      console.log("BEAN", restaurant);
       dispatch(createRestaurantRequest(restaurant));
       closeModel(false);
     },
     [dispatch, closeModel, coordinates.lat, coordinates.lng, address]
   );
+
+  const initialValues = {
+    restaurantId: 0,
+    restaurantLocation: "",
+    latitude: 0,
+    longitude: 0,
+    restaurantName: "",
+    restaurantNumber: "",
+    status: true,
+  };
+
+  const validation = Yup.object().shape({
+    restaurantName: Yup.string().required('Vui lòng nhập tên nhà hàng!'),
+    restaurantNumber: Yup.string().min(0, 'Số điện thoại không hợp lệ!').max(10, 'Số điện thoại không hợp lệ!').required('Vui lòng nhập số điện thoại!'),
+    restaurantLocation: Yup.string().required('Vui lòng nhập địa chỉ nhà hàng!'),
+  });
+
   const formik = useFormik({
-    initialValues: {
-      restaurantId: 0,
-      restaurantLocation: "",
-      latitude: 0,
-      longitude: 0,
-      restaurantName: "TFS TESTING",
-      restaurantNumber: "",
-      status: true,
-    },
+    initialValues: initialValues,
+    validationSchema: validation,
     onSubmit: (values, { resetForm }) => {
       handleCreateRestaurant(values);
       resetForm({ values: "" });
     },
   });
+
   return (
     <div className="modelBackground">
       <div className="form-popup">
@@ -74,15 +86,8 @@ function RestaurantCreate({ data, closeModel }) {
             />
           </div>
           <div className="right">
-            <label>Mã nhà hàng:</label>
-            <input
-              disabled
-              type="text"
-              id="restaurantId"
-              name="restaurantId"
-              onChange={formik.handleChange}
-              values={formik.values.restaurantId}
-            />
+            <label hidden>Mã nhà hàng:</label>
+            <input hidden disabled type="text" id="restaurantId" name="restaurantId" onChange={formik.handleChange} values={formik.values.restaurantId} />
             <label>
               Tên nhà hàng: <span className="proirity">*</span>
             </label>
@@ -92,8 +97,13 @@ function RestaurantCreate({ data, closeModel }) {
               name="restaurantName"
               onChange={formik.handleChange}
               values={formik.values.restaurantName}
+              onBlur={formik.handleBlur}
             />
-
+            {formik.errors.restaurantName ? (
+              <div className="error__message">
+                <span>{formik.errors.restaurantName}</span>
+              </div>
+            ) : null}
             <label>Số điện thoại:</label>
             <input
               type="text"
@@ -101,7 +111,13 @@ function RestaurantCreate({ data, closeModel }) {
               name="restaurantNumber"
               onChange={formik.handleChange}
               values={formik.values.restaurantNumber}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.restaurantNumber ? (
+              <div className="error__message">
+                <span>{formik.errors.restaurantNumber}</span>
+              </div>
+            ) : null}
             <label>
               Địa chỉ: <span className="proirity">*</span>
             </label>
@@ -124,9 +140,15 @@ function RestaurantCreate({ data, closeModel }) {
                     })}
                     // name="restaurantLocation"
                     // id="restaurantLocation"
-                    // value={formik.values.restaurantLocation}
-                    // onChange={formik.handleChange}
+                    value={formik.values.restaurantLocation}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
+                  {formik.errors.restaurantLocation ? (
+                    <div className="error__message">
+                      <span>{formik.errors.restaurantLocation}</span>
+                    </div>
+                  ) : null}
                   <div className="autocomplete-dropdown-container">
                     {loading && <div>Loading...</div>}
                     {suggestions.map((suggestion) => {

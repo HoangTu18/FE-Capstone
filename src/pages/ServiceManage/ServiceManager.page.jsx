@@ -41,7 +41,7 @@ function ServiceManager() {
                 className="button"
                 onClick={() => setCreatePopup(!createPopup)}
               >
-                Thêm sự kiện +
+                Thêm dịch vụ +
               </div>
             </div>
             <div className="topnav__right-item">

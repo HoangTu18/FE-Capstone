@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
+import * as Yup from 'yup';
 import { insertFoodRequest } from "../../pages/FoodManager/foodManageSlice";
 import UploadImage from "../../ultil/UploadImage";
 import "./food.style.scss";
@@ -27,23 +28,34 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
     },
     [dispatch, closeModel, imageUrl]
   );
+
+  const initialValues = {
+    id: "",
+    foodName: "",
+    description: "",
+    price: "",
+    imgUrl: "",
+    status: true,
+    purchaseNum: "",
+    cateId: 1,
+    regionId: 1,
+  };
+
+  const validation = Yup.object().shape({
+    foodName: Yup.string().required('Vui lòng nhập tên món ăn!'),
+    description: Yup.string().required('Vui lòng nhập mô tả món ăn!'),
+    price: Yup.string().required('Vui lòng nhập giá món ăn!')
+  });
+
   const formik = useFormik({
-    initialValues: {
-      id: "",
-      foodName: "",
-      description: "",
-      price: "",
-      imgUrl: "",
-      status: true,
-      purchaseNum: "",
-      cateId: 1,
-      regionId: 1,
-    },
+    initialValues: initialValues,
+    validationSchema: validation,
     onSubmit: (values, { resetForm }) => {
       handleInsertFood(values);
       resetForm({ values: "" });
     },
   });
+
   return (
     <div className="popup">
       <form
@@ -66,17 +78,10 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
             />
           </div>
           <div className="listitem">
-            <label className="label__title">
+            <label className="label__title" hidden>
               Mã món ăn: <span className="proirity">*</span>
             </label>
-            <input
-              disabled
-              type="text"
-              id="id"
-              name="id"
-              value={formik.values.id}
-              onChange={formik.handleChange}
-            />
+            <input hidden disabled type="text" id="id" name="id" value={formik.values.id} onChange={formik.handleChange} />
             <label className="label__title">Tên món ăn:</label>
             <input
               type="text"
@@ -84,7 +89,13 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
               name="foodName"
               value={formik.values.foodName}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.foodName ? (
+              <div className="error__message">
+                <span>{formik.errors.foodName}</span>
+              </div>
+            ) : null}
             <label className="label__title">Giá (VND):</label>
             <input
               type="text"
@@ -92,7 +103,13 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
               name="price"
               value={formik.values.price}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.price ? (
+              <div className="error__message">
+                <span>{formik.errors.price}</span>
+              </div>
+            ) : null}
             <label className="label__title">Loại:</label>
             <select
               id="cateId"
@@ -151,7 +168,13 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
               name="description"
               value={formik.values.description}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.description ? (
+              <div className="error__message">
+                <span>{formik.errors.description}</span>
+              </div>
+            ) : null}
             <div className="food__button">
               <button type="submit" className="btn">
                 Lưu

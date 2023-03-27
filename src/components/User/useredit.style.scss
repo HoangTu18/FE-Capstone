@@ -10,6 +10,7 @@
   top: 0;
   left: 0;
   background-color: rgba(200, 200, 200, 0.5);
+  z-index: 9999;
 
   hr {
     margin-top: 10px;
@@ -145,4 +146,10 @@ textarea:focus {
 }
 
 .title {
+}
+
+.error__message {
+  color: red;
+  font-weight: 600;
+  margin-bottom: 5px;
 }

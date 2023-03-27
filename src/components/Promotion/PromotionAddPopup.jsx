@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import "../Food/food.style.scss";
 import { useDispatch } from "react-redux";
 import { insertPromotionRequest } from "../../pages/PromotionManage/PromotionManageSlice";
+import * as Yup from 'yup';
 
 function PromotionAdd({ closeModel, listPromo, listEvent }) {
   const dispatch = useDispatch();
@@ -32,19 +33,28 @@ function PromotionAdd({ closeModel, listPromo, listEvent }) {
     [closeModel, dispatch]
   );
 
+  const initialValues = {
+    id: 0,
+    promotionCode: "",
+    eventId: 1,
+    discountPercent: "",
+    status: true,
+  };
+
+  const validation = Yup.object().shape({
+    promotionCode: Yup.string().required('Vui lòng nhập code khuyến mãi!'),
+    discountPercent: Yup.string().required('Vui lòng nhập phần trăm khuyến mãi!'),
+  });
+
   const formik = useFormik({
-    initialValues: {
-      id: 0,
-      promotionCode: "",
-      eventId: 1,
-      discountPercent: "",
-      status: true,
-    },
+    initialValues: initialValues,
+    validationSchema: validation,
     onSubmit: (values, { resetForm }) => {
       handleInsertPromotion(values);
       resetForm({ values: "" });
     },
   });
+
   return (
     <div className="popup">
       <form
@@ -57,16 +67,10 @@ function PromotionAdd({ closeModel, listPromo, listEvent }) {
         <div className="food__title unselectable">Thông tin voucher</div>
         <div className="center">
           <div className="listitem">
-            <label className="label__title">
+            <label hidden className="label__title">
               Mã khuyến mãi:<span className="proirity">*</span>
             </label>
-            <input
-              disabled
-              type="text"
-              id="id"
-              value={formik.values.id}
-              onChange={formik.handleChange}
-            />
+            <input hidden disabled type="text" id="id" value={formik.values.id} onChange={formik.handleChange} />
             <label className="label__title">
               Phần trăm khuyến mãi (%):<span className="proirity">*</span>
             </label>
@@ -77,7 +81,13 @@ function PromotionAdd({ closeModel, listPromo, listEvent }) {
               id="discountPercent"
               value={formik.values.discountPercent}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.discountPercent ? (
+              <div className="error__message">
+                <span>{formik.errors.discountPercent}</span>
+              </div>
+            ) : null}
             <label className="label__title">
               Code khuyến mãi:<span className="proirity">*</span>
             </label>
@@ -86,7 +96,13 @@ function PromotionAdd({ closeModel, listPromo, listEvent }) {
               id="promotionCode"
               value={formik.values.promotionCode}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.promotionCode ? (
+              <div className="error__message">
+                <span>{formik.errors.promotionCode}</span>
+              </div>
+            ) : null}
             <label className="label__title">
               Sự kiện đi kèm:<span className="proirity">*</span>
             </label>

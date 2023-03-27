@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { updateServiceRequest } from "../../pages/ServiceManage/ServiceManageSlice";
 import UploadImage from "../../ultil/UploadImage";
 import "../Food/food.style.scss";
+import * as Yup from 'yup';
 
 function ServiceEdit({ closeModel, data }) {
   const [imageUrl, setImageUrl] = useState("");
@@ -25,21 +26,32 @@ function ServiceEdit({ closeModel, data }) {
     },
     [dispatch, closeModel, imageUrl]
   );
+
+  const initialValues = {
+    id: data.id,
+    serviceName: data.serviceName,
+    servicePrice: data.servicePrice,
+    serviceDescription: data.serviceDescription,
+    serviceImage: data.serviceImage,
+    status: data.status,
+  };
+
+  const validation = Yup.object().shape({
+    serviceName: Yup.string().required('Vui lòng nhập tên dịch vụ!'),
+    servicePrice: Yup.string().required('Vui lòng nhập giá dịch vụ!'),
+    serviceDescription: Yup.string().required('Vui lòng nhập mô tả dịch vụ!'),
+  });
+
   const formik = useFormik({
-    initialValues: {
-      id: data.id,
-      serviceName: data.serviceName,
-      servicePrice: data.servicePrice,
-      serviceDescription: data.serviceDescription,
-      serviceImage: data.serviceImage,
-      status: data.status,
-    },
+    initialValues: initialValues,
+    validationSchema: validation,
     onSubmit: (values, { resetForm }) => {
       console.log(values);
       handleUpdateService(values);
       resetForm({ values: "" });
     },
   });
+
   return (
     <div className="popup">
       <form
@@ -83,7 +95,13 @@ function ServiceEdit({ closeModel, data }) {
               name="serviceName"
               value={formik.values.serviceName}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.serviceName ? (
+              <div className="error__message">
+                <span>{formik.errors.serviceName}</span>
+              </div>
+            ) : null}
             <label className="label__title">Giá (VND):</label>
             <input
               type="text"
@@ -91,7 +109,13 @@ function ServiceEdit({ closeModel, data }) {
               name="servicePrice"
               value={formik.values.servicePrice}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.servicePrice ? (
+              <div className="error__message">
+                <span>{formik.errors.servicePrice}</span>
+              </div>
+            ) : null}
             <label className="label__title">Trạng thái:</label>
             <input
               className="checkBoxStatus type"
@@ -117,7 +141,13 @@ function ServiceEdit({ closeModel, data }) {
               name="serviceDescription"
               value={formik.values.serviceDescription}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.serviceDescription ? (
+              <div className="error__message">
+                <span>{formik.errors.serviceDescription}</span>
+              </div>
+            ) : null}
             <div className="food__button">
               <button type="submit" className="btn">
                 Lưu
