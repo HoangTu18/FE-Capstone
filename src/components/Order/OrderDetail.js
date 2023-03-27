@@ -25,55 +25,56 @@ function OrderDetail({ closeModel }) {
 
   useEffect(() => {
     setMergeData([]);
-    console.log(orderItem);
+    // console.log(orderItem);
     if (Object.keys(orderItem).length !== 0 || orderItem !== null) {
-      // if (orderItem?.itemList?.length > 0) {
-      //   orderItem.itemList.forEach((item) => {
-      //     setMergeData((prev) => [
-      //       ...prev,
-      //       {
-      //         id: `#${item.id}`,
-      //         name: item.name,
-      //         price: item.price,
-      //         quantity: item.quantity,
-      //         total: item.subTotal,
-      //         isHeader: false,
-      //       },
-      //     ]);
-      //   });
-      // }
+      if (orderItem?.itemList?.length > 0) {
+        orderItem.itemList.forEach((item) => {
+          setMergeData((prev) => [
+            ...prev,
+            {
+              id: `#${item.id}`,
+              name: item.name,
+              price: item.price,
+              quantity: item.quantity,
+              total: item.subTotal,
+              isHeader: false,
+            },
+          ]);
+        });
+      }
       // if (orderItem?.comboList.length > 0) {
       //   orderItem.comboList.forEach((combo) => {
       //     setMergeData((prev) => [...prev, combo]);
       //   });
       // }
       if (orderItem?.party !== null) {
-        // if (orderItem?.party.itemList?.length > 0) {
-        //   const quantityTable = orderItem.party.quantity;
-        //   setMergeData((prev) => [
-        //     ...prev,
-        //     {
-        //       id: `Mã tiệc: ${orderItem?.party.id}`,
-        //       name: orderItem?.party.partyName,
-        //       price: orderItem?.party.subTotal,
-        //       quantity: orderItem?.party.quantity,
-        //       total: orderItem?.party.totalPrice,
-        //       isHeader: true,
-        //     },
-        //   ]);
-        //   orderItem.party.itemList.forEach((partyItem) => {
-        //     setMergeData((prev) => [
-        //       ...prev,
-        //       {
-        //         id: partyItem.id,
-        //         name: partyItem.foodName,
-        //         price: partyItem.price,
-        //         quantity: quantityTable,
-        //         total: partyItem.price * quantityTable,
-        //       },
-        //     ]);
-        //   });
-        // }
+        if (orderItem?.party.itemList?.length > 0) {
+          const quantityTable = orderItem.party.quantity;
+          setMergeData((prev) => [
+            ...prev,
+            {
+              id: `Mã tiệc: ${orderItem?.party.id}`,
+              name: orderItem?.party.partyName,
+              price: orderItem?.party.subTotal,
+              quantity: orderItem?.party.quantity,
+              total: orderItem?.party.totalPrice,
+              isHeader: true,
+            },
+          ]);
+          orderItem.party.itemList.forEach((partyItem) => {
+            setMergeData((prev) => [
+              ...prev,
+              {
+                id: partyItem.id,
+                name: partyItem.foodName,
+                price: partyItem.price,
+                quantity: quantityTable,
+                total: partyItem.price * quantityTable,
+                isHeader: false,
+              },
+            ]);
+          });
+        }
       }
 
       if (orderItem?.serviceList?.length > 0) {
@@ -86,6 +87,7 @@ function OrderDetail({ closeModel }) {
               price: service.servicePrice,
               quantity: 1,
               total: service.servicePrice,
+              isHeader: false,
             },
           ]);
         });
