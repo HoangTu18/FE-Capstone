@@ -40,23 +40,8 @@ const TableOrderDetail = (props) => {
                 currentItems.map((item, index) => {
                   if (item.isHeader) {
                     return (
-                      <>
-                        <tbody key={index}>
-                          <tr style={{fontWeight: 'bold'}}>
-                            <td>{item.id}</td>
-                            <td>{item.name}</td>
-                            <td>{formatToVND(item.price)}</td>
-                            <td>{item.quantity}</td>
-                            <td>{formatToVND(item.total)}</td>
-                          </tr>
-                        </tbody>
-                      </>
-                    );
-                  }
-                  return (
-                    <>
                       <tbody key={index}>
-                        <tr>
+                        <tr style={{ fontWeight: "bold" }}>
                           <td>{item.id}</td>
                           <td>{item.name}</td>
                           <td>{formatToVND(item.price)}</td>
@@ -64,21 +49,20 @@ const TableOrderDetail = (props) => {
                           <td>{formatToVND(item.total)}</td>
                         </tr>
                       </tbody>
-                    </>
+                    );
+                  }
+                  return (
+                    <tbody key={index}>
+                      <tr>
+                        <td>{item.id}</td>
+                        <td>{item.name}</td>
+                        <td>{formatToVND(item.price)}</td>
+                        <td>{item.quantity}</td>
+                        <td>{formatToVND(item.total)}</td>
+                      </tr>
+                    </tbody>
                   );
                 })}
-              {/* {currentItems &&
-                currentItems.map((item, index) => (
-                  <tbody key={index}>
-                    <tr>
-                      <td>#{item.id}</td>
-                      <td>{item.name}</td>
-                      <td>{formatToVND(item.price)}</td>
-                      <td>{item.quantity}</td>
-                      <td>{formatToVND(item.total)}</td>
-                    </tr>
-                  </tbody>
-                ))} */}
             </>
           ) : null}
         </table>
