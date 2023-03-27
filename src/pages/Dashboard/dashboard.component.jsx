@@ -124,8 +124,10 @@ function Dashboard() {
             icon={<i className="fa-solid fa-users"></i>}
           />
           <DashboardItem
-            isActive={location.pathname.split("/")[2] === "food" ? true : false}
-            url={"food"}
+            isActive={
+              location.pathname.split("/")[2] === "foodOfRes" ? true : false
+            }
+            url={"foodOfRes"}
             text={"Danh sách món"}
             icon={<i className="fa-solid fa-rectangle-list"></i>}
           />
