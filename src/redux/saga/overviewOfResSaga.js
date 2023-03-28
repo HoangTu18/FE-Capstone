@@ -11,6 +11,8 @@ import {
   getStatisticOfRes,
   getStatisticOfResFailure,
   getStatisticOfResSuccess,
+  getTotalUserOfResRequest,
+  getTotalUserOfResSuccess,
 } from "../../pages/OverviewOfRes/OverviewOfResSlice";
 import { statisticService } from "../../services/statisticService";
 import { STATUS_CODE } from "../../ultil/settingSystem";
@@ -56,4 +58,19 @@ function* getRevenue(action) {
 }
 export function* followActionGetRevenueOfRes() {
   yield takeLatest(getRevenueOfRes, getRevenue);
+}
+function* getTotalUser(action) {
+  try {
+    let totalUser = yield call(() => {
+      return statisticService.getUserOfRes(action.payload);
+    });
+    if (totalUser.status === STATUS_CODE.SUCCESS) {
+      yield put(getTotalUserOfResSuccess(totalUser.data));
+    }
+  } catch (error) {
+    openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
+  }
+}
+export function* followActionGetTotalUserOfRes() {
+  yield takeLatest(getTotalUserOfResRequest, getTotalUser);
 }
