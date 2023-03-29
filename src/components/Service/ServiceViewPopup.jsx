@@ -22,9 +22,6 @@ function ServiceView({ closeModel, data }) {
       <form className="form-up" style={{ height: "400px" }}>
         <div className="food__title unselectable">Thông tin dịch vụ</div>
         <div className="left">
-          <div className="img__item">
-            <img className="image" src={data.serviceImage} alt="" />
-          </div>
           <div className="listitem">
             <label className="label__title">
               Mã dịch vụ: <span className="proirity">*</span>

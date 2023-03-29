@@ -63,19 +63,6 @@ function ServiceEdit({ closeModel, data }) {
       >
         <div className="food__title unselectable">Thông tin dịch vụ</div>
         <div className="left">
-          <div className="img__item">
-            <img
-              className="image"
-              src={
-                imageUrl
-                  ? imageUrl
-                  : data.serviceImage
-                  ? data.serviceImage
-                  : "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
-              }
-              alt=""
-            />
-          </div>
           <div className="listitem">
             <label className="label__title">
               Mã dịch vụ: <span className="proirity">*</span>
@@ -130,8 +117,6 @@ function ServiceEdit({ closeModel, data }) {
         </div>
         <div className="right">
           <div className="listitem">
-            <label className="label__title">Hình ảnh</label>
-            <UploadImage getImageURL={setImageUrl} />
             <label className="label__title">
               Mô tả: <span className="proirity">*</span>
             </label>

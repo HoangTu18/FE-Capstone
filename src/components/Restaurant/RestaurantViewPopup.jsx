@@ -5,15 +5,6 @@ function RestaurantView({ data, closeModel }) {
     <div className="modelBackground">
       <div className="form-popup">
         <form action="" className="form-container">
-          <div className="left">
-            <img
-              className="avatar"
-              src={
-                "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
-              }
-              alt=""
-            />
-          </div>
           <div className="right">
             <label>Mã nhà hàng:</label>
             <input type="text" defaultValue={data.restaurantId} readOnly />

@@ -5,6 +5,7 @@ import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { updateComboFoodRequest } from "../../pages/FoodManager/foodManageSlice";
 import UploadImage from "../../ultil/UploadImage";
+import FoodImage from "../../assets/imgs/food.jpg";
 import "./food.style.scss";
 function ComboFoodEdit({ closeModel, data, listCate }) {
   const dispatch = useDispatch();
@@ -169,7 +170,11 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
         <div className="food__title unselectable">Thông tin Combo</div>
         <div className="left" style={{ width: "50%" }}>
           <div className="img__item">
-            <img className="image" src={formik.values.comboPrice} alt="" />
+            <img
+              className="image"
+              src={formik.values.image ?? FoodImage}
+              alt=""
+            />
           </div>
           <div className="listitem">
             <label className="label__title">

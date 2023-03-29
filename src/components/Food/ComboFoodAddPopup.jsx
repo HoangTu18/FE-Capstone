@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { insertComboFoodRequest } from "../../pages/FoodManager/foodManageSlice";
 import * as Yup from "yup";
 import UploadImage from "../../ultil/UploadImage";
+import FoodImage from "../../assets/imgs/food.jpg";
 import "./food.style.scss";
 function ComboFoodAdd({ closeModel, listCate }) {
   const dispatch = useDispatch();
@@ -168,7 +169,7 @@ function ComboFoodAdd({ closeModel, listCate }) {
               src={
                 imageUrl
                   ? imageUrl
-                  : "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
+                  : FoodImage
               }
               alt=""
             />

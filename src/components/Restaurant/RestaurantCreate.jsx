@@ -76,16 +76,7 @@ function RestaurantCreate({ data, closeModel }) {
           autoComplete="off"
           onSubmit={formik.handleSubmit}
         >
-          <div className="left">
-            <img
-              className="avatar"
-              src={
-                "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
-              }
-              alt=""
-            />
-          </div>
-          <div className="right">
+          <div className="center">
             <label hidden>Mã nhà hàng:</label>
             <input hidden disabled type="text" id="restaurantId" name="restaurantId" onChange={formik.handleChange} values={formik.values.restaurantId} />
             <label>

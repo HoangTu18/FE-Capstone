@@ -86,18 +86,7 @@ function EventView({ closeModel, data }) {
         onSubmit={formik.handleSubmit}
       >
         <div className="food__title unselectable">Thông tin sự kiện</div>
-        <div className="left" style={{ width: "50%" }}>
-          <div className="img__item">
-            <img
-              className="image"
-              src={
-                data.image_url
-                  ? data.image_url
-                  : "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
-              }
-              alt=""
-            />
-          </div>
+        <div className="left" >
           <div className="listitem">
             <label className="label__title">Mã sự kiện:</label>
             <input disabled type="text" value={formik.values.eventId} />

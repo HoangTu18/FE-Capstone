@@ -2,9 +2,10 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 import { insertFoodRequest } from "../../pages/FoodManager/foodManageSlice";
 import UploadImage from "../../ultil/UploadImage";
+import FoodImage from "../../assets/imgs/food.jpg";
 import "./food.style.scss";
 function FoodAdd({ closeModel, listCate, listRegion }) {
   const [imageUrl, setImageUrl] = useState("");
@@ -42,9 +43,13 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
   };
 
   const validation = Yup.object().shape({
-    foodName: Yup.string().required('Vui lòng nhập tên món ăn!'),
-    description: Yup.string().required('Vui lòng nhập mô tả món ăn!'),
-    price: Yup.number().required('Vui lòng nhập giá món ăn!').positive("Vui lòng nhập giá món ăn không được âm!").min(0, "Vui lòng nhập giá món ăn lớn hơn hoặc bằng 0!").integer("Yêu cầu số nguyên")
+    foodName: Yup.string().required("Vui lòng nhập tên món ăn!"),
+    description: Yup.string().required("Vui lòng nhập mô tả món ăn!"),
+    price: Yup.number()
+      .required("Vui lòng nhập giá món ăn!")
+      .positive("Vui lòng nhập giá món ăn không được âm!")
+      .min(0, "Vui lòng nhập giá món ăn lớn hơn hoặc bằng 0!")
+      .integer("Yêu cầu số nguyên"),
   });
 
   const formik = useFormik({
@@ -72,7 +77,7 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
               src={
                 imageUrl
                   ? imageUrl
-                  : "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
+                  : FoodImage
               }
               alt=""
             />
@@ -81,7 +86,15 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
             <label className="label__title" hidden>
               Mã món ăn: <span className="proirity">*</span>
             </label>
-            <input hidden disabled type="text" id="id" name="id" value={formik.values.id} onChange={formik.handleChange} />
+            <input
+              hidden
+              disabled
+              type="text"
+              id="id"
+              name="id"
+              value={formik.values.id}
+              onChange={formik.handleChange}
+            />
             <label className="label__title">Tên món ăn:</label>
             <input
               type="text"

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
 import { insertEventRequest } from "../../pages/EventManager/eventManagerSlice";
 import UploadImage from "../../ultil/UploadImage";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 
 function EventAdd({ closeModel }) {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ function EventAdd({ closeModel }) {
   useEffect(() => {
     dispatch(getCategoryRequest());
   }, [dispatch]);
-  
+
   useEffect(() => {
     if (listFood.length === 0) {
       handleChangeCate(1);
@@ -107,7 +107,7 @@ function EventAdd({ closeModel }) {
         image_url: imageUrl,
         fromDate: values.fromDate,
         toDate: values.toDate,
-        status: values.status,
+        status: true,
         foodList: dataSelected,
       };
       console.log("Event Insert: ", event);
@@ -120,9 +120,10 @@ function EventAdd({ closeModel }) {
   const getFooddetail = (id) => {
     let result = [];
     listCate.forEach((item) => {
-      result.push(item.foodList.find((food) => food.id === id));
+      const newData = item.foodList.find((food) => food.id === id);
+      if (newData !== undefined) result.push(newData);
     });
-    return result;
+    return result[0];
   };
 
   const initialValues = {
@@ -132,15 +133,15 @@ function EventAdd({ closeModel }) {
     image_url: "",
     fromDate: "",
     toDate: "",
-    status: "",
+    status: true,
     foodList: [],
   };
 
   const validation = Yup.object().shape({
-    eventName: Yup.string().required('Vui lòng nhập tên sự kiện!'),
-    fromDate: Yup.string().required('Vui lòng chọn ngày bắt đầu!'),
-    toDate: Yup.string().required('Vui lòng chọn ngày kết thúc!'),
-    description: Yup.string().required('Vui lòng nhập mô tả!'),
+    eventName: Yup.string().required("Vui lòng nhập tên sự kiện!"),
+    fromDate: Yup.string().required("Vui lòng chọn ngày bắt đầu!"),
+    toDate: Yup.string().required("Vui lòng chọn ngày kết thúc!"),
+    description: Yup.string().required("Vui lòng nhập mô tả!"),
   });
 
   const formik = useFormik({
@@ -151,11 +152,10 @@ function EventAdd({ closeModel }) {
         dataSelected.push({
           id: selected[index].id,
           foodName: selected[index].label,
-          description:
-            getFooddetail(selected[index].id)[1]["description"] ?? "",
-          price: +getFooddetail(selected[index].id)[1]["price"],
-          imgUrl: getFooddetail(selected[index].id)[1]["imgUrl"],
-          listComment: getFooddetail(selected[index].id)[1]["listComment"],
+          description: getFooddetail(selected[index].id)["description"] ?? "",
+          price: +getFooddetail(selected[index].id)["price"],
+          imgUrl: getFooddetail(selected[index].id)["imgUrl"],
+          listComment: getFooddetail(selected[index].id)["listComment"],
         });
       });
       handleUpdateEvent(values);
@@ -173,21 +173,19 @@ function EventAdd({ closeModel }) {
         onSubmit={formik.handleSubmit}
       >
         <div className="food__title unselectable">Thông tin sự kiện</div>
-        <div className="left" style={{ width: "50%" }}>
-          <div className="img__item">
-            <img
-              className="image"
-              src={
-                imageUrl
-                  ? imageUrl
-                  : "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
-              }
-              alt=""
-            />
-          </div>
+        <div className="left">
           <div className="listitem">
-            <label hidden className="label__title">Mã sự kiện:</label>
-            <input hidden disabled type="text" id="eventId" value={formik.values.eventId} onChange={formik.handleChange} />
+            <label hidden className="label__title">
+              Mã sự kiện:
+            </label>
+            <input
+              hidden
+              disabled
+              type="text"
+              id="eventId"
+              value={formik.values.eventId}
+              onChange={formik.handleChange}
+            />
             <label className="label__title">
               Tên sự kiện: <span className="proirity">*</span>
             </label>
@@ -231,8 +229,6 @@ function EventAdd({ closeModel }) {
                 <span>{formik.errors.toDate}</span>
               </div>
             ) : null}
-            <label className="label__title">Hình ảnh</label>
-            <UploadImage getImageURL={setImageUrl} />
             <label className="label__title">Mô tả:</label>
             <textarea
               type="text"
@@ -253,8 +249,8 @@ function EventAdd({ closeModel }) {
               type="checkbox"
               id="status"
               name="status"
-              value={formik.values.status}
-              checked={formik.values.status}
+              value={true}
+              checked={true}
               onChange={formik.handleChange}
             />
           </div>

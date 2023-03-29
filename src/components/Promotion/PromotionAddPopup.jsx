@@ -12,7 +12,7 @@ function PromotionAdd({ closeModel, listPromo, listEvent }) {
   // listEvent.map((event)=>{
   //   console.log(event);
   // });
-  console.log(listPromo.find((item) => item.eventId === 4) === undefined);
+  // console.log(listPromo.find((item) => item.eventId === 4) === undefined);
   // listPromo.map((promo) => {
   //   console.log(promo);
   // });
