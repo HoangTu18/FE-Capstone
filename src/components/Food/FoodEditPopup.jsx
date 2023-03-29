@@ -51,7 +51,7 @@ function FoodEdit({
   const validation = Yup.object().shape({
     foodName: Yup.string().required('Vui lòng nhập tên món ăn!'),
     description: Yup.string().required('Vui lòng nhập mô tả món ăn!'),
-    price: Yup.string().required('Vui lòng nhập giá món ăn!')
+    price: Yup.number().required('Vui lòng nhập giá món ăn!').positive("Vui lòng nhập giá món ăn không được âm!").min(0, "Vui lòng nhập giá món ăn lớn hơn hoặc bằng 0!").integer("Yêu cầu số nguyên")
   });
 
   const formik = useFormik({
@@ -114,7 +114,7 @@ function FoodEdit({
             ) : null}
             <label className="label__title">Giá (VND):</label>
             <input
-              type="text"
+              type="number"
               id="price"
               name="price"
               value={formik.values.price}

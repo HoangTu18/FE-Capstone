@@ -74,7 +74,6 @@ function PromotionUpdate({ closeModel, data, listPromo, listEvent }) {
             <input
               type="number"
               min={0}
-              max={100}
               id="discountPercent"
               value={formik.values.discountPercent}
               onChange={formik.handleChange}

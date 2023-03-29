@@ -43,7 +43,7 @@ function PromotionAdd({ closeModel, listPromo, listEvent }) {
 
   const validation = Yup.object().shape({
     promotionCode: Yup.string().required('Vui lòng nhập code khuyến mãi!'),
-    discountPercent: Yup.string().required('Vui lòng nhập phần trăm khuyến mãi!'),
+    discountPercent: Yup.number().required('Vui lòng nhập phần trăm khuyến mãi!').positive("Vui lòng nhập phần trăm khuyến mãi không được âm!").min(0, "Vui lòng nhập phần trăm khuyến mãi lớn hơn hoặc bằng 0!").integer("Yêu cầu số nguyên")
   });
 
   const formik = useFormik({
@@ -76,8 +76,6 @@ function PromotionAdd({ closeModel, listPromo, listEvent }) {
             </label>
             <input
               type="number"
-              min={0}
-              max={100}
               id="discountPercent"
               value={formik.values.discountPercent}
               onChange={formik.handleChange}
