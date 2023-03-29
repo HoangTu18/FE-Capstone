@@ -8,7 +8,11 @@ import "./OverviewOfRes.style.scss";
 import moment from "moment";
 import { useCallback } from "react";
 import { openNotification } from "../../components/NotificationConfirm/NotificationConfirm";
-import { getRevenueOfRes, getStatisticOfRes } from "./OverviewOfResSlice";
+import {
+  getRevenueOfRes,
+  getStatisticOfRes,
+  getTotalUserOfResRequest,
+} from "./OverviewOfResSlice";
 import { RESTAURANT_INFO } from "../../ultil/settingSystem";
 const OverviewOfRes = () => {
   const dispatch = useDispatch();
@@ -22,10 +26,9 @@ const OverviewOfRes = () => {
   const revenueByDate = useSelector(
     (state) => state.overviewOfResManage.revenue
   );
+  const totalUser = useSelector((state) => state.overviewOfResManage.totalUser);
   let statistic = useSelector((state) => state.overviewOfResManage.statistic);
   useEffect(() => {
-    console.log("Hello be An");
-
     dispatch(getStatisticOfRes(restaurantId));
     dispatch(
       getRevenueOfRes({
@@ -34,7 +37,14 @@ const OverviewOfRes = () => {
         restaurantId: restaurantId,
       })
     );
-  }, []);
+    dispatch(
+      getTotalUserOfResRequest({
+        fromDate: startDate,
+        toDate: endDate,
+        restaurantId: restaurantId,
+      })
+    );
+  }, [dispatch]);
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
@@ -70,7 +80,7 @@ const OverviewOfRes = () => {
       <div className="overviewContainer">
         <div className="widgets">
           <Widget
-            data={statistic.totalcustomers ? statistic.totalcustomers : 0}
+            data={totalUser.totaluser}
             title={"Khách hàng"}
             icon={"fa-solid fa-user"}
           />

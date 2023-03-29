@@ -17,6 +17,9 @@ export class StatisticService extends BaseService {
   getRevenueOfRes = (model) => {
     return this.post(`statistic/detail`, model);
   };
+  getUserOfRes = (model) => {
+    return this.post(`statistic/detail/user`, model);
+  };
 }
 
 export const statisticService = new StatisticService();

@@ -80,6 +80,7 @@ export default function* rootSaga() {
     //Overview Of Restaurant
     statisticOfResSaga.followActionGetStatisticOfRes(),
     statisticOfResSaga.followActionGetRevenueOfRes(),
+    statisticOfResSaga.followActionGetTotalUserOfRes(),
     //Notification
     notificationSaga.followActionGetNotification(),
     //Feedback

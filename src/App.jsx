@@ -130,7 +130,7 @@ function App() {
                 }
               />
               <Route
-                path="food"
+                path="foodOfRes"
                 element={
                   <PrivateManager>
                     <FoodManager />

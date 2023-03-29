@@ -31,8 +31,18 @@ export default function Chart({ data }) {
         <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
         <Tooltip />
         <Legend />
-        <Bar yAxisId="left" dataKey="totalPrice" fill="#8884d8" />
-        <Bar yAxisId="right" dataKey="totalQuantity" fill="#82ca9d" />
+        <Bar
+          yAxisId="left"
+          dataKey="totalPrice"
+          fill="#8884d8"
+          name="Doanh thu"
+        />
+        <Bar
+          yAxisId="right"
+          dataKey="totalQuantity"
+          fill="#82ca9d"
+          name="Số lượng"
+        />
       </BarChart>
     </ResponsiveContainer>
   );

@@ -4,6 +4,7 @@ export const OverviewOfResSlice = createSlice({
   name: "overviewOfRes",
   initialState: {
     statistic: {},
+    totalUser: "",
     revenue: [],
   },
   reducers: {
@@ -22,6 +23,10 @@ export const OverviewOfResSlice = createSlice({
     getRevenueOfResFailure: (state) => {
       return state;
     },
+    getTotalUserOfResRequest: (state, action) => {},
+    getTotalUserOfResSuccess: (state, action) => {
+      state.totalUser = action.payload;
+    },
   },
 });
 export const {
@@ -31,6 +36,8 @@ export const {
   getRevenueOfRes,
   getRevenueOfResSuccess,
   getRevenueOfResFailure,
+  getTotalUserOfResRequest,
+  getTotalUserOfResSuccess,
 } = OverviewOfResSlice.actions;
 
 export default OverviewOfResSlice.reducer;

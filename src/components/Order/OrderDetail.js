@@ -8,12 +8,10 @@ function OrderDetail({ closeModel }) {
   const dispatch = useDispatch();
   const orderItem = useSelector((state) => state.orderManage.orderItem);
   const [mergeData, setMergeData] = useState([]);
-  const restaurantDetail = useSelector(
-    (state) => state.restaurantManage.restaurantItem
-  );
+  const restaurantDetail = JSON.parse(localStorage.getItem(RESTAURANT_INFO));
   const handleListStaff = () => {
     if (restaurantDetail !== undefined) {
-      return JSON.parse(localStorage.getItem(RESTAURANT_INFO)).staffList.filter(
+      return restaurantDetail?.staffList.filter(
         (item) => item?.theAccountForStaff?.roleId === 4
       );
     } else {
@@ -22,7 +20,6 @@ function OrderDetail({ closeModel }) {
       );
     }
   };
-  console.log(orderItem.itemList);
   useEffect(() => {
     setMergeData([]);
     console.log("Length: ", Object.keys(orderItem).length);
@@ -43,11 +40,6 @@ function OrderDetail({ closeModel }) {
           ]);
         });
       }
-      // if (orderItem?.comboList.length > 0) {
-      //   orderItem.comboList.forEach((combo) => {
-      //     setMergeData((prev) => [...prev, combo]);
-      //   });
-      // }
       if (orderItem?.party !== null) {
         if (orderItem?.party.itemList?.length > 0) {
           const quantityTable = orderItem.party.quantity;
@@ -139,6 +131,7 @@ function OrderDetail({ closeModel }) {
           restaurantId: restaurantId,
         })
       );
+      closeModel(false);
     } else {
       dispatch(
         updateOrderRequest({
@@ -164,6 +157,7 @@ function OrderDetail({ closeModel }) {
         restaurantId: restaurantId,
       })
     );
+    closeModel(false);
   };
   return (
     <div className="popup">

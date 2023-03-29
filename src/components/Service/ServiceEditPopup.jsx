@@ -38,7 +38,7 @@ function ServiceEdit({ closeModel, data }) {
 
   const validation = Yup.object().shape({
     serviceName: Yup.string().required('Vui lòng nhập tên dịch vụ!'),
-    servicePrice: Yup.string().required('Vui lòng nhập giá dịch vụ!'),
+    servicePrice: Yup.number().required('Vui lòng nhập giá dịch vụ!').positive("Vui lòng nhập giá dịch vụ không được âm!").min(0, "Vui lòng nhập giá dịch vụ lớn hơn hoặc bằng 0!").integer("Yêu cầu số nguyên"),
     serviceDescription: Yup.string().required('Vui lòng nhập mô tả dịch vụ!'),
   });
 
@@ -104,7 +104,7 @@ function ServiceEdit({ closeModel, data }) {
             ) : null}
             <label className="label__title">Giá (VND):</label>
             <input
-              type="text"
+              type="number"
               id="servicePrice"
               name="servicePrice"
               value={formik.values.servicePrice}
