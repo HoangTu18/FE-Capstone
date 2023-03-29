@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import "../Food/food.style.scss";
 import { useDispatch } from "react-redux";
 import { insertPromotionRequest } from "../../pages/PromotionManage/PromotionManageSlice";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 
 function PromotionAdd({ closeModel, listPromo, listEvent }) {
   const dispatch = useDispatch();
@@ -42,8 +42,11 @@ function PromotionAdd({ closeModel, listPromo, listEvent }) {
   };
 
   const validation = Yup.object().shape({
-    promotionCode: Yup.string().required('Vui lòng nhập code khuyến mãi!'),
-    discountPercent: Yup.string().required('Vui lòng nhập phần trăm khuyến mãi!'),
+    promotionCode: Yup.string().required("Vui lòng nhập code khuyến mãi!"),
+    discountPercent: Yup.number()
+      .min(0, "Số lớn hơn hoặc bằng 0")
+      .max(100, "Số nhỏ hơn hoặc bằng 100")
+      .required("Vui lòng nhập phần trăm khuyến mãi!"),
   });
 
   const formik = useFormik({
@@ -70,7 +73,14 @@ function PromotionAdd({ closeModel, listPromo, listEvent }) {
             <label hidden className="label__title">
               Mã khuyến mãi:<span className="proirity">*</span>
             </label>
-            <input hidden disabled type="text" id="id" value={formik.values.id} onChange={formik.handleChange} />
+            <input
+              hidden
+              disabled
+              type="text"
+              id="id"
+              value={formik.values.id}
+              onChange={formik.handleChange}
+            />
             <label className="label__title">
               Phần trăm khuyến mãi (%):<span className="proirity">*</span>
             </label>
