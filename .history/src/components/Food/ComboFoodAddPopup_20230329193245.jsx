@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { insertComboFoodRequest } from "../../pages/FoodManager/foodManageSlice";
 import * as Yup from "yup";
 import UploadImage from "../../ultil/UploadImage";
-import FoodImage from "../../assets/imgs/food-page.jpg";
+import FoodImage from "../../assets/imgs/food.jpg";
 import "./food.style.scss";
 function ComboFoodAdd({ closeModel, listCate }) {
   const dispatch = useDispatch();

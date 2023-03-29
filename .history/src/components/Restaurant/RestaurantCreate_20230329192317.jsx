@@ -7,7 +7,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
 function RestaurantCreate({ data, closeModel }) {
   const dispatch = useDispatch();
@@ -52,14 +52,9 @@ function RestaurantCreate({ data, closeModel }) {
   };
 
   const validation = Yup.object().shape({
-    restaurantName: Yup.string().required("Vui lòng nhập tên nhà hàng!"),
-    restaurantNumber: Yup.string()
-      .min(0, "Số điện thoại không hợp lệ!")
-      .max(10, "Số điện thoại không hợp lệ!")
-      .required("Vui lòng nhập số điện thoại!"),
-    restaurantLocation: Yup.string().required(
-      "Vui lòng nhập địa chỉ nhà hàng!"
-    ),
+    restaurantName: Yup.string().required('Vui lòng nhập tên nhà hàng!'),
+    restaurantNumber: Yup.string().min(0, 'Số điện thoại không hợp lệ!').max(10, 'Số điện thoại không hợp lệ!').required('Vui lòng nhập số điện thoại!'),
+    restaurantLocation: Yup.string().required('Vui lòng nhập địa chỉ nhà hàng!'),
   });
 
   const formik = useFormik({
@@ -83,15 +78,7 @@ function RestaurantCreate({ data, closeModel }) {
         >
           <div className="center">
             <label hidden>Mã nhà hàng:</label>
-            <input
-              hidden
-              disabled
-              type="text"
-              id="restaurantId"
-              name="restaurantId"
-              onChange={formik.handleChange}
-              values={formik.values.restaurantId}
-            />
+            <input hidden disabled type="text" id="restaurantId" name="restaurantId" onChange={formik.handleChange} values={formik.values.restaurantId} />
             <label>
               Tên nhà hàng: <span className="proirity">*</span>
             </label>
@@ -182,7 +169,7 @@ function RestaurantCreate({ data, closeModel }) {
                 </div>
               )}
             </PlacesAutocomplete>
-            {/* <label hidden>Kinh độ:</label>
+            <label hidden>Kinh độ:</label>
             <input
               hidden
               disabled
@@ -201,7 +188,7 @@ function RestaurantCreate({ data, closeModel }) {
               name="latitude"
               // onChange={formik.handleChange}
               value={coordinates.lat}
-            /> */}
+            />
             <label>Trạng thái: </label>
             <br></br>
             <input

@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { insertFoodRequest } from "../../pages/FoodManager/foodManageSlice";
 import UploadImage from "../../ultil/UploadImage";
-import FoodImage from "../../assets/imgs/food-page.jpg";
+import FoodImage from "../../assets/imgs/food.jpg";
 import "./food.style.scss";
 function FoodAdd({ closeModel, listCate, listRegion }) {
   const [imageUrl, setImageUrl] = useState("");
@@ -74,7 +74,11 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
           <div className="img__item">
             <img
               className="image"
-              src={imageUrl ? imageUrl : FoodImage}
+              src={
+                imageUrl
+                  ? imageUrl
+                  : FoodImage
+              }
               alt=""
             />
           </div>

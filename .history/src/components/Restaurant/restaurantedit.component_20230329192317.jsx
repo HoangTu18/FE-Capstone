@@ -1,20 +1,21 @@
 import "../User/useredit.style.scss";
+import { useCallback } from "react";
 import { useFormik } from "formik";
-import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
-import { createRestaurantRequest } from "../../pages/RestaurantManager/RestaurantManageSlice";
+import { updateRestaurantRequest } from "../../pages/RestaurantManager/RestaurantManageSlice";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
-import * as Yup from "yup";
+import { useState } from "react";
+import * as Yup from 'yup';
 
-function RestaurantCreate({ data, closeModel }) {
+function RestaurantEdit({ data, closeModel }) {
   const dispatch = useDispatch();
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState(data.restaurantLocation);
   const [coordinates, setCoordinates] = useState({
-    lat: 0,
-    lng: 0,
+    lat: data.latitude,
+    lng: data.longitude,
   });
 
   const handleSelect = async (value) => {
@@ -24,7 +25,7 @@ function RestaurantCreate({ data, closeModel }) {
     setAddress(value);
   };
 
-  const handleCreateRestaurant = useCallback(
+  const handleEditRestaurant = useCallback(
     (values) => {
       let restaurant = {
         restaurantId: values.restaurantId,
@@ -35,42 +36,38 @@ function RestaurantCreate({ data, closeModel }) {
         restaurantNumber: values.restaurantNumber,
         status: values.status,
       };
-      dispatch(createRestaurantRequest(restaurant));
+      dispatch(updateRestaurantRequest(restaurant));
       closeModel(false);
     },
     [dispatch, closeModel, coordinates.lat, coordinates.lng, address]
   );
 
   const initialValues = {
-    restaurantId: 0,
-    restaurantLocation: "",
-    latitude: 0,
-    longitude: 0,
-    restaurantName: "",
-    restaurantNumber: "",
-    status: true,
+    restaurantId: data.restaurantId,
+    restaurantLocation: data.restaurantLocation,
+    latitude: data.latitude,
+    longitude: data.longitude,
+    restaurantName: data.restaurantName,
+    restaurantNumber: data.restaurantNumber,
+    status: data.status,
+    staffList: data.staffList,
   };
 
   const validation = Yup.object().shape({
-    restaurantName: Yup.string().required("Vui lòng nhập tên nhà hàng!"),
-    restaurantNumber: Yup.string()
-      .min(0, "Số điện thoại không hợp lệ!")
-      .max(10, "Số điện thoại không hợp lệ!")
-      .required("Vui lòng nhập số điện thoại!"),
-    restaurantLocation: Yup.string().required(
-      "Vui lòng nhập địa chỉ nhà hàng!"
-    ),
+    restaurantName: Yup.string().required('Vui lòng nhập tên nhà hàng!'),
+    restaurantNumber: Yup.string().min(0, 'Số điện thoại không hợp lệ!').max(10, 'Số điện thoại không hợp lệ!').required('Vui lòng nhập số điện thoại!'),
+    restaurantLocation: Yup.string().required('Vui lòng nhập địa chỉ nhà hàng!'),
   });
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validation,
     onSubmit: (values, { resetForm }) => {
-      handleCreateRestaurant(values);
+      handleEditRestaurant(values);
       resetForm({ values: "" });
     },
   });
-
+  
   return (
     <div className="modelBackground">
       <div className="form-popup">
@@ -82,15 +79,14 @@ function RestaurantCreate({ data, closeModel }) {
           onSubmit={formik.handleSubmit}
         >
           <div className="center">
-            <label hidden>Mã nhà hàng:</label>
+            <label>Mã nhà hàng:</label>
             <input
-              hidden
-              disabled
               type="text"
+              disabled
               id="restaurantId"
               name="restaurantId"
+              value={formik.values.restaurantId}
               onChange={formik.handleChange}
-              values={formik.values.restaurantId}
             />
             <label>
               Tên nhà hàng: <span className="proirity">*</span>
@@ -99,8 +95,8 @@ function RestaurantCreate({ data, closeModel }) {
               type="text"
               id="restaurantName"
               name="restaurantName"
+              value={formik.values.restaurantName}
               onChange={formik.handleChange}
-              values={formik.values.restaurantName}
               onBlur={formik.handleBlur}
             />
             {formik.errors.restaurantName ? (
@@ -113,8 +109,8 @@ function RestaurantCreate({ data, closeModel }) {
               type="text"
               id="restaurantNumber"
               name="restaurantNumber"
+              value={formik.values.restaurantNumber}
               onChange={formik.handleChange}
-              values={formik.values.restaurantNumber}
               onBlur={formik.handleBlur}
             />
             {formik.errors.restaurantNumber ? (
@@ -122,6 +118,22 @@ function RestaurantCreate({ data, closeModel }) {
                 <span>{formik.errors.restaurantNumber}</span>
               </div>
             ) : null}
+            <label>
+              Người quản lý: <span className="proirity">*</span>
+            </label>
+            <select
+              id="staffList"
+              name="staffList"
+              value={formik.values.staffList}
+              onChange={formik.handleChange}
+            >
+              {data.staffList &&
+                data.staffList.map((item, index) => {
+                  return (
+                    <option value={item.staffId}>{item.staffFullName}</option>
+                  );
+                })}
+            </select>
             <label>
               Địa chỉ: <span className="proirity">*</span>
             </label>
@@ -182,9 +194,8 @@ function RestaurantCreate({ data, closeModel }) {
                 </div>
               )}
             </PlacesAutocomplete>
-            {/* <label hidden>Kinh độ:</label>
+            <label>Kinh độ:</label>
             <input
-              hidden
               disabled
               type="text"
               id="longitude"
@@ -192,27 +203,25 @@ function RestaurantCreate({ data, closeModel }) {
               // onChange={formik.handleChange}
               value={coordinates.lng}
             />
-            <label hidden>Vĩ độ:</label>
+            <label>Vĩ độ:</label>
             <input
-              hidden
               disabled
               type="text"
               id="latitude"
               name="latitude"
               // onChange={formik.handleChange}
               value={coordinates.lat}
-            /> */}
+            />
             <label>Trạng thái: </label>
             <br></br>
             <input
               className="checkBoxStatus type"
               type="checkbox"
-              disabled
               id="status"
               name="status"
+              value={formik.values.status}
+              defaultChecked={formik.values.status}
               onChange={formik.handleChange}
-              defaultChecked={true}
-              values={formik.values.status}
             />
             <div style={{ display: "flex", float: "right" }}>
               <button type="submit" className="btn">
@@ -233,4 +242,4 @@ function RestaurantCreate({ data, closeModel }) {
   );
 }
 
-export default RestaurantCreate;
+export default RestaurantEdit;

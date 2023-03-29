@@ -75,7 +75,7 @@ function ComboFoodView({ closeModel, data, listCate }) {
         onSubmit={formik.handleSubmit}
       >
         <div className="food__title unselectable">Thông tin Combo</div>
-        <div className="left">
+        <div className="left" style={{ width: "50%" }}>
           <div className="img__item">
             <img className="image" src={formik.values.comboPrice} alt="" />
           </div>
