@@ -1,6 +1,18 @@
 import "../Food/food.style.scss";
 function RestaurantView({ data, closeModel }) {
-  console.log(data);
+  const findManager = (resId) => {
+    let result = "Chưa có quản lý";
+    const manager = data.staffList.filter(
+      (item) => item.theAccountForStaff.roleId === 3
+    );
+    if (manager !== undefined) {
+      result = manager.find(
+        (staff) => staff.theAccountForStaff.roleId === 3
+      ).staffFullName;
+    }
+    return result;
+  };
+
   return (
     <div>
       <div className="popup">
@@ -25,7 +37,11 @@ function RestaurantView({ data, closeModel }) {
               />
 
               <label>Người quản lý:</label>
-              <input type="text" defaultValue={data.restaurantName} disabled />
+              <input
+                type="text"
+                defaultValue={findManager(data.restaurantId)}
+                disabled
+              />
 
               <label>Địa chỉ:</label>
               <input
