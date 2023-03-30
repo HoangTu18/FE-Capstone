@@ -63,7 +63,7 @@ function ProfileViewPopup({ closeModel, data, listRole }) {
         style={{ height: "600px", width: "530px" }}
       >
         <div className="food__title unselectable">Thông tin cá nhân</div>
-        <div className="left">
+        <div className="left" style={{ marginLeft: "-10px" }}>
           <div className="img__item">
             <img
               className="image"

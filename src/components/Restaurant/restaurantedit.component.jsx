@@ -1,4 +1,4 @@
-import "../User/useredit.style.scss";
+import "../Food/food.style.scss";
 import { useCallback } from "react";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
@@ -74,132 +74,135 @@ function RestaurantEdit({ data, closeModel }) {
   });
 
   return (
-    <div className="modelBackground">
-      <div className="form-popup">
+    <div>
+      <div className="popup">
         <form
           action=""
-          className="form-container"
+          className="form-up"
           noValidate
           autoComplete="off"
           onSubmit={formik.handleSubmit}
+          style={{ width: "450px", height: "650px" }}
         >
+          <div className="food__title unselectable">Thông tin nhà hàng</div>
           <div className="center">
-            <label>Mã nhà hàng:</label>
-            <input
-              type="text"
-              disabled
-              id="restaurantId"
-              name="restaurantId"
-              value={formik.values.restaurantId}
-              onChange={formik.handleChange}
-            />
-            <label>
-              Tên nhà hàng: <span className="proirity">*</span>
-            </label>
-            <input
-              type="text"
-              id="restaurantName"
-              name="restaurantName"
-              value={formik.values.restaurantName}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.errors.restaurantName ? (
-              <div className="error__message">
-                <span>{formik.errors.restaurantName}</span>
-              </div>
-            ) : null}
-            <label>Số điện thoại:</label>
-            <input
-              type="text"
-              id="restaurantNumber"
-              name="restaurantNumber"
-              value={formik.values.restaurantNumber}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.errors.restaurantNumber ? (
-              <div className="error__message">
-                <span>{formik.errors.restaurantNumber}</span>
-              </div>
-            ) : null}
-            <label>
-              Người quản lý: <span className="proirity">*</span>
-            </label>
-            <select
-              id="staffList"
-              name="staffList"
-              value={formik.values.staffList}
-              onChange={formik.handleChange}
-            >
-              {data.staffList &&
-                data.staffList.map((item, index) => {
-                  return (
-                    <option value={item.staffId}>{item.staffFullName}</option>
-                  );
-                })}
-            </select>
-            <label>
-              Địa chỉ: <span className="proirity">*</span>
-            </label>
-            <PlacesAutocomplete
-              value={address}
-              onChange={setAddress}
-              onSelect={handleSelect}
-            >
-              {({
-                getInputProps,
-                suggestions,
-                getSuggestionItemProps,
-                loading,
-              }) => (
-                <div>
-                  <input
-                    {...getInputProps({
-                      placeholder: "Nhập địa chỉ ...",
-                      className: "location-search-input",
-                    })}
-                    // name="restaurantLocation"
-                    // id="restaurantLocation"
-                    value={formik.values.restaurantLocation}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  {formik.errors.restaurantLocation ? (
-                    <div className="error__message">
-                      <span>{formik.errors.restaurantLocation}</span>
-                    </div>
-                  ) : null}
-                  <div className="autocomplete-dropdown-container">
-                    {loading && <div>Loading...</div>}
-                    {suggestions.map((suggestion) => {
-                      const className = suggestion.active
-                        ? "suggestion-item--active"
-                        : "suggestion-item";
-                      // inline style for demonstration purpose
-                      const style = suggestion.active
-                        ? {
-                            backgroundColor: "#fafafa",
-                            cursor: "pointer",
-                            border: "1px solid #c4c4c4",
-                          }
-                        : { backgroundColor: "#ffffff", cursor: "pointer" };
-                      return (
-                        <div
-                          {...getSuggestionItemProps(suggestion, {
-                            className,
-                            style,
-                          })}
-                        >
-                          <span>{suggestion.description}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
+            <div className="listitem">
+              <label>Mã nhà hàng:</label>
+              <input
+                type="text"
+                disabled
+                id="restaurantId"
+                name="restaurantId"
+                value={formik.values.restaurantId}
+                onChange={formik.handleChange}
+              />
+              <label>
+                Tên nhà hàng: <span className="proirity">*</span>
+              </label>
+              <input
+                type="text"
+                id="restaurantName"
+                name="restaurantName"
+                value={formik.values.restaurantName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.errors.restaurantName ? (
+                <div className="error__message">
+                  <span>{formik.errors.restaurantName}</span>
                 </div>
-              )}
-            </PlacesAutocomplete>
-            {/* <label>Kinh độ:</label>
+              ) : null}
+              <label>Số điện thoại:</label>
+              <input
+                type="text"
+                id="restaurantNumber"
+                name="restaurantNumber"
+                value={formik.values.restaurantNumber}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.errors.restaurantNumber ? (
+                <div className="error__message">
+                  <span>{formik.errors.restaurantNumber}</span>
+                </div>
+              ) : null}
+              <label>
+                Người quản lý: <span className="proirity">*</span>
+              </label>
+              <select
+                id="staffList"
+                name="staffList"
+                value={formik.values.staffList}
+                onChange={formik.handleChange}
+              >
+                {data.staffList &&
+                  data.staffList.map((item, index) => {
+                    return (
+                      <option value={item.staffId}>{item.staffFullName}</option>
+                    );
+                  })}
+              </select>
+              <label>
+                Địa chỉ: <span className="proirity">*</span>
+              </label>
+              <PlacesAutocomplete
+                value={address}
+                onChange={setAddress}
+                onSelect={handleSelect}
+              >
+                {({
+                  getInputProps,
+                  suggestions,
+                  getSuggestionItemProps,
+                  loading,
+                }) => (
+                  <div>
+                    <input
+                      {...getInputProps({
+                        placeholder: "Nhập địa chỉ ...",
+                        className: "location-search-input",
+                      })}
+                      // name="restaurantLocation"
+                      // id="restaurantLocation"
+                      value={formik.values.restaurantLocation}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.errors.restaurantLocation ? (
+                      <div className="error__message">
+                        <span>{formik.errors.restaurantLocation}</span>
+                      </div>
+                    ) : null}
+                    <div className="autocomplete-dropdown-container">
+                      {loading && <div>Loading...</div>}
+                      {suggestions.map((suggestion) => {
+                        const className = suggestion.active
+                          ? "suggestion-item--active"
+                          : "suggestion-item";
+                        // inline style for demonstration purpose
+                        const style = suggestion.active
+                          ? {
+                              backgroundColor: "#fafafa",
+                              cursor: "pointer",
+                              border: "1px solid #c4c4c4",
+                            }
+                          : { backgroundColor: "#ffffff", cursor: "pointer" };
+                        return (
+                          <div
+                            {...getSuggestionItemProps(suggestion, {
+                              className,
+                              style,
+                            })}
+                          >
+                            <span>{suggestion.description}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </PlacesAutocomplete>
+              {/* <label>Kinh độ:</label>
             <input
               disabled
               type="text"
@@ -217,28 +220,29 @@ function RestaurantEdit({ data, closeModel }) {
               // onChange={formik.handleChange}
               value={coordinates.lat}
             /> */}
-            <label>Trạng thái: </label>
-            <br></br>
-            <input
-              className="checkBoxStatus type"
-              type="checkbox"
-              id="status"
-              name="status"
-              value={formik.values.status}
-              defaultChecked={formik.values.status}
-              onChange={formik.handleChange}
-            />
-            <div style={{ display: "flex", float: "right" }}>
-              <button type="submit" className="btn">
-                Lưu
-              </button>
-              <button
-                type="button"
-                className="btn cancel"
-                onClick={() => closeModel(false)}
-              >
-                Huỷ
-              </button>
+              <label>Trạng thái: </label>
+              <br></br>
+              <input
+                className="checkBoxStatus type"
+                type="checkbox"
+                id="status"
+                name="status"
+                value={formik.values.status}
+                defaultChecked={formik.values.status}
+                onChange={formik.handleChange}
+              />
+              <div className="food__button">
+                <button type="submit" className="btn">
+                  Lưu
+                </button>
+                <button
+                  type="button"
+                  className="btn cancel"
+                  onClick={() => closeModel(false)}
+                >
+                  Huỷ
+                </button>
+              </div>
             </div>
           </div>
         </form>
