@@ -81,7 +81,16 @@ function RestaurantCreate({ data, closeModel }) {
           autoComplete="off"
           onSubmit={formik.handleSubmit}
         >
-          <div className="center">
+          <div className="left">
+            <img
+              className="avatar"
+              src={
+                "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
+              }
+              alt=""
+            />
+          </div>
+          <div className="right">
             <label hidden>Mã nhà hàng:</label>
             <input
               hidden
@@ -183,9 +192,8 @@ function RestaurantCreate({ data, closeModel }) {
                 </div>
               )}
             </PlacesAutocomplete>
-            <label hidden>Kinh độ:</label>
+            <label>Kinh độ:</label>
             <input
-              hidden
               disabled
               type="text"
               id="longitude"
@@ -193,9 +201,8 @@ function RestaurantCreate({ data, closeModel }) {
               // onChange={formik.handleChange}
               value={coordinates.lng}
             />
-            <label hidden>Vĩ độ:</label>
+            <label>Vĩ độ:</label>
             <input
-              hidden
               disabled
               type="text"
               id="latitude"
