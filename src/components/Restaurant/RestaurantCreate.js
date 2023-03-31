@@ -7,7 +7,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 
 function RestaurantCreate({ data, closeModel }) {
   const dispatch = useDispatch();
@@ -52,9 +52,14 @@ function RestaurantCreate({ data, closeModel }) {
   };
 
   const validation = Yup.object().shape({
-    restaurantName: Yup.string().required('Vui lòng nhập tên nhà hàng!'),
-    restaurantNumber: Yup.string().min(0, 'Số điện thoại không hợp lệ!').max(10, 'Số điện thoại không hợp lệ!').required('Vui lòng nhập số điện thoại!'),
-    restaurantLocation: Yup.string().required('Vui lòng nhập địa chỉ nhà hàng!'),
+    restaurantName: Yup.string().required("Vui lòng nhập tên nhà hàng!"),
+    restaurantNumber: Yup.string()
+      .min(0, "Số điện thoại không hợp lệ!")
+      .max(10, "Số điện thoại không hợp lệ!")
+      .required("Vui lòng nhập số điện thoại!"),
+    restaurantLocation: Yup.string().required(
+      "Vui lòng nhập địa chỉ nhà hàng!"
+    ),
   });
 
   const formik = useFormik({
@@ -87,7 +92,15 @@ function RestaurantCreate({ data, closeModel }) {
           </div>
           <div className="right">
             <label hidden>Mã nhà hàng:</label>
-            <input hidden disabled type="text" id="restaurantId" name="restaurantId" onChange={formik.handleChange} values={formik.values.restaurantId} />
+            <input
+              hidden
+              disabled
+              type="text"
+              id="restaurantId"
+              name="restaurantId"
+              onChange={formik.handleChange}
+              values={formik.values.restaurantId}
+            />
             <label>
               Tên nhà hàng: <span className="proirity">*</span>
             </label>
@@ -137,16 +150,17 @@ function RestaurantCreate({ data, closeModel }) {
                     {...getInputProps({
                       placeholder: "Nhập địa chỉ ...",
                       className: "location-search-input",
+                      required: true,
                     })}
                     // name="restaurantLocation"
                     // id="restaurantLocation"
-                    value={formik.values.restaurantLocation}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+                    // value={formik.values.restaurantLocation}
+                    // onChange={formik.handleChange}
+                    // onBlur={formik.handleBlur}
                   />
-                  {formik.errors.restaurantLocation ? (
+                  {!address ? (
                     <div className="error__message">
-                      <span>{formik.errors.restaurantLocation}</span>
+                      <span>Bắt buộc</span>
                     </div>
                   ) : null}
                   <div className="autocomplete-dropdown-container">
