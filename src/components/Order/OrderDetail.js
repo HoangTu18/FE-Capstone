@@ -1,5 +1,5 @@
 import "./OrderDetail.style.scss";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TableOrderDetail from "../MyTable/TableOrderDetail";
 import { RESTAURANT_INFO } from "../../ultil/settingSystem";
@@ -150,7 +150,7 @@ function OrderDetail({ closeModel }) {
     dispatch(
       updateOrderRequest({
         infoUpdate: {
-          staffId: 1,
+          staffId: +staffId,
           status: "deny",
           orderId: parseInt(orderItem.id),
         },
