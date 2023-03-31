@@ -75,7 +75,7 @@ const TableCustomer = (props) => {
       {popupDelete ? (
         <ConfirmPopup
           closeModel={setPopupDelete}
-          title={"Bạn có muốn huỷ kích hoạt khách hàng này không?"}
+          title={"Bạn có muốn huỷ kích hoạt nhân viên này không?"}
           btnYes={"Có"}
           btnNo={"Không"}
           confirm={setConfirm}
