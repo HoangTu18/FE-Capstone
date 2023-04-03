@@ -12,6 +12,9 @@ class OrderService extends BaseService {
   updateOrder = (model) => {
     return this.put(`orders/status`, model);
   };
+  checkPayment = (id) => {
+    return this.get(`orders/checkPayment/${id}`);
+  };
   refundPaymentZalo = (model) => {
     return this.post(`orders/refundZalopay`, model);
   };
