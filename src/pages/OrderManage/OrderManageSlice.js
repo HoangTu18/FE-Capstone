@@ -36,6 +36,9 @@ export const orderManageSlice = createSlice({
     updateOrderFailure: (state) => {
       return state;
     },
+    refundPaymentRequest: (state, action) => {
+      return state;
+    },
   },
 });
 
@@ -49,5 +52,6 @@ export const {
   filterByStatus,
   updateOrderRequest,
   updateOrderFailure,
+  refundPaymentRequest,
 } = orderManageSlice.actions;
 export default orderManageSlice.reducer;
