@@ -81,7 +81,7 @@ function* refundOrder(action) {
     const checkStatus = yield call(() => {
       return orderService.checkPayment(action.payload.infoUpdate.orderId);
     });
-    if (checkStatus.data.returnCode !== 1) {
+    if (checkStatus.data.returnCode === 1) {
       const order = yield call(() => {
         return orderService.refundPaymentZalo(action.payload.refundInfo);
       });
