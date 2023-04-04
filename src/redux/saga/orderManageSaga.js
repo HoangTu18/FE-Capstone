@@ -89,7 +89,7 @@ function* refundOrder(action) {
         const orderCheckRefund = yield call(() => {
           return orderService.refundPaymentStatus(order.data.mrefundid);
         });
-        if (orderCheckRefund.data.returnCode === -101) {
+        if (orderCheckRefund.data.returnCode === 1) {
           const orderUpdateDeny = yield call(() => {
             return orderService.updateOrder(action.payload.infoUpdate);
           });
