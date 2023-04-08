@@ -64,7 +64,7 @@ function UserCreate({ closeModel }) {
 
   const validation = Yup.object().shape({
     accountId: Yup.string().required('Vui lòng nhập tên đăng nhập!'),
-    password: Yup.string().min(6, 'Mật khẩu ít nhất có 6 ký tự!').max(14, 'Mật khẩu tối đa 14 ký tự!').matches('/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]$/', 'Mật khẩu phải có kí tự là chữ cái và số!').required('Vui lòng nhập mật khẩu!'),
+    password: Yup.string().min(6, 'Mật khẩu ít nhất có 6 ký tự!').max(14, 'Mật khẩu tối đa 14 ký tự!').required('Vui lòng nhập mật khẩu!'),
     staffFullName: Yup.string().required('Vui lòng nhập họ và tên!'),
     staffEmail: Yup.string().email('Email không hợp lệ!').required('Vui lòng nhập email!'),
     phoneNumber: Yup.string().min(0, 'Số điện thoại không hợp lệ!').max(10, 'Số điện thoại không hợp lệ!').required('Vui lòng nhập số điện thoại!')
