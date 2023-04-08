@@ -123,31 +123,41 @@ function OrderDetail({ closeModel }) {
     }
   };
   const handleApproveOrder = () => {
-    if (orderItem.paymentMethod?.toString() === "ZaloPay") {
-      dispatch(
-        updateOrderRequest({
-          infoUpdate: {
-            staffId: parseInt(staffId),
-            status: "waiting",
-            orderId: parseInt(orderItem.id),
-          },
-          restaurantId: restaurantId,
-        })
-      );
-      closeModel(false);
-    } else {
-      dispatch(
-        updateOrderRequest({
-          infoUpdate: {
-            staffId: parseInt(staffId),
-            status: "accept",
-            orderId: parseInt(orderItem.id),
-          },
-          restaurantId: restaurantId,
-        })
-      );
-    }
+    dispatch(
+      updateOrderRequest({
+        infoUpdate: {
+          staffId: parseInt(staffId),
+          status: "accept",
+          orderId: parseInt(orderItem.id),
+        },
+        restaurantId: restaurantId,
+      })
+    );
     closeModel(false);
+    // if (orderItem.paymentMethod?.toString() === "ZaloPay") {
+    //   dispatch(
+    //     updateOrderRequest({
+    //       infoUpdate: {
+    //         staffId: parseInt(staffId),
+    //         status: "accept",
+    //         orderId: parseInt(orderItem.id),
+    //       },
+    //       restaurantId: restaurantId,
+    //     })
+    //   );
+    //   closeModel(false);
+    // } else {
+    //   dispatch(
+    //     updateOrderRequest({
+    //       infoUpdate: {
+    //         staffId: parseInt(staffId),
+    //         status: "accept",
+    //         orderId: parseInt(orderItem.id),
+    //       },
+    //       restaurantId: restaurantId,
+    //     })
+    //   );
+    // }
   };
   const handleDenyOrder = () => {
     const paymentType = orderItem.paymentMethod;

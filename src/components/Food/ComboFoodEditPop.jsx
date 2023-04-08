@@ -126,11 +126,10 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
         comboName: values.comboName,
         description: values.description,
         comboPrice: +values.comboPrice,
-        image: imageUrl,
+        image: imageUrl !== "" ? imageUrl : values.image,
         comboItems: dataSelected,
         status: values.status,
       };
-      console.log("COMBO FOOD", combofood);
       closeModel(false);
       dispatch(updateComboFoodRequest(combofood));
     },
@@ -142,7 +141,7 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
       comboName: data.comboName,
       description: data.description,
       comboPrice: data.comboPrice,
-      image: data.imageUrl,
+      image: data.image,
       comboItems: [],
       status: true,
     },
@@ -158,6 +157,7 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
       resetForm({ values: "" });
     },
   });
+  console.log(formik.values.image ?? FoodImage);
   return (
     <div className="popup">
       <form
@@ -170,11 +170,7 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
         <div className="food__title unselectable">Thông tin Combo</div>
         <div className="left">
           <div className="img__item">
-            <img
-              className="image"
-              src={formik.values.image ?? FoodImage}
-              alt=""
-            />
+            <img className="image" src={formik.values.image} alt="" />
           </div>
           <div className="listitem">
             <label className="label__title">

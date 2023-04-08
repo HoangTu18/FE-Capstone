@@ -126,18 +126,18 @@ const TableListStaffOfRes = (props) => {
                             showView(item);
                           }}
                         />
-                        <Icon
+                        {/* <Icon
                           className="icon"
                           icon="bx:bx-edit-alt"
                           onClick={() => {
                             showEdit(item);
                           }}
-                        />
-                        <Icon
+                        /> */}
+                        {/* <Icon
                           className="icon"
                           icon="material-symbols:delete-outline-rounded"
                           onClick={() => showDelete(item.staffId)}
-                        />
+                        /> */}
                       </td>
                     </tr>
                   </tbody>

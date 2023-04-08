@@ -58,11 +58,11 @@ function SettingViewPopup({ closeModel, data }) {
     },
   });
   return (
-    <div className="popup ">
+    <div className="popup">
       <form
         onSubmit={formik.handleSubmit}
         className="form-up"
-        style={{ height: "500px", width: "400px" }}
+        style={{ height: "450px", width: "400px" }}
       >
         <div className="food__title unselectable">Thay đổi mật khẩu</div>
         <div className="center">
