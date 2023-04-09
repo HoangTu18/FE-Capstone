@@ -192,7 +192,7 @@ function RestaurantCreate({ data, closeModel }) {
                 </div>
               )}
             </PlacesAutocomplete>
-            {/* <label>Kinh độ:</label>
+            <label>Kinh độ:</label>
             <input
               disabled
               type="text"
@@ -209,7 +209,7 @@ function RestaurantCreate({ data, closeModel }) {
               name="latitude"
               // onChange={formik.handleChange}
               value={coordinates.lat}
-            /> */}
+            />
             <label>Trạng thái: </label>
             <br></br>
             <input

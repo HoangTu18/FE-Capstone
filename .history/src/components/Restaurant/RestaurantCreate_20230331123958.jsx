@@ -149,8 +149,8 @@ function RestaurantCreate({ data, closeModel }) {
                       })}
                       // name="restaurantLocation"
                       // id="restaurantLocation"
-                      value={formik.values.restaurantLocation}
-                      // onChange={formik.handleChange}
+                      // value={formik.values.restaurantLocation}
+                      onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                     />
                     {formik.errors.restaurantLocation ? (

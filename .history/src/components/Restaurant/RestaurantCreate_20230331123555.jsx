@@ -144,13 +144,13 @@ function RestaurantCreate({ data, closeModel }) {
                   <div>
                     <input
                       {...getInputProps({
-                        placeholder: "Nhập địa chỉ ...",
+                        placeholder: "Nhập địa chỉa ...",
                         className: "location-search-input",
                       })}
                       // name="restaurantLocation"
                       // id="restaurantLocation"
                       value={formik.values.restaurantLocation}
-                      // onChange={formik.handleChange}
+                      onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                     />
                     {formik.errors.restaurantLocation ? (
