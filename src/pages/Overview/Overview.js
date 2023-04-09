@@ -19,7 +19,7 @@ const Overview = () => {
   useEffect(() => {
     dispatch(getStatisticRequest());
     dispatch(
-      getRevenueBetweenRequest({ fromDate: "2023-03-10", toDate: "2023-03-15" })
+      getRevenueBetweenRequest({ fromDate: startDate, toDate: endDate })
     );
   }, []);
   const handleSubmit = useCallback(
