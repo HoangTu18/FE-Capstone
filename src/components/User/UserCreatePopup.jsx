@@ -38,17 +38,14 @@ function UserCreate({ closeModel }) {
         },
       };
       if (parseInt(values.roleId) === 4 || parseInt(values.roleId) === 3) {
-        const resById = listRestaurant?.find(
-          (item) => item.restaurantId === values.restaurantId
-        );
         console.log("staff", staff);
         console.log("roleId", values.roleId);
-        console.log("resById.restaurantId", resById.restaurantId);
+        console.log("resById.restaurantId", values.restaurantId);
         dispatch(
           createAccountRequest({
             staff: staff,
             roleId: values.roleId,
-            restaurantId: resById.restaurantId,
+            restaurantId: values.restaurantId,
           })
         );
       } else {
