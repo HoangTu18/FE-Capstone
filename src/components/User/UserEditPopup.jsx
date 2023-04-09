@@ -1,4 +1,4 @@
-import "./useredit.style.scss";
+import "../Food/food.style.scss";
 import { useFormik } from "formik";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -126,71 +126,61 @@ function UserEdit({ data, closeModel }) {
     }
   };
   return (
-    <div className="modelBackground">
-      <div className="form-popup">
-        <form
-          noValidate
-          autoComplete="off"
-          onSubmit={formik.handleSubmit}
-          className="form-container"
-        >
-          <div className="left">
-            <img
-              className="avatar"
-              src={
-                "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
-              }
-              alt=""
-            />
-          </div>
-          <div className="right">
-            <label>
-              Mã nhân viên: <span className="proirity">*</span>
-            </label>
-            <input
-              type="text"
-              disabled
-              id="staffId"
-              name="staffId"
-              value={formik.values.staffId}
-              onChange={formik.handleChange}
-            />
-            <label>
-              Tên đăng nhập: <span className="proirity">*</span>
-            </label>
+    <div className="popup">
+      <form
+        noValidate
+        onSubmit={formik.handleSubmit}
+        autoComplete="off"
+        className="form-up"
+        style={{ height: "520px", width: "700px" }}
+      >
+        <div className="food__title unselectable">Điều chỉnh nhân viên</div>
+        <div className="left">
+          <div className="listitem">
+            <label className="label__title">Tên đăng nhập:</label>
             <input
               type="text"
               id="accountId"
               name="accountId"
               value={formik.values.accountId}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
-
-            <label>
-              Mật khẩu: <span className="proirity">*</span>
-            </label>
+            {formik.errors.accountId ? (
+              <div className="error__message">
+                <span>{formik.errors.accountId}</span>
+              </div>
+            ) : null}
+            <label className="label__title">Mật khẩu:</label>
             <input
               type="password"
               id="password"
               name="password"
               value={formik.values.password}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
-
-            <label>
-              Họ và tên: <span className="proirity">*</span>
-            </label>
+            {formik.errors.password ? (
+              <div className="error__message">
+                <span>{formik.errors.password}</span>
+              </div>
+            ) : null}
+            <label className="label__title">Họ và tên:</label>
             <input
               type="text"
               id="staffFullName"
               name="staffFullName"
               value={formik.values.staffFullName}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.errors.staffFullName ? (
+              <div className="error__message">
+                <span>{formik.errors.staffFullName}</span>
+              </div>
+            ) : null}
 
-            <label>
-              Chức danh: <span className="proirity">*</span>
-            </label>
+            <label className="label__title">Chức danh:</label>
             <select
               id="roleId"
               name="roleId"
@@ -202,62 +192,48 @@ function UserEdit({ data, closeModel }) {
               <option value={3}>MANAGER</option>
               <option value={4}>STAFF</option>
             </select>
-
-            <label>
-              Email: <span className="proirity">*</span>
-            </label>
+          </div>
+        </div>
+        <div className="right" style={{ width: "50%" }}>
+          <div className="listitem">
+            <label className="label__title">Cửa hàng:</label>
+            {renderListRestaurant(parseInt(formik.values.roleId))}
+            <label className="label__title">Email:</label>
             <input
               type="text"
               id="staffEmail"
               name="staffEmail"
               value={formik.values.staffEmail}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
-
-            <label>
-              Số điện thoại: <span className="proirity">*</span>
-            </label>
+            {formik.errors.staffEmail ? (
+              <div className="error__message">
+                <span>{formik.errors.staffEmail}</span>
+              </div>
+            ) : null}
+            <label className="label__title">Số điện thoại:</label>
             <input
               type="text"
               id="phoneNumber"
               name="phoneNumber"
               value={formik.values.phoneNumber}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
-            {roleUser === 3 ? (
-              <>
-                <label>Hoạt động: </label>
-                <br></br>
-                <select
-                  id="staffActivityStatus"
-                  name="staffActivityStatus"
-                  value={formik.values.staffActivityStatus}
-                  onChange={formik.handleChange}
-                >
-                  <option value={"avaiable"}>Sẵn sàng</option>
-                  <option value={"busy"}>Đang bận</option>
-                </select>
-              </>
-            ) : (
-              <></>
-            )}
-            <label>
-              Cửa hàng: <span className="proirity">*</span>
-            </label>
-            {renderListRestaurant(parseInt(formik.values.roleId))}
-            <br></br>
-            <label>Trạng thái: </label>
-            <br></br>
+            {formik.errors.phoneNumber ? (
+              <div className="error__message">
+                <span>{formik.errors.phoneNumber}</span>
+              </div>
+            ) : null}
+            <label className="label__title">Trạng thái:</label>
             <input
+              disabled
               className="checkBoxStatus type"
               type="checkbox"
-              id="staffStatus"
-              name="staffStatus"
-              value={formik.values.staffStatus}
-              checked={formik.values.staffStatus}
-              onChange={formik.handleChange}
+              defaultChecked={true}
             />
-            <div style={{ display: "flex", float: "right" }}>
+            <div className="food__button">
               <button type="submit" className="btn">
                 Lưu
               </button>
@@ -266,12 +242,12 @@ function UserEdit({ data, closeModel }) {
                 className="btn cancel"
                 onClick={() => closeModel(false)}
               >
-                Huỷ
+                Đóng
               </button>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }
