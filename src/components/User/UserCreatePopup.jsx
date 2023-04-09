@@ -44,14 +44,13 @@ function UserCreate({ closeModel }) {
         console.log("staff", staff);
         console.log("roleId", values.roleId);
         console.log("resById.restaurantId", resById.restaurantId);
-        // dispatch(updateRestaurantRequest(restaurant));
-        // dispatch(
-        //   createAccountRequest({
-        //     staff: staff,
-        //     roleId: values.roleId,
-        //     restaurantId: resById.restaurantId,
-        //   })
-        // );
+        dispatch(
+          createAccountRequest({
+            staff: staff,
+            roleId: values.roleId,
+            restaurantId: resById.restaurantId,
+          })
+        );
       } else {
         dispatch(
           createAccountRequest({
