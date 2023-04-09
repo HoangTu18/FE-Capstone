@@ -1,8 +1,8 @@
-import "./useredit.style.scss";
+import "../Food/food.style.scss";
 import { useFormik } from "formik";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 import {
   createAccountRequest,
   getRoleRequest,
@@ -38,15 +38,14 @@ function UserCreate({ closeModel }) {
         },
       };
       if (parseInt(values.roleId) === 4 || parseInt(values.roleId) === 3) {
-        let resById = listRestaurant?.find(
-          (item) => item.restaurantId === values.restaurantId
-        );
-        // dispatch(updateRestaurantRequest(restaurant));
+        console.log("staff", staff);
+        console.log("roleId", values.roleId);
+        console.log("resById.restaurantId", values.restaurantId);
         dispatch(
           createAccountRequest({
             staff: staff,
             roleId: values.roleId,
-            restaurantId: resById.restaurantId,
+            restaurantId: values.restaurantId,
           })
         );
       } else {
@@ -63,11 +62,19 @@ function UserCreate({ closeModel }) {
   );
 
   const validation = Yup.object().shape({
-    accountId: Yup.string().required('Vui lòng nhập tên đăng nhập!'),
-    password: Yup.string().min(6, 'Mật khẩu ít nhất có 6 ký tự!').max(14, 'Mật khẩu tối đa 14 ký tự!').matches('/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]$/', 'Mật khẩu phải có kí tự là chữ cái và số!').required('Vui lòng nhập mật khẩu!'),
-    staffFullName: Yup.string().required('Vui lòng nhập họ và tên!'),
-    staffEmail: Yup.string().email('Email không hợp lệ!').required('Vui lòng nhập email!'),
-    phoneNumber: Yup.string().min(0, 'Số điện thoại không hợp lệ!').max(10, 'Số điện thoại không hợp lệ!').required('Vui lòng nhập số điện thoại!')
+    accountId: Yup.string().required("Vui lòng nhập tên đăng nhập!"),
+    password: Yup.string()
+      .min(6, "Mật khẩu ít nhất có 6 ký tự!")
+      .max(14, "Mật khẩu tối đa 14 ký tự!")
+      .required("Vui lòng nhập mật khẩu!"),
+    staffFullName: Yup.string().required("Vui lòng nhập họ và tên!"),
+    staffEmail: Yup.string()
+      .email("Email không hợp lệ!")
+      .required("Vui lòng nhập email!"),
+    phoneNumber: Yup.string()
+      .min(0, "Số điện thoại không hợp lệ!")
+      .max(10, "Số điện thoại không hợp lệ!")
+      .required("Vui lòng nhập số điện thoại!"),
   });
 
   const initialValues = {
@@ -141,39 +148,18 @@ function UserCreate({ closeModel }) {
   };
 
   return (
-    <div className="modelBackground">
-      <div className="form-popup">
-        <form
-          noValidate
-          autoComplete="off"
-          onSubmit={formik.handleSubmit}
-          className="form-container"
-        >
-          <div className="left">
-            <img
-              className="avatar"
-              src={
-                "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
-              }
-              alt=""
-            />
-          </div>
-          <div className="right">
-            <label hidden>
-              Mã nhân viên: <span className="proirity">*</span>
-            </label>
-            <input
-              hidden
-              disabled
-              type="text"
-              id="staffId"
-              name="staffId"
-              value={formik.values.staffId}
-              onChange={formik.handleChange}
-            />
-            <label>
-              Tên đăng nhập: <span className="proirity">*</span>
-            </label>
+    <div className="popup">
+      <form
+        noValidate
+        onSubmit={formik.handleSubmit}
+        autoComplete="off"
+        className="form-up"
+        style={{ height: "520px", width: "700px" }}
+      >
+        <div className="food__title unselectable">Thêm nhân viên</div>
+        <div className="left">
+          <div className="listitem">
+            <label className="label__title">Tên đăng nhập:</label>
             <input
               type="text"
               id="accountId"
@@ -187,9 +173,7 @@ function UserCreate({ closeModel }) {
                 <span>{formik.errors.accountId}</span>
               </div>
             ) : null}
-            <label>
-              Mật khẩu: <span className="proirity">*</span>
-            </label>
+            <label className="label__title">Mật khẩu:</label>
             <input
               type="password"
               id="password"
@@ -203,9 +187,7 @@ function UserCreate({ closeModel }) {
                 <span>{formik.errors.password}</span>
               </div>
             ) : null}
-            <label>
-              Họ và tên: <span className="proirity">*</span>
-            </label>
+            <label className="label__title">Họ và tên:</label>
             <input
               type="text"
               id="staffFullName"
@@ -219,9 +201,8 @@ function UserCreate({ closeModel }) {
                 <span>{formik.errors.staffFullName}</span>
               </div>
             ) : null}
-            <label>
-              Chức danh: <span className="proirity">*</span>
-            </label>
+
+            <label className="label__title">Chức danh:</label>
             <select
               type="text"
               id="roleId"
@@ -239,9 +220,13 @@ function UserCreate({ closeModel }) {
                 }
               })}
             </select>
-            <label>
-              Email: <span className="proirity">*</span>
-            </label>
+          </div>
+        </div>
+        <div className="right" style={{ width: "50%" }}>
+          <div className="listitem">
+            <label className="label__title">Cửa hàng:</label>
+            {renderListRestaurant(parseInt(formik.values.roleId))}
+            <label className="label__title">Email:</label>
             <input
               type="text"
               id="staffEmail"
@@ -255,9 +240,7 @@ function UserCreate({ closeModel }) {
                 <span>{formik.errors.staffEmail}</span>
               </div>
             ) : null}
-            <label>
-              Số điện thoại: <span className="proirity">*</span>
-            </label>
+            <label className="label__title">Số điện thoại:</label>
             <input
               type="text"
               id="phoneNumber"
@@ -271,19 +254,14 @@ function UserCreate({ closeModel }) {
                 <span>{formik.errors.phoneNumber}</span>
               </div>
             ) : null}
-            <label>
-              Cửa hàng: <span className="proirity">*</span>
-            </label>
-            {renderListRestaurant(parseInt(formik.values.roleId))}
-            <label>Trạng thái: </label>
-            <br></br>
+            <label className="label__title">Trạng thái:</label>
             <input
               disabled
               className="checkBoxStatus type"
               type="checkbox"
               defaultChecked={true}
             />
-            <div style={{ display: "flex", float: "right" }}>
+            <div className="food__button">
               <button type="submit" className="btn">
                 Lưu
               </button>
@@ -292,12 +270,12 @@ function UserCreate({ closeModel }) {
                 className="btn cancel"
                 onClick={() => closeModel(false)}
               >
-                Huỷ
+                Đóng
               </button>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }

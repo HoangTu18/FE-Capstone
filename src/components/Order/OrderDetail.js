@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TableOrderDetail from "../MyTable/TableOrderDetail";
 import { RESTAURANT_INFO } from "../../ultil/settingSystem";
-import { updateOrderRequest } from "../../pages/OrderManage/OrderManageSlice";
+import {
+  refundPaymentRequest,
+  updateOrderRequest,
+} from "../../pages/OrderManage/OrderManageSlice";
 function OrderDetail({ closeModel }) {
   const dispatch = useDispatch();
   const orderItem = useSelector((state) => state.orderManage.orderItem);
@@ -120,45 +123,66 @@ function OrderDetail({ closeModel }) {
     }
   };
   const handleApproveOrder = () => {
-    if (orderItem.paymentMethod?.toString() === "ZaloPay") {
-      dispatch(
-        updateOrderRequest({
-          infoUpdate: {
-            staffId: parseInt(staffId),
-            status: "waiting",
-            orderId: parseInt(orderItem.id),
-          },
-          restaurantId: restaurantId,
-        })
-      );
-      closeModel(false);
-    } else {
-      dispatch(
-        updateOrderRequest({
-          infoUpdate: {
-            staffId: parseInt(staffId),
-            status: "accept",
-            orderId: parseInt(orderItem.id),
-          },
-          restaurantId: restaurantId,
-        })
-      );
-    }
-    closeModel(false);
-  };
-  const handleDenyOrder = () => {
     dispatch(
       updateOrderRequest({
         infoUpdate: {
-          staffId: +staffId,
-          status: "deny",
+          staffId: parseInt(staffId),
+          status: "accept",
           orderId: parseInt(orderItem.id),
         },
         restaurantId: restaurantId,
       })
     );
     closeModel(false);
+    // if (orderItem.paymentMethod?.toString() === "ZaloPay") {
+    //   dispatch(
+    //     updateOrderRequest({
+    //       infoUpdate: {
+    //         staffId: parseInt(staffId),
+    //         status: "accept",
+    //         orderId: parseInt(orderItem.id),
+    //       },
+    //       restaurantId: restaurantId,
+    //     })
+    //   );
+    //   closeModel(false);
+    // } else {
+    //   dispatch(
+    //     updateOrderRequest({
+    //       infoUpdate: {
+    //         staffId: parseInt(staffId),
+    //         status: "accept",
+    //         orderId: parseInt(orderItem.id),
+    //       },
+    //       restaurantId: restaurantId,
+    //     })
+    //   );
+    // }
   };
+  const handleDenyOrder = () => {
+    const paymentType = orderItem.paymentMethod;
+    let requestInfo = {
+      infoUpdate: {
+        staffId: +staffId,
+        status: "deny",
+        orderId: +orderItem.id,
+      },
+      restaurantId: restaurantId,
+    };
+
+    if (paymentType && paymentType === "cash") {
+      dispatch(updateOrderRequest(requestInfo));
+    } else {
+      requestInfo.refundInfo = {
+        amount: orderItem.totalPrice,
+        orderId: +orderItem.id,
+      };
+      dispatch(refundPaymentRequest(requestInfo));
+    }
+
+    closeModel(false);
+  };
+
   return (
     <div className="popup">
       <div className="model_order_detail">

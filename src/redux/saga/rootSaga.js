@@ -53,6 +53,7 @@ export default function* rootSaga() {
     orderSaga.followActionGetOrder(),
     orderSaga.followActionGetOrderById(),
     orderSaga.followActionUpdateOrder(),
+    orderSaga.followActionRefundOrder(),
     //Sage Region
     regionSaga.followActiongetRegions(),
     //Sage Service

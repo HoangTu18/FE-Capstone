@@ -13,6 +13,7 @@ import {
   getOrderSuccess,
   updateOrderFailure,
   updateOrderRequest,
+  refundPaymentRequest,
 } from "../../pages/OrderManage/OrderManageSlice";
 import { orderService } from "../../services/orderService";
 import { STATUS_CODE } from "../../ultil/settingSystem";
@@ -71,4 +72,53 @@ function* updateOrder(action) {
 }
 export function* followActionUpdateOrder() {
   yield takeLatest(updateOrderRequest, updateOrder);
+}
+
+function* refundOrder(action) {
+  try {
+    yield put(showLoading());
+    console.log("a", action);
+    const checkStatus = yield call(() => {
+      return orderService.checkPayment(action.payload.infoUpdate.orderId);
+    });
+    if (checkStatus.data.returnCode === 1) {
+      const order = yield call(() => {
+        return orderService.refundPaymentZalo(action.payload.refundInfo);
+      });
+      if (order.status === STATUS_CODE.SUCCESS) {
+        const orderCheckRefund = yield call(() => {
+          return orderService.refundPaymentStatus(order.data.mrefundid);
+        });
+        if (orderCheckRefund.data.returnCode === 1) {
+          const orderUpdateDeny = yield call(() => {
+            return orderService.updateOrder(action.payload.infoUpdate);
+          });
+          if (orderUpdateDeny.status === STATUS_CODE.SUCCESS) {
+            yield put(getOrderRequest(action.payload.restaurantId));
+            openNotification(
+              "success",
+              "Thành công",
+              "Giao dịch hoàn tiền thành công"
+            );
+          }
+        } else {
+          openNotification(
+            "error",
+            orderCheckRefund.data.returnMessage,
+            "Giao dịch không hoàn tiền"
+          );
+        }
+      }
+    } else {
+      openNotification("error", "Thất bại", checkStatus.data.returnMessage);
+    }
+    yield put(hideLoading());
+  } catch (error) {
+    yield put(updateOrderFailure(error));
+    yield put(hideLoading());
+    openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
+  }
+}
+export function* followActionRefundOrder() {
+  yield takeLatest(refundPaymentRequest, refundOrder);
 }

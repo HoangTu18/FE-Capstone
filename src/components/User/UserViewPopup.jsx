@@ -1,111 +1,60 @@
-import "./useredit.style.scss";
+import "../Food/food.style.scss";
 function UserView({ data, closeModel }) {
-  console.log(data);
+  const roleNamebyId = (id) => {
+    switch (id) {
+      case 1:
+        return "OWNER";
+      case 2:
+        return "ADMIN";
+      case 3:
+        return "MANAGER";
+      case 4:
+        return "STAFF";
+    }
+  };
   return (
-    <div className="modelBackground">
-      <div className="form-popup">
-        <div className="form-container">
-          <div className="left">
-            <img
-              className="avatar"
-              src={
-                "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
-              }
-              alt=""
-            />
-          </div>
-          <div className="right">
-            <label>
-              Mã nhân viên: <span className="proirity">*</span>
-            </label>
-            <input
-              type="text"
-              disabled
-              id="staffId"
-              name="staffId"
-              value={data.staffId}
-            />
-            <label>
-              Tên đăng nhập: <span className="proirity">*</span>
-            </label>
-            <input
-              type="text"
-              disabled
-              id="accountId"
-              name="accountId"
-              value={data.theAccountForStaff.accountId}
-            />
-            <label>
-              Mật khẩu: <span className="proirity">*</span>
-            </label>
-            <input
-              disabled
-              type="password"
-              id="password"
-              name="password"
-              value={"an mat khau rui hehe"}
-            />
-            <label>
-              Họ và tên: <span className="proirity">*</span>
-            </label>
-            <input
-              disabled
-              type="text"
-              id="staffFullName"
-              name="staffFullName"
-              value={data.staffFullName}
-            />
+    <div className="popup">
+      <form className="form-up" style={{ height: "620px", width: "400px" }}>
+        <div className="food__title unselectable">Thông tin nhân viên</div>
+        <div className="center">
+          <div className="listitem">
+            {/* <label className="label__title">Mã nhân viên:</label>
+            <input type="text" value={data.staffId} /> */}
+            <label className="label__title">Tên đăng nhập:</label>
+            <input type="text" value={data.theAccountForStaff.accountId} />
 
-            <label>
-              Chức danh: <span className="proirity">*</span>
-            </label>
-            <select id="roleId" name="roleId" value={data.roleId}>
-              <option value={3}>MANAGER</option>
-              <option value={4}>STAFF</option>
-            </select>
+            <label className="label__title"> Họ và tên:</label>
+            <input type="text" value={data.staffFullName} />
 
-            <label>
-              Email: <span className="proirity">*</span>
-            </label>
-            <input
-              disabled
-              type="text"
-              id="staffEmail"
-              name="staffEmail"
-              value={data.staffEmail}
-            />
+            <label className="label__title">Chức danh:</label>
+            <input type="text" value={roleNamebyId(data.roleId)} />
 
-            <label>
-              Số điện thoại: <span className="proirity">*</span>
-            </label>
-            <input
-              disabled
-              type="text"
-              id="phoneNumber"
-              name="phoneNumber"
-              value={data.theAccountForStaff.phoneNumber}
-            />
+            <label className="label__title">Email:</label>
+            <input type="text" value={data.staffEmail} />
 
-            <label>Trạng thái: </label>
-            <br></br>
+            <label className="label__title">Số điện thoại:</label>
+            <input type="text" value={data.theAccountForStaff.phoneNumber} />
+
+            <label className="label__title">Trạng thái:</label>
             <input
               disabled
               className="checkBoxStatus type"
               type="checkbox"
-              id="staffStatus"
-              name="staffStatus"
               checked={data.staffStatus}
             />
-            <button
-              type="button"
-              className="btn cancel"
-              onClick={() => closeModel(false)}
-            >
-              Huỷ
-            </button>
+
+            <div className="food__button">
+              <button
+                type="button"
+                className="btn cancel"
+                onClick={() => closeModel(false)}
+              >
+                Đóng
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
