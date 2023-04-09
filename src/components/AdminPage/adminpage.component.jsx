@@ -16,6 +16,7 @@ import {
 import NotificationSound from "../../assets/notification2.mp3";
 import ReactHowler from "react-howler";
 import { useMemo } from "react";
+
 function AdminPage({ children }) {
   const navigate = useNavigate();
   const [popupProfile, setPopupProfile] = useState(false);
@@ -57,7 +58,9 @@ function AdminPage({ children }) {
       );
       if (!status) {
         return listNotifi.map((noti, index) => (
-          <div className="sub-menu-item" key={noti.id}>
+          <div className="sub-menu-item" key={noti.id} onClick={() =>
+            handleCheckedNotification(noti.id, noti.checked)
+          }>
             {staff.theAccountForStaff.roleId === 3 ? handleSound() : ""}
             {/* {isNotifi &&
               openNotification("warning", "Thông Báo", "Bạn có thông báo mới")} */}
@@ -65,16 +68,10 @@ function AdminPage({ children }) {
               {noti.checked ? (
                 <i
                   className="fa-solid fa-bell-slash icon"
-                  onClick={() =>
-                    handleCheckedNotification(noti.id, noti.checked)
-                  }
                 ></i>
               ) : (
                 <i
                   className="fa-regular fa-bell icon animate__animated animate__heartBeat animate__infinite"
-                  onClick={() =>
-                    handleCheckedNotification(noti.id, noti.checked)
-                  }
                 ></i>
               )}
               {noti.message}
