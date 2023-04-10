@@ -6,6 +6,7 @@ function FoodView({
   listRegion,
   regionId,
 }) {
+  // console.log(data);
   return (
     <div className="modelBackground">
       <div className="form-popup">

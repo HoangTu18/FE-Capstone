@@ -38,9 +38,6 @@ function UserCreate({ closeModel }) {
         },
       };
       if (parseInt(values.roleId) === 4 || parseInt(values.roleId) === 3) {
-        console.log("staff", staff);
-        console.log("roleId", values.roleId);
-        console.log("resById.restaurantId", values.restaurantId);
         dispatch(
           createAccountRequest({
             staff: staff,
@@ -77,7 +74,6 @@ function UserCreate({ closeModel }) {
   });
 
   const initialValues = {
-    staffId: "",
     accountId: "",
     password: "",
     staffFullName: "",

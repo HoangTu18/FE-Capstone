@@ -18,6 +18,7 @@ import {
   showLoading,
 } from "../../components/Loading/LoadingSlice";
 import { restaurantService } from "../../services/restaurantService";
+import { getRestaurantRequest } from "../../pages/RestaurantManager/RestaurantManageSlice";
 
 function* getAccount() {
   try {
@@ -74,6 +75,7 @@ function* createStaff(action) {
           });
         });
         if (restaurant.status === STATUS_CODE.SUCCESS) {
+          yield put(getRestaurantRequest());
           openNotification(
             "success",
             "Thành Công",
@@ -86,7 +88,7 @@ function* createStaff(action) {
     yield put(hideLoading());
     openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
   } catch (error) {
-    console.log(error);
+    console.log("error", error);
     yield put(hideLoading());
     openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
   }
