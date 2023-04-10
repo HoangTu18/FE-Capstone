@@ -72,8 +72,7 @@ function UserCreate({ closeModel }) {
       .email("Email không hợp lệ!")
       .required("Vui lòng nhập email!"),
     phoneNumber: Yup.string()
-      .min(0, "Số điện thoại không hợp lệ!")
-      .max(10, "Số điện thoại không hợp lệ!")
+      .matches(/(0[3|5|7|8|9])+([0-9]{8})\b/g, "Số điện thoại không hợp lệ!")
       .required("Vui lòng nhập số điện thoại!"),
   });
 
@@ -146,6 +145,22 @@ function UserCreate({ closeModel }) {
       );
     }
   };
+
+  const handleChangePhoneNumber = (e) => {
+    e.preventDefault();
+    let flag = true;
+    const { value } = e.target;
+    const valueArr = value.toString().split("");
+    valueArr.forEach(element => {
+      if (!'0123456789'.split("").includes(element)) {
+        flag = false;
+        return;
+      }
+    })
+    if (flag) {
+      formik.handleChange(e);
+    }
+  }
 
   return (
     <div className="popup">
@@ -228,7 +243,7 @@ function UserCreate({ closeModel }) {
             {renderListRestaurant(parseInt(formik.values.roleId))}
             <label className="label__title">Email:</label>
             <input
-              type="text"
+              type="email"
               id="staffEmail"
               name="staffEmail"
               value={formik.values.staffEmail}
@@ -242,11 +257,11 @@ function UserCreate({ closeModel }) {
             ) : null}
             <label className="label__title">Số điện thoại:</label>
             <input
-              type="text"
+              type="tel"
               id="phoneNumber"
               name="phoneNumber"
               value={formik.values.phoneNumber}
-              onChange={formik.handleChange}
+              onChange={handleChangePhoneNumber}
               onBlur={formik.handleBlur}
             />
             {formik.errors.phoneNumber ? (
