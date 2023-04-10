@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { updateFoodRequest } from "../../pages/FoodManager/foodManageSlice";
 import UploadImage from "../../ultil/UploadImage";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 
 function FoodEdit({
   data,
@@ -23,7 +23,7 @@ function FoodEdit({
         foodName: values.foodName,
         description: values.description,
         price: values.price,
-        imgUrl: values.imageUrl,
+        imgUrl: imageUrl !== "" ? imageUrl : values.imageUrl,
         status: values.status,
         cateId: values.cateId,
         purchaseNum: 0,
@@ -49,9 +49,13 @@ function FoodEdit({
   };
 
   const validation = Yup.object().shape({
-    foodName: Yup.string().required('Vui lòng nhập tên món ăn!'),
-    description: Yup.string().required('Vui lòng nhập mô tả món ăn!'),
-    price: Yup.number().required('Vui lòng nhập giá món ăn!').positive("Vui lòng nhập giá món ăn không được âm!").min(0, "Vui lòng nhập giá món ăn lớn hơn hoặc bằng 0!").integer("Yêu cầu số nguyên")
+    foodName: Yup.string().required("Vui lòng nhập tên món ăn!"),
+    description: Yup.string().required("Vui lòng nhập mô tả món ăn!"),
+    price: Yup.number()
+      .required("Vui lòng nhập giá món ăn!")
+      .positive("Vui lòng nhập giá món ăn không được âm!")
+      .min(0, "Vui lòng nhập giá món ăn lớn hơn hoặc bằng 0!")
+      .integer("Yêu cầu số nguyên"),
   });
 
   const formik = useFormik({

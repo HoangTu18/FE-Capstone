@@ -22,8 +22,6 @@
   float: left;
 }
 
-
-
 .right {
   float: right;
   width: 60%;
@@ -64,7 +62,8 @@
 
 .form-container input[type="text"],
 .form-container input[type="password"],
-.form-container input[type="date"] {
+.form-container input[type="date"],
+.form-container input[type="tel"] {
   width: 100%;
   padding: 15px;
   height: 30px;
@@ -91,6 +90,7 @@ select,
 .form-container input[type="password"]:focus,
 select,
 .form-container input[type="date"]:focus,
+.form-container input[type="tel"]:focus,
 select,
 textarea:focus {
   background-color: #ddd;

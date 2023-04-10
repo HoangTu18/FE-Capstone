@@ -57,7 +57,6 @@ export function* followActionGetRole() {
 function* createStaff(action) {
   try {
     yield put(showLoading());
-    console.log("ACTION PAYLOAD", JSON.stringify(action.payload));
     let staff = yield call(() => {
       return accountService.createStaff(action.payload.staff);
     });

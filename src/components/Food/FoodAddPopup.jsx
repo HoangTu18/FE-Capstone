@@ -23,7 +23,6 @@ function FoodAdd({ closeModel, listCate, listRegion }) {
         purchaseNum: 0,
         regionId: values.regionId,
       };
-      console.log("FOOD", food);
       closeModel(false);
       dispatch(insertFoodRequest(food));
     },

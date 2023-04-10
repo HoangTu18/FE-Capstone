@@ -16,7 +16,7 @@ function RestaurantCreate({ data, closeModel }) {
     lat: 0,
     lng: 0,
   });
-
+  // console.log(address);
   const handleSelect = async (value) => {
     const result = await geocodeByAddress(value);
     const ll = await getLatLng(result[0]);
@@ -35,21 +35,12 @@ function RestaurantCreate({ data, closeModel }) {
         restaurantNumber: values.restaurantNumber,
         status: values.status,
       };
+      console.log(restaurant);
       dispatch(createRestaurantRequest(restaurant));
       closeModel(false);
     },
     [dispatch, closeModel, coordinates.lat, coordinates.lng, address]
   );
-
-  const initialValues = {
-    restaurantId: 0,
-    restaurantLocation: "",
-    latitude: 0,
-    longitude: 0,
-    restaurantName: "",
-    restaurantNumber: "",
-    status: true,
-  };
 
   const validation = Yup.object().shape({
     restaurantName: Yup.string().required("Vui lòng nhập tên nhà hàng!"),
@@ -57,20 +48,25 @@ function RestaurantCreate({ data, closeModel }) {
       .min(0, "Số điện thoại không hợp lệ!")
       .max(10, "Số điện thoại không hợp lệ!")
       .required("Vui lòng nhập số điện thoại!"),
-    restaurantLocation: Yup.string().required(
-      "Vui lòng nhập địa chỉ nhà hàng!"
-    ),
   });
 
   const formik = useFormik({
-    initialValues: initialValues,
+    initialValues: {
+      restaurantId: 0,
+      restaurantLocation: "",
+      latitude: 0,
+      longitude: 0,
+      restaurantName: "",
+      restaurantNumber: "",
+      status: true,
+    },
     validationSchema: validation,
     onSubmit: (values, { resetForm }) => {
       handleCreateRestaurant(values);
       resetForm({ values: "" });
     },
   });
-
+  
   return (
     <div className="modelBackground">
       <div className="form-popup">
@@ -150,7 +146,7 @@ function RestaurantCreate({ data, closeModel }) {
                     {...getInputProps({
                       placeholder: "Nhập địa chỉ ...",
                       className: "location-search-input",
-                      required: true,
+                      // required: true,
                     })}
                     // name="restaurantLocation"
                     // id="restaurantLocation"
