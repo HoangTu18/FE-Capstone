@@ -1,15 +1,16 @@
 import "../Food/food.style.scss";
 function UserView({ data, closeModel }) {
+  console.log(data);
   const roleNamebyId = (id) => {
     switch (id) {
       case 1:
-        return "OWNER";
+        return "Owner";
       case 2:
-        return "ADMIN";
+        return "Admin";
       case 3:
-        return "MANAGER";
+        return "Manager";
       case 4:
-        return "STAFF";
+        return "Staff";
     }
   };
   return (
@@ -21,26 +22,38 @@ function UserView({ data, closeModel }) {
             {/* <label className="label__title">Mã nhân viên:</label>
             <input type="text" value={data.staffId} /> */}
             <label className="label__title">Tên đăng nhập:</label>
-            <input type="text" value={data.theAccountForStaff.accountId} />
+            <input
+              disabled
+              type="text"
+              defaultValue={data.theAccountForStaff.accountId}
+            />
 
             <label className="label__title"> Họ và tên:</label>
-            <input type="text" value={data.staffFullName} />
+            <input disabled type="text" defaultValue={data.staffFullName} />
 
             <label className="label__title">Chức danh:</label>
-            <input type="text" value={roleNamebyId(data.roleId)} />
+            <input
+              disabled
+              type="text"
+              defaultValue={roleNamebyId(data.theAccountForStaff.roleId)}
+            />
 
             <label className="label__title">Email:</label>
-            <input type="text" value={data.staffEmail} />
+            <input disabled type="text" defaultValue={data.staffEmail} />
 
             <label className="label__title">Số điện thoại:</label>
-            <input type="text" value={data.theAccountForStaff.phoneNumber} />
+            <input
+              disabled
+              type="text"
+              defaultValue={data.theAccountForStaff.phoneNumber}
+            />
 
             <label className="label__title">Trạng thái:</label>
             <input
               disabled
               className="checkBoxStatus type"
               type="checkbox"
-              checked={data.staffStatus}
+              defaultChecked={data.staffStatus}
             />
 
             <div className="food__button">
