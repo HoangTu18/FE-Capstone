@@ -60,7 +60,7 @@ function ComboFoodView({ closeModel, data, listCate }) {
       comboName: data.comboName,
       description: data.description,
       comboPrice: data.comboPrice,
-      image: data.imageUrl,
+      image: data.image,
       comboItems: [],
       status: true,
     },
@@ -77,7 +77,7 @@ function ComboFoodView({ closeModel, data, listCate }) {
         <div className="food__title unselectable">Thông tin Combo</div>
         <div className="left">
           <div className="img__item">
-            <img className="image" src={formik.values.comboPrice} alt="" />
+            <img className="image" src={formik.values.image} alt="" />
           </div>
           <div className="listitem">
             <label className="label__title">Mã combo:</label>

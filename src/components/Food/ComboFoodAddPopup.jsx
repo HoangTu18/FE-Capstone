@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { insertComboFoodRequest } from "../../pages/FoodManager/foodManageSlice";
 import * as Yup from "yup";
 import UploadImage from "../../ultil/UploadImage";
-import FoodImage from "../../assets/imgs/food-page.jpg";
+import foodImage from "../../assets/imgs/food-page.jpg";
 import "./food.style.scss";
 function ComboFoodAdd({ closeModel, listCate }) {
   const dispatch = useDispatch();
@@ -164,11 +164,7 @@ function ComboFoodAdd({ closeModel, listCate }) {
         <div className="food__title unselectable">Thông tin Combo</div>
         <div className="left">
           <div className="img__item">
-            <img
-              className="image"
-              src={imageUrl ? imageUrl : FoodImage}
-              alt=""
-            />
+            <img className="image" src={foodImage} alt="food" />
           </div>
           <div className="listitem">
             <label className="label__title">Mã combo:</label>
