@@ -18,6 +18,7 @@ function FoodEdit({
   const [imageUrl, setImageUrl] = useState("");
   const handleUpdateFood = useCallback(
     (values) => {
+      console.log(imageUrl);
       let food = {
         id: values.id,
         foodName: values.foodName,
@@ -33,7 +34,7 @@ function FoodEdit({
       console.log("FOOD EDIT", values);
       dispatch(updateFoodRequest(food));
     },
-    [dispatch, closeModel]
+    [dispatch, closeModel,imageUrl]
   );
 
   const initialValues = {
@@ -81,10 +82,10 @@ function FoodEdit({
             <img
               className="image"
               src={
-                data.imgUrl
-                  ? data.imgUrl
-                  : imageUrl
+                imageUrl !== ""
                   ? imageUrl
+                  : data.imgUrl !== ""
+                  ? data.imgUrl
                   : "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
               }
               alt=""

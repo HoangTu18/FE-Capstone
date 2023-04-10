@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAccountRequest } from "./AccountManageSlice";
 import { searchByName } from "../../ultil/stringUtil";
 import { USER_LOGIN } from "../../ultil/settingSystem";
+import { getRestaurantRequest } from "../RestaurantManager/RestaurantManageSlice";
 function AccountManager() {
   const staffTableHead = [
     "Mã nhân viên",
