@@ -36,22 +36,14 @@ function UserEdit({ data, closeModel }) {
           values.restaurantId !== data.theRestaurant.restaurantId ||
           data.theRestaurant === null
         ) {
-          if (data.staffActivityStatus === "available") {
-            dispatch(
-              removeStaffFromRes({
-                staffId: values.staffId,
-                staff: staff,
-                roleId: values.roleId,
-                restaurantId: values.restaurantId,
-              })
-            );
-          } else {
-            openNotification(
-              "warning",
-              "Cảnh Báo",
-              "Nhân viên đang bận không thê chuyển chi nhánh"
-            );
-          }
+          dispatch(
+            removeStaffFromRes({
+              staffId: values.staffId,
+              staff: staff,
+              roleId: values.roleId,
+              restaurantId: values.restaurantId,
+            })
+          );
         } else {
           dispatch(updateStaffRequest(staff));
         }

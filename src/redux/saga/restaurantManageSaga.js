@@ -144,6 +144,7 @@ function* removeStaff(action) {
         });
         if (staff.status === STATUS_CODE.SUCCESS) {
           yield put(getAccountRequest());
+          yield put(getRestaurantRequest());
         }
       }
     }
