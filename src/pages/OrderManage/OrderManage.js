@@ -26,11 +26,11 @@ const OrderManage = () => {
       status: "pending",
       statusText: "Chờ xác nhận",
     },
-    {
-      statusIcon: "fa-solid fa-credit-card",
-      status: "waiting",
-      statusText: "Chờ thanh toán",
-    },
+    // {
+    //   statusIcon: "fa-solid fa-credit-card",
+    //   status: "waiting",
+    //   statusText: "Chờ thanh toán",
+    // },
     {
       statusIcon: "fa-solid fa-clipboard-check",
       status: "accept",
