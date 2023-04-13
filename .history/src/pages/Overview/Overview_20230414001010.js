@@ -138,7 +138,7 @@ const Overview = () => {
           </form>
         </div>
         <div className="chart">
-          <Chart data={revenueByDateOwner} />
+          <Chart data={revenueByDate} />
         </div>
       </div>
     </AdminPage>

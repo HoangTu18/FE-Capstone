@@ -9,7 +9,6 @@ import moment from "moment";
 import { useCallback } from "react";
 import { openNotification } from "../../components/NotificationConfirm/NotificationConfirm";
 import { getRestaurantRequest } from "../../pages/RestaurantManager/RestaurantManageSlice";
-import { getRevenueOfRes } from "../OverviewOfRes/OverviewOfResSlice";
 const Overview = () => {
   const dispatch = useDispatch();
   const [startDate, setStartDate] = useState(
@@ -20,10 +19,7 @@ const Overview = () => {
   const listRestaurant = useSelector(
     (state) => state.restaurantManage.listRestaurant
   );
-  // const revenueByDate = useSelector((state) => state.statisticManage.revenue);
-  const revenueByDateOwner = useSelector(
-    (state) => state.overviewOfResManage.revenue
-  );
+  const revenueByDate = useSelector((state) => state.statisticManage.revenue);
   let statistic = useSelector((state) => state.statisticManage.statistic);
   useEffect(() => {
     dispatch(getStatisticRequest());
@@ -58,16 +54,9 @@ const Overview = () => {
         //     toDate: endDate,
         //   })
         // );
-        dispatch(
-          getRevenueOfRes({
-            fromDate: startDate,
-            toDate: endDate,
-            restaurantId: restaurant,
-          })
-        );
       }
     },
-    [dispatch, startDate, endDate, restaurant]
+    [dispatch, startDate, endDate]
   );
 
   return (
@@ -138,7 +127,7 @@ const Overview = () => {
           </form>
         </div>
         <div className="chart">
-          <Chart data={revenueByDateOwner} />
+          <Chart data={revenueByDate} />
         </div>
       </div>
     </AdminPage>

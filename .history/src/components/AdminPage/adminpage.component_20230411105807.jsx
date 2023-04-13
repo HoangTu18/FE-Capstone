@@ -37,6 +37,8 @@ function AdminPage({ children }) {
           openNotification("success", "Thông Báo", "Bạn có đơn hàng mới");
         }
       }
+    } else {
+      setIsHaveNoti(false);
     }
 
     const interval = setInterval(() => {
@@ -108,13 +110,7 @@ function AdminPage({ children }) {
             key={noti.id}
             onClick={() => handleCheckedNotification(noti.id, noti.checked)}
           >
-            <ReactHowler
-              src={NotificationSound}
-              onEnd={() => {
-                setIsHaveNoti(false);
-              }}
-              playing={isHaveNoti}
-            />
+            <ReactHowler src={NotificationSound} playing={isHaveNoti} />
             {/* {isNotifi &&
               openNotification("warning", "Thông Báo", "Bạn có thông báo mới")} */}
             <p style={{ fontSize: "15px" }}>
