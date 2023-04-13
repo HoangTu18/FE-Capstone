@@ -8,19 +8,21 @@ import { getRevenueBetweenRequest, getStatisticRequest } from "./OverviewSlice";
 import moment from "moment";
 import { useCallback } from "react";
 import { openNotification } from "../../components/NotificationConfirm/NotificationConfirm";
+import { getRestaurantRequest } from "../../pages/RestaurantManager/RestaurantManageSlice";
 const Overview = () => {
   const dispatch = useDispatch();
   const [startDate, setStartDate] = useState(
     moment().day(-4).format("YYYY-MM-DD")
   );
   const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
+  const [restaurant, setRestaurant] = "";
+  const listRestaurant = useSelector((state) => state.restaurantManage.listRestaurant);
   const revenueByDate = useSelector((state) => state.statisticManage.revenue);
   let statistic = useSelector((state) => state.statisticManage.statistic);
   useEffect(() => {
     dispatch(getStatisticRequest());
-    dispatch(
-      getRevenueBetweenRequest({ fromDate: startDate, toDate: endDate })
-    );
+    dispatch(getRevenueBetweenRequest({ fromDate: startDate, toDate: endDate }));
+    dispatch(getRestaurantRequest());
   }, []);
   const handleSubmit = useCallback(
     (event) => {
@@ -42,12 +44,13 @@ const Overview = () => {
         );
       } else {
         dispatch(
-          getRevenueBetweenRequest({ fromDate: startDate, toDate: endDate })
+          getRevenueBetweenRequest({ fromDate: startDate, restaurantId: restaurant, toDate: endDate })
         );
       }
     },
     [dispatch, startDate, endDate]
   );
+  
   return (
     <AdminPage>
       <div className="overviewContainer">
@@ -75,6 +78,17 @@ const Overview = () => {
         </div>
         <div className="filter-by-time">
           <form onSubmit={handleSubmit}>
+            <div className="filter-item">
+              <select id="restaurantId" name="restaurantId" onChange={(e) => setRestaurant(e.target.value)}>
+                {listRestaurant.map((item, index) => {
+                  return (
+                    <option key={index} value={item.restaurantId}>
+                      {item.restaurantName}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
             <div className="filter-item">
               <input
                 type="date"
