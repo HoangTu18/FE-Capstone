@@ -7,6 +7,7 @@ import {
   refundPaymentRequest,
   updateOrderRequest,
 } from "../../pages/OrderManage/OrderManageSlice";
+import { formatToVND } from "../../ultil/numberUltil";
 function OrderDetail({ closeModel }) {
   const dispatch = useDispatch();
   const orderItem = useSelector((state) => state.orderManage.orderItem);
@@ -25,8 +26,6 @@ function OrderDetail({ closeModel }) {
   };
   useEffect(() => {
     setMergeData([]);
-    console.log("Length: ", Object.keys(orderItem).length);
-    console.log("Object: ", orderItem);
     if (Object.keys(orderItem).length !== 0) {
       if (orderItem?.itemList?.length > 0) {
         orderItem.itemList.forEach((item) => {
@@ -45,7 +44,6 @@ function OrderDetail({ closeModel }) {
       }
       if (orderItem?.party !== null) {
         if (orderItem?.party.itemList?.length > 0) {
-          const quantityTable = orderItem.party.quantity;
           setMergeData((prev) => [
             ...prev,
             {
@@ -55,21 +53,22 @@ function OrderDetail({ closeModel }) {
               quantity: orderItem?.party.quantity,
               total: orderItem?.party.totalPrice,
               isHeader: true,
+              listParty: orderItem?.party.itemList,
             },
           ]);
-          orderItem.party.itemList.forEach((partyItem) => {
-            setMergeData((prev) => [
-              ...prev,
-              {
-                id: partyItem.id,
-                name: partyItem.foodName,
-                price: partyItem.price,
-                quantity: quantityTable,
-                total: partyItem.price * quantityTable,
-                isHeader: false,
-              },
-            ]);
-          });
+          // orderItem.party.itemList.forEach((partyItem) => {
+          //   setMergeData((prev) => [
+          //     ...prev,
+          //     {
+          //       id: partyItem.id,
+          //       name: partyItem.foodName,
+          //       price: partyItem.price,
+          //       quantity: quantityTable,
+          //       total: partyItem.price * quantityTable,
+          //       isHeader: false,
+          //     },
+          //   ]);
+          // });
         }
       }
 
@@ -183,6 +182,21 @@ function OrderDetail({ closeModel }) {
     closeModel(false);
   };
 
+  const filterStatus = (status) => {
+    switch (status) {
+      case "pending":
+        return "Chờ xác nhận";
+      case "accept":
+        return "Đã xác nhận";
+      case "delivery":
+        return "Đang giao hàng";
+      case "done":
+        return "Đã nhận hàng";
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="popup">
       <div className="model_order_detail">
@@ -257,6 +271,9 @@ function OrderDetail({ closeModel }) {
               <div className="body_model_detail_item">
                 Địa chỉ:<span>{orderItem.deliveryAddress}</span>
               </div>
+              <div className="body_model_detail_item">
+                Trạng thái đơn:<span>{filterStatus(orderItem.status)}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -272,6 +289,19 @@ function OrderDetail({ closeModel }) {
           style={{ display: "flex", float: "right" }}
           className="footer_model"
         >
+          <div
+            type="button"
+            className="btn unselectable"
+            style={{
+              fontWeight: "bold",
+              position: "absolute",
+              left: 0,
+              backgroundColor: "transparent",
+              color: "black",
+            }}
+          >
+            Tổng tiền: {formatToVND(orderItem.totalPrice)} VNĐ
+          </div>
           <div
             type="button"
             className="btn cancel"
