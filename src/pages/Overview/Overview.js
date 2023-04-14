@@ -16,7 +16,7 @@ const Overview = () => {
     moment().day(-4).format("YYYY-MM-DD")
   );
   const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
-  const [restaurant, setRestaurant] = useState("1");
+  const [restaurant, setRestaurant] = useState("0");
   const listRestaurant = useSelector(
     (state) => state.restaurantManage.listRestaurant
   );
@@ -51,20 +51,23 @@ const Overview = () => {
           "Bạn đang nhập vào ngày bắt đầu lớn hơn ngày kết thúc"
         );
       } else {
-        // dispatch(
-        //   getRevenueBetweenRequest({
-        //     fromDate: startDate,
-        //     restaurantId: restaurant,
-        //     toDate: endDate,
-        //   })
-        // );
-        dispatch(
-          getRevenueOfRes({
-            fromDate: startDate,
-            toDate: endDate,
-            restaurantId: restaurant,
-          })
-        );
+        if (restaurant === "0") {
+          dispatch(
+            getRevenueBetweenRequest({
+              fromDate: startDate,
+              toDate: endDate,
+            })
+          );
+        }
+        else {
+          dispatch(
+            getRevenueOfRes({
+              fromDate: startDate,
+              toDate: endDate,
+              restaurantId: restaurant,
+            })
+          );
+        }
       }
     },
     [dispatch, startDate, endDate, restaurant]
@@ -103,6 +106,7 @@ const Overview = () => {
                 name="restaurantId"
                 onChange={(e) => setRestaurant(e.target.value)}
               >
+                <option value={"0"}>Tổng doanh thu</option>
                 {listRestaurant.map((item, index) => {
                   return (
                     <option key={index} value={item.restaurantId}>
