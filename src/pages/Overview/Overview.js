@@ -20,7 +20,7 @@ const Overview = () => {
   const listRestaurant = useSelector(
     (state) => state.restaurantManage.listRestaurant
   );
-  // const revenueByDate = useSelector((state) => state.statisticManage.revenue);
+  const revenueByDate = useSelector((state) => state.statisticManage.revenue);
   const revenueByDateOwner = useSelector(
     (state) => state.overviewOfResManage.revenue
   );
@@ -142,7 +142,7 @@ const Overview = () => {
           </form>
         </div>
         <div className="chart">
-          <Chart data={revenueByDateOwner} />
+          <Chart data={restaurant === "0" ? revenueByDate : revenueByDateOwner} />
         </div>
       </div>
     </AdminPage>
