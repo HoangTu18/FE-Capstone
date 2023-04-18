@@ -9,21 +9,17 @@ import moment from "moment";
 import { useCallback } from "react";
 import { openNotification } from "../../components/NotificationConfirm/NotificationConfirm";
 import { getRestaurantRequest } from "../../pages/RestaurantManager/RestaurantManageSlice";
-import { getRevenueOfRes } from "../OverviewOfRes/OverviewOfResSlice";
 const Overview = () => {
   const dispatch = useDispatch();
   const [startDate, setStartDate] = useState(
     moment().day(-4).format("YYYY-MM-DD")
   );
   const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
-  const [restaurant, setRestaurant] = useState("0");
+  const [restaurant, setRestaurant] = useState("1");
   const listRestaurant = useSelector(
     (state) => state.restaurantManage.listRestaurant
   );
   const revenueByDate = useSelector((state) => state.statisticManage.revenue);
-  const revenueByDateOwner = useSelector(
-    (state) => state.overviewOfResManage.revenue
-  );
   let statistic = useSelector((state) => state.statisticManage.statistic);
   useEffect(() => {
     dispatch(getStatisticRequest());
@@ -51,26 +47,16 @@ const Overview = () => {
           "Bạn đang nhập vào ngày bắt đầu lớn hơn ngày kết thúc"
         );
       } else {
-        if (restaurant === "0") {
-          dispatch(
-            getRevenueBetweenRequest({
-              fromDate: startDate,
-              toDate: endDate,
-            })
-          );
-        }
-        else {
-          dispatch(
-            getRevenueOfRes({
-              fromDate: startDate,
-              toDate: endDate,
-              restaurantId: restaurant,
-            })
-          );
-        }
+        // dispatch(
+        //   getRevenueBetweenRequest({
+        //     fromDate: startDate,
+        //     restaurantId: restaurant,
+        //     toDate: endDate,
+        //   })
+        // );
       }
     },
-    [dispatch, startDate, endDate, restaurant]
+    [dispatch, startDate, endDate]
   );
 
   return (
@@ -106,7 +92,6 @@ const Overview = () => {
                 name="restaurantId"
                 onChange={(e) => setRestaurant(e.target.value)}
               >
-                <option value={"0"}>Tổng doanh thu</option>
                 {listRestaurant.map((item, index) => {
                   return (
                     <option key={index} value={item.restaurantId}>
@@ -142,7 +127,7 @@ const Overview = () => {
           </form>
         </div>
         <div className="chart">
-          <Chart data={restaurant === "0" ? revenueByDate : revenueByDateOwner} />
+          <Chart data={revenueByDate} />
         </div>
       </div>
     </AdminPage>

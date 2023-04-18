@@ -50,16 +50,15 @@ function AdminPage({ children }) {
     }
     return () => clearInterval(interval);
   }, [count]);
-
   useEffect(() => {
     setCount(90);
+    console.log("start");
   }, []);
-
   const fetchData = () => {
     axios
       .get(
         "https://tfsapiv1-env.eba-aagv3rp5.ap-southeast-1.elasticbeanstalk.com/api/notifications/byaccount/" +
-        staff.theAccountForStaff.accountId
+          staff.theAccountForStaff.accountId
       )
       .then((res) => {
         setList(res.data);
@@ -68,13 +67,11 @@ function AdminPage({ children }) {
         alert("Đã có lỗi xảy ra, vui lòng thử lại sau");
       });
   };
-
   const logout = () => {
     localStorage.clear();
     navigate("/login");
     openNotification("success", "Thành Công", "Bạn đã thao tác thành công");
   };
-
   let staff = JSON.parse(localStorage.getItem(USER_LOGIN));
   let subMenuNotifi = document.getElementById("subMenuNotifi");
   const dispatch = useDispatch();
@@ -82,7 +79,6 @@ function AdminPage({ children }) {
   const listNotification = useSelector(
     (state) => state.notificationManage.notificationList
   );
-
   const handleCheckedNotification = useCallback(
     (id, status, accountId) => {
       dispatch(
@@ -97,11 +93,9 @@ function AdminPage({ children }) {
     },
     [dispatch]
   );
-
   const handleSound = useCallback(() => {
     return <ReactHowler src={NotificationSound} playing={true} />;
   }, []);
-
   const handleNotification = useCallback(
     (status) => {
       const listNotifi = listNotification.filter(
@@ -160,26 +154,21 @@ function AdminPage({ children }) {
     },
     [listNotification, isNotifi, handleCheckedNotification, isHaveNoti]
   );
-
   useEffect(() => {
     dispatch(getRoleRequest());
     if (staff.theAccountForStaff.roleId === 3) {
       dispatch(getNotificationRequest(staff.theAccountForStaff.accountId));
     }
   }, [dispatch]);
-
   const showProfile = () => {
     setPopupProfile(!popupProfile);
   };
-
   const showSetting = () => {
     setPopupSetting(!popupSetting);
   };
-
   const toggleMenuNotifi = () => {
     subMenuNotifi.classList.toggle("open-menu-notifi");
   };
-
   return (
     <div className="admin-page">
       {popupProfile ? (
@@ -198,7 +187,7 @@ function AdminPage({ children }) {
       )}
       <div className="admin-page__header">
         <div className="admin-page__header-left">
-          <h4>{staff.theAccountForStaff.roleId === 3 ? staff.theRestaurant.restaurantName : ""}</h4>
+          <h4>Hello, {staff.staffFullName}</h4>
         </div>
         <div className="admin-page__header-right">
           {staff.theAccountForStaff.roleId === 3 && (
@@ -229,15 +218,15 @@ function AdminPage({ children }) {
                   <div className="sub-menu-center">
                     {listNotification.filter((item) => !item.checked).length !==
                       0 && (
-                        <div className="menu-notCheck">
-                          <div className="menu-notCheck-title">
-                            <span>Chưa đọc</span>
-                          </div>
-                          <div className="menu-checked-detail">
-                            {handleNotification(false)}
-                          </div>
+                      <div className="menu-notCheck">
+                        <div className="menu-notCheck-title">
+                          <span>Chưa đọc</span>
                         </div>
-                      )}
+                        <div className="menu-checked-detail">
+                          {handleNotification(false)}
+                        </div>
+                      </div>
+                    )}
                     <div className="menu-checked">
                       <div className="menu-checked-title">
                         <span>Đã đọc</span>
@@ -249,9 +238,9 @@ function AdminPage({ children }) {
                     <div className="sub-menu-footer">
                       <div
                         className="buttonViewAll"
-                      // onClick={() => {
-                      //   handleViewAllNotifi();
-                      // }}
+                        // onClick={() => {
+                        //   handleViewAllNotifi();
+                        // }}
                       >
                         <p>Xem tất cả</p>
                       </div>

@@ -1,19 +1,14 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import DashboardItem from "../../components/DashboardItem/dashboarditem.component";
-import { RESTAURANT_INFO, USER_LOGIN } from "../../ultil/settingSystem";
+import { openNotification } from "../../components/NotificationConfirm/NotificationConfirm";
+import { USER_LOGIN } from "../../ultil/settingSystem";
 import "./dashboard.style.scss";
-import axios from "axios";
-
 function Dashboard() {
-  const dispatch = useDispatch();
+  // const [work, setWork] = useState();
   const location = useLocation();
-  const role = JSON.parse(localStorage.getItem(USER_LOGIN))?.theAccountForStaff.roleId;
-  let restaurant = JSON.parse(localStorage.getItem(USER_LOGIN));
-  const [checked, setChecked] = useState(restaurant.theRestaurant.availableStatus);
-
+  const role = JSON.parse(localStorage.getItem(USER_LOGIN))?.theAccountForStaff
+    .roleId;
   const renderByAuth = () => {
     if (role === 2) {
       //ROLE ADMIN
@@ -140,38 +135,14 @@ function Dashboard() {
       );
     }
   };
-
-  useEffect(() => {
-    axios
-      .get(
-        "https://tfsapiv1-env.eba-aagv3rp5.ap-southeast-1.elasticbeanstalk.com/api/restaurants/busybutton/" + restaurant.theRestaurant.restaurantId
-      )
-      .then((res) => {
-        localStorage.setItem(
-          RESTAURANT_INFO,
-          JSON.stringify(res.data)
-        );
-      })
-      .catch((err) => {
-        alert("Đã có lỗi xảy ra, vui lòng thử lại sau");
-      });
-  }, [checked]);
-
   return (
     <div className="dashboard">
       <div className="dashboard__left">
         <div className="dashboard__left__logo">
-          <img src="/images/logo-header.jpg" alt="" />
+          <img src="/images/logo.png" alt="" />
           <h3>TFS System</h3>
         </div>
         {renderByAuth()}
-        <div className="button_switch">
-          <p>Ngưng nhận đơn</p>
-          <label className="switch">
-            <input type="checkbox" checked = {!checked} onChange={() => setChecked(!checked)} />
-            <span className="slider round"></span>
-          </label>
-        </div>
       </div>
       <div className="dashboard__right">
         <Outlet />
