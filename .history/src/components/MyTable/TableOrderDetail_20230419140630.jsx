@@ -12,7 +12,7 @@ const TableOrderDetail = (props) => {
   const [pageCount, setPageCount] = useState(0);
   const [view, showView] = useState(false);
   const [data, setData] = useState([]);
-  const itemsPerPage = 7;
+  const itemsPerPage = 3;
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;

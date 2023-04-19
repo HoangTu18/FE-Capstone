@@ -12,7 +12,7 @@ const TableOrderDetail = (props) => {
   const [pageCount, setPageCount] = useState(0);
   const [view, showView] = useState(false);
   const [data, setData] = useState([]);
-  const itemsPerPage = 7;
+  const itemsPerPage = 3;
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
@@ -34,7 +34,7 @@ const TableOrderDetail = (props) => {
     <>
       {view ? <OrderParty closeModel={showView} data={data} /> : <></>}
       <div style={{ border: "1px solid #c4c4c4", height: "500px" }}>
-        <div className="table-wrapper" style={{ minHeight: "450px" }}>
+        <div className="table-wrapper" style={{ minHeight: "500px" }}>
           <table>
             {props.headData && props.renderHead ? (
               <thead>

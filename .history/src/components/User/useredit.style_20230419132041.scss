@@ -11,6 +11,15 @@
   left: 0;
   background-color: rgba(200, 200, 200, 0.5);
   z-index: 9999;
+
+  hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .form-popup {
+    margin-top: 200px;
+  }
 }
 
 .left {
@@ -19,28 +28,30 @@
 
 .right {
   float: right;
-  width: 50%;
+  width: 60%;
+}
+
+.right.restaurant {
+  width: 100%;
 }
 
 .form-popup {
   display: flex;
   position: fixed;
-  top: 10%;
+  top: 3%;
   left: 35%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   z-index: 9;
 }
 
 .form-container {
-  border-radius: 5px;
+  // margin-top: 200px;
   max-width: 500px;
   padding: 10px;
   background-color: white;
-
   label {
     font-weight: bold;
   }
-
   .btn {
     font-size: 12px;
     font-weight: bold;
@@ -53,24 +64,44 @@
     width: 50%;
     opacity: 0.8;
   }
-
   .cancel {
     background-color: red;
   }
 }
 
 .form-container input[type="text"],
-.form-container input[type="password"] {
+.form-container input[type="password"],
+.form-container input[type="date"],
+.form-container input[type="tel"] {
   width: 100%;
   padding: 15px;
   height: 30px;
   margin: 5px 0 12px 0;
-  border: 1px solid #000;
+  border: none;
   background: #f1f1f1;
 }
 
+select {
+  width: 100%;
+  padding-left: 15px;
+  height: 30px;
+  margin: 5px 0 12px 0;
+  border: none;
+}
+
+textarea {
+  width: 100%;
+  height: 80px;
+}
+
 .form-container input[type="text"]:focus,
-.form-container input[type="password"]:focus {
+select,
+.form-container input[type="password"]:focus,
+select,
+.form-container input[type="date"]:focus,
+.form-container input[type="tel"]:focus,
+select,
+textarea:focus {
   background-color: #ddd;
   outline: none;
 }
@@ -81,9 +112,9 @@
 }
 
 .left .avatar {
-  margin: 0px 50px;
-  width: 25%;
-  height: 25%;
+  margin: 0px 30px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   border: 2px solid #000;
 }
@@ -94,4 +125,40 @@
 
 .type {
   margin: 5px 0px 5px 0px;
+}
+
+.smallText {
+  font-size: 10px;
+  color: #535353;
+}
+
+.vl {
+  border-right: 1px solid #000;
+  height: 500px;
+}
+
+.hl {
+  border-top: 1px solid #000;
+  height: 500px;
+}
+
+.column {
+  float: left;
+  width: 25%;
+  padding: 10px;
+  height: 500px;
+}
+
+.row:after {
+  display: table;
+  clear: both;
+}
+
+.title {
+}
+
+.error__message {
+  color: red;
+  font-weight: 600;
+  margin-bottom: 5px;
 }

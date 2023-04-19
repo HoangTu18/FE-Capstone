@@ -173,7 +173,7 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
             <img className="image" src={formik.values.image} alt="" />
           </div>
           <div className="listitem">
-            {/* <label className="label__title">
+            <label className="label__title">
               Mã combo: <span className="proirity">*</span>
             </label>
             <input
@@ -183,7 +183,7 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
               name="id"
               value={formik.values.id}
               onChange={formik.handleChange}
-            /> */}
+            />
             <label className="label__title">Tên combo:</label>
             <input
               type="text"

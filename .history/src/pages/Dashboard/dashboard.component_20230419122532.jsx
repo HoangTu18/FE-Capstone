@@ -14,7 +14,7 @@ function Dashboard() {
     .roleId;
   let restaurant = JSON.parse(localStorage.getItem(RESTAURANT_INFO));
   const [checked, setChecked] = useState(
-    role === 3 ? restaurant.availableStatus : false
+    restaurant.theRestaurant.availableStatus
   );
 
   const renderByAuth = () => {
@@ -144,21 +144,6 @@ function Dashboard() {
     }
   };
 
-  const handleSetAvailable = (res) => {
-    setChecked(!checked);
-    axios
-      .get(
-        "https://tfsapiv1-env.eba-aagv3rp5.ap-southeast-1.elasticbeanstalk.com/api/restaurants/busybutton/" +
-          restaurant.restaurantId
-      )
-      .then((res) => {
-        localStorage.setItem(RESTAURANT_INFO, JSON.stringify(res.data));
-      })
-      .catch((err) => {
-        alert("Đã có lỗi xảy ra, vui lòng thử lại sau");
-      });
-  };
-
   return (
     <div className="dashboard">
       <div className="dashboard__left">
@@ -178,7 +163,7 @@ function Dashboard() {
             <input
               type="checkbox"
               checked={!checked}
-              onChange={() => handleSetAvailable()}
+              onChange={() => setChecked(!checked)}
             />
             <span className="slider round"></span>
           </label>
