@@ -62,7 +62,7 @@ function ComboFoodView({ closeModel, data, listCate }) {
       comboPrice: data.comboPrice,
       image: data.image,
       comboItems: [],
-      status: true,
+      status: data.status,
     },
   });
   return (
