@@ -118,7 +118,14 @@ const TableListStaffOfRes = (props) => {
                       ) : (
                         <td className="red">Đang bận</td>
                       )} */}
-
+                      <td>
+                        <div
+                          className="detail-button"
+                          onClick={() => getOrderDetail(item.id)}
+                        >
+                          Xem chi tiết
+                        </div>
+                      </td>
                       <td>
                         <div
                           className="detail-button"

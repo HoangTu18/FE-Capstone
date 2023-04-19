@@ -26,7 +26,7 @@ function OrderParty({ data, closeModel }) {
           marginTop: -40,
         }}
       >
-        <div className="food__title unselectable">Thực đơn bàn tiệc</div>
+        <div className="food__title unselectable">Thông tin Party</div>
         <div style={{ marginLeft: 45, marginRight: 45 }}>
           <Table
             dataSource={data}

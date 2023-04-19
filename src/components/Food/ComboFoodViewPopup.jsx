@@ -62,7 +62,7 @@ function ComboFoodView({ closeModel, data, listCate }) {
       comboPrice: data.comboPrice,
       image: data.image,
       comboItems: [],
-      status: true,
+      status: data.status,
     },
   });
   return (
@@ -80,8 +80,8 @@ function ComboFoodView({ closeModel, data, listCate }) {
             <img className="image" src={formik.values.image} alt="" />
           </div>
           <div className="listitem">
-            <label className="label__title">Mã combo:</label>
-            <input disabled type="text" value={formik.values.id} />
+            {/* <label className="label__title">Mã combo:</label>
+            // <input disabled type="text" value={formik.values.id} /> */}
             <label className="label__title">Tên combo:</label>
             <input type="text" disabled value={formik.values.comboName} />
             <label className="label__title">Giá (VND):</label>

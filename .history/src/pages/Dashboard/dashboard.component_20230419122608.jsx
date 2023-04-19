@@ -14,7 +14,7 @@ function Dashboard() {
     .roleId;
   let restaurant = JSON.parse(localStorage.getItem(RESTAURANT_INFO));
   const [checked, setChecked] = useState(
-    role === 3 ? restaurant.availableStatus : false
+    restaurant.theRestaurant.availableStatus
   );
 
   const renderByAuth = () => {
@@ -175,11 +175,7 @@ function Dashboard() {
         >
           <p>Ngưng nhận đơn</p>
           <label className="switch">
-            <input
-              type="checkbox"
-              checked={!checked}
-              onChange={() => handleSetAvailable()}
-            />
+            <input type="checkbox" onChange={() => setChecked(!checked)} />
             <span className="slider round"></span>
           </label>
         </div>

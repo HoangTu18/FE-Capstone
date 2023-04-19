@@ -118,17 +118,20 @@ const TableListStaffOfRes = (props) => {
                       ) : (
                         <td className="red">Đang bận</td>
                       )} */}
-
                       <td>
                         <div
                           className="detail-button"
                           onClick={() => {
                             showView(item);
                           }}
-                        >
-                          Xem chi tiết
-                        </div>
-
+                        ></div>
+                        <Icon
+                          className="icon"
+                          icon="bx:show-alt"
+                          onClick={() => {
+                            showView(item);
+                          }}
+                        />
                         {/* <Icon
                           className="icon"
                           icon="bx:bx-edit-alt"

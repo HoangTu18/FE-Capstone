@@ -66,10 +66,10 @@ function RestaurantCreate({ data, closeModel }) {
       resetForm({ values: "" });
     },
   });
-
+  
   return (
     <div className="modelBackground">
-      <div className="form-popup" style={{ marginTop: "200px" }}>
+      <div className="form-popup">
         <form
           action=""
           className="form-container"

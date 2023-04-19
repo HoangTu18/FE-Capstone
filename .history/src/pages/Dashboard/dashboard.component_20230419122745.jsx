@@ -13,9 +13,7 @@ function Dashboard() {
   const role = JSON.parse(localStorage.getItem(USER_LOGIN))?.theAccountForStaff
     .roleId;
   let restaurant = JSON.parse(localStorage.getItem(RESTAURANT_INFO));
-  const [checked, setChecked] = useState(
-    role === 3 ? restaurant.availableStatus : false
-  );
+  const [checked, setChecked] = useState(restaurant.availableStatus);
 
   const renderByAuth = () => {
     if (role === 2) {

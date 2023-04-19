@@ -174,7 +174,7 @@ function OrderDetail({ closeModel }) {
     } else {
       requestInfo.refundInfo = {
         amount:
-          +orderItem.totalPrice >= 10000000
+          orderItem.totalPrice >= 10000000
             ? orderItem.totalPrice * 0.1
             : orderItem.totalPrice,
         orderId: +orderItem.id,

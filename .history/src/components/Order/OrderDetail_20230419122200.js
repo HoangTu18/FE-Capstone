@@ -174,7 +174,7 @@ function OrderDetail({ closeModel }) {
     } else {
       requestInfo.refundInfo = {
         amount:
-          +orderItem.totalPrice >= 10000000
+          orderItem.totalPrice >= 10000000
             ? orderItem.totalPrice * 0.1
             : orderItem.totalPrice,
         orderId: +orderItem.id,
@@ -204,6 +204,7 @@ function OrderDetail({ closeModel }) {
     <div className="popup">
       <div className="model_order_detail">
         <div className="top_model_right">
+          <div></div>
           <div style={{ display: "flex" }}>
             <div
               className="top_model_right_item"
