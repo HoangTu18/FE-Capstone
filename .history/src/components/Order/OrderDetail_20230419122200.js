@@ -204,6 +204,7 @@ function OrderDetail({ closeModel }) {
     <div className="popup">
       <div className="model_order_detail">
         <div className="top_model_right">
+          <div></div>
           <div style={{ display: "flex" }}>
             <div
               className="top_model_right_item"
