@@ -165,7 +165,7 @@ function Dashboard() {
           <h3>TFS System</h3>
         </div>
         {renderByAuth()}
-        <div className="button_switch">
+        <div className="button_switch" style={{display: restaurant.theAccountForStaff.roleId === 3 ? "flex" : "none"}}>
           <p>Ngưng nhận đơn</p>
           <label className="switch">
             <input type="checkbox" checked = {!checked} onChange={() => setChecked(!checked)} />
