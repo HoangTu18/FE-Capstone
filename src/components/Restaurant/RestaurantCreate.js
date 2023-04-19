@@ -77,7 +77,7 @@ function RestaurantCreate({ data, closeModel }) {
           autoComplete="off"
           onSubmit={formik.handleSubmit}
         >
-          <div className="left">
+          {/* <div className="left">
             <img
               className="avatar"
               src={
@@ -85,8 +85,8 @@ function RestaurantCreate({ data, closeModel }) {
               }
               alt=""
             />
-          </div>
-          <div className="right">
+          </div> */}
+          <div className="right restaurant">
             <label hidden>Mã nhà hàng:</label>
             <input
               hidden
