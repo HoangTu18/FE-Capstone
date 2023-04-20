@@ -45,6 +45,7 @@ function UserEdit({ data, closeModel }) {
             })
           );
         } else {
+          console.log("updated", staff);
           dispatch(updateStaffRequest(staff));
         }
       }
@@ -220,10 +221,13 @@ function UserEdit({ data, closeModel }) {
             ) : null}
             <label className="label__title">Trạng thái:</label>
             <input
-              disabled
               className="checkBoxStatus type"
               type="checkbox"
-              defaultChecked={true}
+              id="staffStatus"
+              name="staffStatus"
+              value={formik.values.staffStatus}
+              onChange={formik.handleChange}
+              defaultChecked={formik.values.staffStatus}
             />
             <div className="food__button">
               <button type="submit" className="btn">

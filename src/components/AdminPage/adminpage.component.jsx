@@ -58,7 +58,7 @@ function AdminPage({ children }) {
   const fetchData = () => {
     axios
       .get(
-        "https://tfsapiv1-env.eba-aagv3rp5.ap-southeast-1.elasticbeanstalk.com/api/notifications/byaccount/" +
+        "http://tfsapiv1-env.eba-aagv3rp5.ap-southeast-1.elasticbeanstalk.com/api/notifications/byaccount/" +
         staff.theAccountForStaff.accountId
       )
       .then((res) => {
