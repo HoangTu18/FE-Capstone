@@ -3,9 +3,9 @@ import { useCallback, useEffect, useState } from "react";
 import "../Food/food.style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
-import { insertEventRequest } from "../../pages/EventManager/eventManagerSlice";
+import { updateEventRequest } from "../../pages/EventManager/eventManagerSlice";
 import UploadImage from "../../ultil/UploadImage";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 
 function EventEdit({ closeModel, data }) {
   const dispatch = useDispatch();
@@ -124,19 +124,16 @@ function EventEdit({ closeModel, data }) {
         status: values.status,
         foodList: dataSelected,
       };
-      console.log("Event Insert: ", event);
-      dispatch(insertEventRequest(event));
+      dispatch(updateEventRequest(event));
       closeModel(false);
     },
     [closeModel, dataSelected, dispatch, imageUrl]
   );
 
   const getFooddetail = (id) => {
-    let result = [];
-    listCate.forEach((item) => {
-      result.push(item.foodList.find((food) => food.id === id));
-    });
-    return result;
+    return listCate.find((item) => {
+      return item.id === id;
+    }).foodList[0];
   };
 
   const initialValues = {
@@ -151,10 +148,10 @@ function EventEdit({ closeModel, data }) {
   };
 
   const validation = Yup.object().shape({
-    eventName: Yup.string().required('Vui lòng nhập tên sự kiện!'),
-    fromDate: Yup.string().required('Vui lòng chọn ngày bắt đầu!'),
-    toDate: Yup.string().required('Vui lòng chọn ngày kết thúc!'),
-    description: Yup.string().required('Vui lòng nhập mô tả!'),
+    eventName: Yup.string().required("Vui lòng nhập tên sự kiện!"),
+    fromDate: Yup.string().required("Vui lòng chọn ngày bắt đầu!"),
+    toDate: Yup.string().required("Vui lòng chọn ngày kết thúc!"),
+    description: Yup.string().required("Vui lòng nhập mô tả!"),
   });
 
   const formik = useFormik({
@@ -166,10 +163,10 @@ function EventEdit({ closeModel, data }) {
           id: selected[index].id,
           foodName: selected[index].label,
           description:
-            getFooddetail(selected[index].id)[1]["description"] ?? "",
-          price: +getFooddetail(selected[index].id)[1]["price"],
-          imgUrl: getFooddetail(selected[index].id)[1]["imgUrl"],
-          listComment: getFooddetail(selected[index].id)[1]["listComment"],
+            getFooddetail(selected[index].id)["description"] ?? "",
+          price: +getFooddetail(selected[index].id)["price"],
+          imgUrl: getFooddetail(selected[index].id)["imgUrl"],
+          listComment: getFooddetail(selected[index].id)["listComment"],
         });
       });
       handleUpdateEvent(values);
