@@ -161,11 +161,19 @@ function EventEdit({ closeModel, data }) {
       selected.forEach((item, index) => {
         dataSelected.push({
           id: selected[index].id,
+<<<<<<< HEAD
           foodName: selected[index].label,
           description: getFooddetail(selected[index].id)["description"] ?? "",
           price: +getFooddetail(selected[index].id)["price"],
           imgUrl: getFooddetail(selected[index].id)["imgUrl"],
           listComment: getFooddetail(selected[index].id)["listComment"],
+=======
+          foodName: "",//selected[index].label
+          description: "",
+          price: 0,
+          imgUrl: "",
+          listComment: "",
+>>>>>>> 6eab4debf1343b4dae52791191e493b37e8639e2
         });
       });
       handleUpdateEvent(values);
