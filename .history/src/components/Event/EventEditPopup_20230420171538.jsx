@@ -162,7 +162,8 @@ function EventEdit({ closeModel, data }) {
         dataSelected.push({
           id: selected[index].id,
           foodName: selected[index].label,
-          description: getFooddetail(selected[index].id)["description"] ?? "",
+          description:
+            getFooddetail(selected[index].id)["description"] ?? "",
           price: +getFooddetail(selected[index].id)["price"],
           imgUrl: getFooddetail(selected[index].id)["imgUrl"],
           listComment: getFooddetail(selected[index].id)["listComment"],
@@ -236,8 +237,8 @@ function EventEdit({ closeModel, data }) {
                 <span>{formik.errors.toDate}</span>
               </div>
             ) : null}
-            {/* <label className="label__title">Hình ảnh</label>
-            <UploadImage getImageURL={setImageUrl} /> */}
+            <label className="label__title">Hình ảnh</label>
+            <UploadImage getImageURL={setImageUrl} />
             <label className="label__title">Mô tả:</label>
             <textarea
               type="text"
