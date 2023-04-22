@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import "../Food/food.style.scss";
 import { useDispatch } from "react-redux";
 import { updatePromotionRequest } from "../../pages/PromotionManage/PromotionManageSlice";
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
 function PromotionUpdate({ closeModel, data, listPromo, listEvent }) {
   const dispatch = useDispatch();
@@ -33,10 +33,8 @@ function PromotionUpdate({ closeModel, data, listPromo, listEvent }) {
   };
 
   const validation = Yup.object().shape({
-    promotionCode: Yup.string().required("Vui lòng nhập code khuyến mãi!"),
-    discountPercent: Yup.string().required(
-      "Vui lòng nhập phần trăm khuyến mãi!"
-    ),
+    promotionCode: Yup.string().required('Vui lòng nhập code khuyến mãi!'),
+    discountPercent: Yup.string().required('Vui lòng nhập phần trăm khuyến mãi!'),
   });
 
   const formik = useFormik({
@@ -55,9 +53,9 @@ function PromotionUpdate({ closeModel, data, listPromo, listEvent }) {
         autoComplete="off"
         onSubmit={formik.handleSubmit}
         className="form-up"
-        style={{ width: "500px", height: "650px" }}
+        style={{ width: "450px", height: "550px" }}
       >
-        <div className="food__title unselectable">Thông tin mã khuyến mãi</div>
+        <div className="food__title unselectable">Thông tin voucher</div>
         <div className="center">
           <div className="listitem">
             <label className="label__title">

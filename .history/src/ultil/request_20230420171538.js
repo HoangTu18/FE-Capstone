@@ -1,7 +1,7 @@
 import axios from "axios";
-import { DOMAIN } from "./settingSystem";
 const request = axios.create({
-  baseURL: DOMAIN,
+  baseURL:
+    "http://tfsapiv1-env.eba-aagv3rp5.ap-southeast-1.elasticbeanstalk.com/api",
   headers: {
     "Content-Type": "application/json",
   },

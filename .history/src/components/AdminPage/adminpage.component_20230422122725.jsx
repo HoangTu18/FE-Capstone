@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { openNotification } from "../NotificationConfirm/NotificationConfirm";
 import "./adminpage.style.scss";
 import ProfileViewPopup from "./ViewProfilePopup";
-import { DOMAIN, USER_LOGIN } from "../../ultil/settingSystem";
+import { USER_LOGIN } from "../../ultil/settingSystem";
 import SettingViewPopup from "./ViewSettingPopup";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -58,7 +58,8 @@ function AdminPage({ children }) {
   const fetchData = () => {
     axios
       .get(
-        `${DOMAIN}/notifications/byaccount/${staff.theAccountForStaff.accountId}`
+        "https://tfsapiv1-env.eba-aagv3rp5.ap-southeast-1.elasticbeanstalk.com/api/notifications/byaccount/" +
+          staff.theAccountForStaff.accountId
       )
       .then((res) => {
         setList(res.data);

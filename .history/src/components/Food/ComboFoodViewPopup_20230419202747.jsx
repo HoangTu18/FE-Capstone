@@ -74,7 +74,7 @@ function ComboFoodView({ closeModel, data, listCate }) {
         autoComplete="off"
         onSubmit={formik.handleSubmit}
       >
-        <div className="food__title unselectable">Thông tin mâm tiệc</div>
+        <div className="food__title unselectable">Thông tin Combo</div>
         <div className="left">
           <div className="img__item">
             <img className="image" src={formik.values.image} alt="" />
@@ -82,7 +82,7 @@ function ComboFoodView({ closeModel, data, listCate }) {
           <div className="listitem">
             {/* <label className="label__title">Mã combo:</label>
             // <input disabled type="text" value={formik.values.id} /> */}
-            <label className="label__title">Tên mâm tiệc:</label>
+            <label className="label__title">Tên combo:</label>
             <input type="text" disabled value={formik.values.comboName} />
             <label className="label__title">Giá (VND):</label>
             <input type="text" disabled value={formik.values.comboPrice} />

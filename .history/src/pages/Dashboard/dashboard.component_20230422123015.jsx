@@ -147,7 +147,7 @@ function Dashboard() {
   const handleSetAvailable = (res) => {
     setChecked(!checked);
     axios
-      .get(`${DOMAIN}/api/restaurants/busybutton/${restaurant.restaurantId}`)
+      .get(`${DOMAIN}/api/restaurants/busybutton/` + restaurant.restaurantId)
       .then((res) => {
         localStorage.setItem(RESTAURANT_INFO, JSON.stringify(res.data));
       })

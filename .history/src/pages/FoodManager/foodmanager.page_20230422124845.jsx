@@ -22,8 +22,8 @@ function FoodManager() {
   ];
 
   const foodTableHeadTab2 = [
-    "Mã mâm tiệc",
-    "Tên mâm tiệc",
+    "Mã combo",
+    "Tên combo",
     "Giá (VND)",
     "Trạng thái",
     "Hành động",
@@ -82,7 +82,7 @@ function FoodManager() {
                 setTab("tab2");
               }}
             >
-              Mâm tiệc
+              Combo
             </span>
           </div>
           <div className="tab__body">

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import DashboardItem from "../../components/DashboardItem/dashboarditem.component";
-import { DOMAIN, RESTAURANT_INFO, USER_LOGIN } from "../../ultil/settingSystem";
+import { RESTAURANT_INFO, USER_LOGIN } from "../../ultil/settingSystem";
 import "./dashboard.style.scss";
 import axios from "axios";
 
@@ -147,7 +147,10 @@ function Dashboard() {
   const handleSetAvailable = (res) => {
     setChecked(!checked);
     axios
-      .get(`${DOMAIN}/api/restaurants/busybutton/${restaurant.restaurantId}`)
+      .get(
+        "http://tfsapiv1-env.eba-aagv3rp5.ap-southeast-1.elasticbeanstalk.com/api/restaurants/busybutton/" +
+          restaurant.restaurantId
+      )
       .then((res) => {
         localStorage.setItem(RESTAURANT_INFO, JSON.stringify(res.data));
       })

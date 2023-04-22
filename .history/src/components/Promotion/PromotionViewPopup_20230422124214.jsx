@@ -16,7 +16,7 @@ function PromotionView({ closeModel, data, listEvent }) {
   });
   return (
     <div className="popup">
-      <form className="form-up" style={{ width: "470px", height: "650px" }}>
+      <form className="form-up" style={{ width: "500px", height: "650px" }}>
         <div className="food__title unselectable">Thông tin mã khuyến mãi</div>
         <div className="center">
           <div className="listitem">

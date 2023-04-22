@@ -22,8 +22,8 @@ function FoodManager() {
   ];
 
   const foodTableHeadTab2 = [
-    "Mã mâm tiệc",
-    "Tên mâm tiệc",
+    "Mã combo",
+    "Tên combo",
     "Giá (VND)",
     "Trạng thái",
     "Hành động",
@@ -82,7 +82,7 @@ function FoodManager() {
                 setTab("tab2");
               }}
             >
-              Mâm tiệc
+              Combo
             </span>
           </div>
           <div className="tab__body">
@@ -133,7 +133,7 @@ function FoodManager() {
             </div>
             <div className={tab === "tab2" ? "tab active" : "tab"}>
               <div className="toptable">
-                <h1 style={{ marginLeft: "30px" }}>Danh sách mâm tiệc</h1>
+                <h1 style={{ marginLeft: "30px" }}>Danh sách combo</h1>
                 <div className="topnav__right">
                   <div className="topnav__right-item">
                     {role !== 3 ? (
@@ -141,7 +141,7 @@ function FoodManager() {
                         className="button"
                         onClick={() => setCreatePopupCombo(!createPopupCombo)}
                       >
-                        Thêm mâm tiệc +
+                        Thêm combo +
                       </div>
                     ) : (
                       <></>
@@ -151,7 +151,7 @@ function FoodManager() {
                     <div className="topnav__search">
                       <input
                         type="text"
-                        placeholder="nhập tên mâm tiệc"
+                        placeholder="nhập tên mâm tiệc để tìm..."
                         onChange={(e) => setQuery(e.target.value)}
                       />
                       <i className="fa-solid fa-magnifying-glass"></i>

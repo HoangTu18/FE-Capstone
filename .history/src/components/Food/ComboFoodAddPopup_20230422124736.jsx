@@ -161,7 +161,7 @@ function ComboFoodAdd({ closeModel, listCate }) {
         autoComplete="off"
         onSubmit={formik.handleSubmit}
       >
-        <div className="food__title unselectable">Thông tin mâm tiệc</div>
+        <div className="food__title unselectable">Thông tin Combo</div>
         <div className="left">
           <div className="img__item">
             <img className="image" src={foodImage} alt="food" />

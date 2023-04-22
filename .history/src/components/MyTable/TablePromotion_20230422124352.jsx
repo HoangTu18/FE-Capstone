@@ -131,7 +131,9 @@ const TablePromotion = (props) => {
                     {item.status ? (
                       <td className="status green">Hoạt động</td>
                     ) : (
-                      <td className=" status red">Không hoạt động</td>
+                      <td className="btn btn-danger status red">
+                        Không hoạt động
+                      </td>
                     )}
                     <td>
                       <Icon

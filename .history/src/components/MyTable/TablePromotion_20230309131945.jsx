@@ -3,13 +3,12 @@ import React, { Fragment, useState } from "react";
 import { useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
-import { getEventRequest } from "../../pages/EventManager/eventManagerSlice.js";
+import {
+  getEventRequest,
+} from "../../pages/EventManager/eventManagerSlice.js";
 import ConfirmPopup from "../Confirm/ConfirmPopup.jsx";
 import "./table.scss";
-import {
-  deletePromotionRequest,
-  getPromotionRequest,
-} from "../../pages/PromotionManage/PromotionManageSlice.js";
+import { deletePromotionRequest, getPromotionRequest } from "../../pages/PromotionManage/PromotionManageSlice.js";
 import PromotionView from "../Promotion/PromotionViewPopup.jsx";
 import PromotionUpdate from "../Promotion/PromotionUpdatePopup.jsx";
 
@@ -131,7 +130,7 @@ const TablePromotion = (props) => {
                     {item.status ? (
                       <td className="status green">Hoạt động</td>
                     ) : (
-                      <td className=" status red">Không hoạt động</td>
+                      <td className="status red">Không hoạt động</td>
                     )}
                     <td>
                       <Icon

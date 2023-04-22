@@ -55,7 +55,7 @@ function PromotionUpdate({ closeModel, data, listPromo, listEvent }) {
         autoComplete="off"
         onSubmit={formik.handleSubmit}
         className="form-up"
-        style={{ width: "500px", height: "650px" }}
+        style={{ width: "450px", height: "650px" }}
       >
         <div className="food__title unselectable">Thông tin mã khuyến mãi</div>
         <div className="center">

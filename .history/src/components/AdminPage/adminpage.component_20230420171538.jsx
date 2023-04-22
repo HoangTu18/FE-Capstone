@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { openNotification } from "../NotificationConfirm/NotificationConfirm";
 import "./adminpage.style.scss";
 import ProfileViewPopup from "./ViewProfilePopup";
-import { DOMAIN, USER_LOGIN } from "../../ultil/settingSystem";
+import { USER_LOGIN } from "../../ultil/settingSystem";
 import SettingViewPopup from "./ViewSettingPopup";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -58,7 +58,8 @@ function AdminPage({ children }) {
   const fetchData = () => {
     axios
       .get(
-        `${DOMAIN}/notifications/byaccount/${staff.theAccountForStaff.accountId}`
+        "http://tfsapiv1-env.eba-aagv3rp5.ap-southeast-1.elasticbeanstalk.com/api/notifications/byaccount/" +
+        staff.theAccountForStaff.accountId
       )
       .then((res) => {
         setList(res.data);
@@ -197,11 +198,7 @@ function AdminPage({ children }) {
       )}
       <div className="admin-page__header">
         <div className="admin-page__header-left">
-          <h4>
-            {staff.theAccountForStaff.roleId === 3
-              ? staff.theRestaurant.restaurantName
-              : ""}
-          </h4>
+          <h4>{staff.theAccountForStaff.roleId === 3 ? staff.theRestaurant.restaurantName : ""}</h4>
         </div>
         <div className="admin-page__header-right">
           {staff.theAccountForStaff.roleId === 3 && (
@@ -232,15 +229,15 @@ function AdminPage({ children }) {
                   <div className="sub-menu-center">
                     {listNotification.filter((item) => !item.checked).length !==
                       0 && (
-                      <div className="menu-notCheck">
-                        <div className="menu-notCheck-title">
-                          <span>Chưa đọc</span>
+                        <div className="menu-notCheck">
+                          <div className="menu-notCheck-title">
+                            <span>Chưa đọc</span>
+                          </div>
+                          <div className="menu-checked-detail">
+                            {handleNotification(false)}
+                          </div>
                         </div>
-                        <div className="menu-checked-detail">
-                          {handleNotification(false)}
-                        </div>
-                      </div>
-                    )}
+                      )}
                     <div className="menu-checked">
                       <div className="menu-checked-title">
                         <span>Đã đọc</span>
@@ -252,9 +249,9 @@ function AdminPage({ children }) {
                     <div className="sub-menu-footer">
                       <div
                         className="buttonViewAll"
-                        // onClick={() => {
-                        //   handleViewAllNotifi();
-                        // }}
+                      // onClick={() => {
+                      //   handleViewAllNotifi();
+                      // }}
                       >
                         <p>Xem tất cả</p>
                       </div>
