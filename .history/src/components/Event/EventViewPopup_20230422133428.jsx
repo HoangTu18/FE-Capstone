@@ -2,7 +2,6 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import "../Food/food.style.scss";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
 import { getCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
 
 function EventView({ closeModel, data }) {
@@ -98,17 +97,9 @@ function EventView({ closeModel, data }) {
             <label className="label__title">
               Thời gian:<span className="proirity">*</span>
             </label>
-            <input
-              disabled
-              type="text"
-              value={moment(formik.values.fromDate).format("DD/MM/yyyy")}
-            />
+            <input disabled type="text" value={formik.values.fromDate} />
             <label className="label__title smallText"> Đến ngày:</label>
-            <input
-              disabled
-              type="text"
-              value={moment(formik.values.toDate).format("DD/MM/yyyy")}
-            />
+            <input disabled type="text" value={formik.values.toDate} />
             <label className="label__title">Mô tả:</label>
             <textarea disabled type="text" value={formik.values.description} />
             <label className="label__title">Trạng thái:</label>

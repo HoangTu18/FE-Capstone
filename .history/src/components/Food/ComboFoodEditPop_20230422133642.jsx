@@ -143,7 +143,7 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
       comboPrice: data.comboPrice,
       image: data.image,
       comboItems: [],
-      status: data.status,
+      status: true,
     },
     onSubmit: (values, { resetForm }) => {
       selected.forEach((item) => {

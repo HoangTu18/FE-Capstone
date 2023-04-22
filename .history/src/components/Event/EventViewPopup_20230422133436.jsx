@@ -2,7 +2,6 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import "../Food/food.style.scss";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
 import { getCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
 
 function EventView({ closeModel, data }) {
