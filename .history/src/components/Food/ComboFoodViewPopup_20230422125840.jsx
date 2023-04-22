@@ -1,18 +1,10 @@
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { updateComboFoodRequest } from "../../pages/FoodManager/foodManageSlice";
-import UploadImage from "../../ultil/UploadImage";
-import FoodImage from "../../assets/imgs/food-page.jpg";
 import "./food.style.scss";
-function ComboFoodEdit({ closeModel, data, listCate }) {
-  const dispatch = useDispatch();
-  const [imageUrl, setImageUrl] = useState("");
+function ComboFoodView({ closeModel, data, listCate }) {
   const [listFood, setListFood] = useState([]);
   const [selected, setSelected] = useState([]);
-  const dataSelected = [];
 
   useEffect(() => {
     if (
@@ -34,7 +26,6 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
       handleChangeCate(1);
     }
   }, []);
-
   const handleChangeCate = (e) => {
     let eId = e !== 1 ? +e.target.value : 1;
     setListFood([]);
@@ -45,6 +36,7 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
           let checked = false;
           let quantity = 1;
           if (data !== undefined) {
+            console.log(data);
             checked = data["isChecked"];
             quantity = data["quantity"];
           }
@@ -61,80 +53,7 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
       }
     });
   };
-  const handleChange = (e) => {
-    document.getElementById(e.target.id).disabled = !e.target.checked;
-    let isChecked = e.target.checked;
-    let foodId = +e.target.id;
-    if (selected.length === 0) {
-      if (isChecked) {
-        let newData = listFood.find((item) => item.id === foodId);
-        newData["isChecked"] = true;
-        setSelected((prev) => [...prev, newData]);
-      }
-    } else if (selected.length !== 0) {
-      let existingFood = selected.find((item) => item.id === foodId);
-      if (isChecked) {
-        if (!existingFood) {
-          let newData = listFood.find((item) => item.id === foodId);
-          newData["isChecked"] = true;
-          setSelected((prev) => [...prev, newData]);
-        }
-      } else {
-        if (existingFood) {
-          let index = selected.findIndex((obj) => obj === existingFood);
-          if (index > -1) {
-            selected.splice(index, 1);
-            setSelected((prev) => [...prev]);
-            let newIndex = listFood.findIndex((item) => item.id === foodId);
-            if (newIndex > -1) {
-              listFood[newIndex]["isChecked"] = false;
-            }
-            setListFood(listFood);
-          }
-        }
-      }
-    }
-  };
 
-  const handleRemoveSelected = (itemId) => {
-    let selectedCopy = [...selected];
-    let index = selectedCopy.findIndex((obj) => obj.id === itemId);
-    if (index > -1) {
-      selectedCopy.splice(index, 1);
-      setSelected(selectedCopy);
-      let newIndex = listFood.findIndex((item) => item.id === itemId);
-      if (newIndex > -1) {
-        listFood[newIndex]["isChecked"] = false;
-      }
-      setListFood(listFood);
-    }
-  };
-  const handleQuantityChange = (e) => {
-    let foodId = +e.target.id;
-    let quantity = +e.target.value;
-    let foundIndex = selected.findIndex((obj) => obj.id === foodId);
-    if (foundIndex > -1) {
-      selected[foundIndex]["quantity"] = quantity;
-      setSelected((prev) => [...prev]);
-    }
-  };
-
-  const handleUpdateFood = useCallback(
-    (values) => {
-      let combofood = {
-        id: values.id,
-        comboName: values.comboName,
-        description: values.description,
-        comboPrice: +values.comboPrice,
-        image: imageUrl !== "" ? imageUrl : values.image,
-        comboItems: dataSelected,
-        status: values.status,
-      };
-      closeModel(false);
-      dispatch(updateComboFoodRequest(combofood));
-    },
-    [closeModel, imageUrl, dataSelected, dispatch]
-  );
   const formik = useFormik({
     initialValues: {
       id: data.id,
@@ -143,21 +62,9 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
       comboPrice: data.comboPrice,
       image: data.image,
       comboItems: [],
-      status: true,
-    },
-    onSubmit: (values, { resetForm }) => {
-      selected.forEach((item) => {
-        dataSelected.push({
-          foodId: item.id,
-          name: item.label,
-          quantity: item.quantity,
-        });
-      });
-      handleUpdateFood(values);
-      resetForm({ values: "" });
+      status: data.status,
     },
   });
-  console.log(formik.values.image ?? FoodImage);
   return (
     <div className="popup">
       <form
@@ -173,55 +80,22 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
             <img className="image" src={formik.values.image} alt="" />
           </div>
           <div className="listitem">
-            <label className="label__title">
-              Mã mâm tiệc: <span className="proirity">*</span>
-            </label>
-            <input
-              disabled
-              type="text"
-              id="id"
-              name="id"
-              value={formik.values.id}
-              onChange={formik.handleChange}
-            />
+            {/* <label className="label__title">Mã combo:</label>
+            // <input disabled type="text" value={formik.values.id} /> */}
             <label className="label__title">Tên mâm tiệc:</label>
-            <input
-              type="text"
-              id="comboName"
-              name="comboName"
-              value={formik.values.comboName}
-              onChange={formik.handleChange}
-            />
+            <input type="text" disabled value={formik.values.comboName} />
             <label className="label__title">Giá (VND):</label>
-            <input
-              type="text"
-              id="comboPrice"
-              name="comboPrice"
-              value={formik.values.comboPrice}
-              onChange={formik.handleChange}
-            />
-            <label className="label__title">Hình ảnh</label>
-            <UploadImage getImageURL={setImageUrl} />
+            <input type="text" disabled value={formik.values.comboPrice} />
             <label className="label__title">
-              {" "}
               Mô tả: <span className="proirity">*</span>
             </label>
-            <textarea
-              type="text"
-              id="description"
-              name="description"
-              value={formik.values.description}
-              onChange={formik.handleChange}
-            />
+            <textarea type="text" disabled value={formik.values.description} />
             <label className="label__title">Trạng thái:</label>
             <input
               className="checkBoxStatus type"
               type="checkbox"
-              id="status"
-              name="status"
-              // value={formik.values.status}
+              disabled
               checked={formik.values.status}
-              onChange={formik.handleChange}
             />
           </div>
         </div>
@@ -251,19 +125,12 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
                           type="number"
                           min={1}
                           defaultValue={item.quantity}
-                          id={item.id}
-                          onChange={handleQuantityChange}
                         />
                       </span>
                       <input
                         type="checkbox"
                         checked={item.isChecked}
-                        onClick={() =>
-                          (document.getElementById(item.id).checked =
-                            !item.isChecked)
-                        }
-                        onChange={handleChange}
-                        id={item.id}
+                        disabled
                       />
                     </li>
                   );
@@ -280,10 +147,9 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
                       <span className="quantity unselectable">
                         Số lượng: {item.quantity}
                       </span>
-
                       <i
+                        // disabled
                         className="fa-solid fa-trash btn__remove unselectable"
-                        onClick={() => handleRemoveSelected(item.id)}
                       />
                     </li>
                   );
@@ -291,9 +157,6 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
               </ul>
             </div>
             <div className="food__button">
-              <button type="submit" className="btn">
-                Lưu
-              </button>
               <button
                 type="button"
                 className="btn cancel"
@@ -308,5 +171,4 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
     </div>
   );
 }
-
-export default ComboFoodEdit;
+export default ComboFoodView;
