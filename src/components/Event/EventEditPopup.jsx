@@ -178,13 +178,20 @@ function EventEdit({ closeModel, data }) {
     <div className="popup">
       <form
         className="form-up"
-        style={{ width: "1000px" }}
+        style={{ width: "1100px", height: "650px" }}
         noValidate
         autoComplete="off"
         onSubmit={formik.handleSubmit}
       >
         <div className="food__title unselectable">Thông tin sự kiện</div>
         <div className="left">
+          <div className="img__item">
+            <img
+              className="image"
+              src={imageUrl !== "" ? imageUrl : formik.values.image_url}
+              alt=""
+            />
+          </div>
           <div className="listitem">
             <label className="label__title">Mã sự kiện:</label>
             <input
@@ -237,8 +244,8 @@ function EventEdit({ closeModel, data }) {
                 <span>{formik.errors.toDate}</span>
               </div>
             ) : null}
-            {/* <label className="label__title">Hình ảnh</label>
-            <UploadImage getImageURL={setImageUrl} /> */}
+            <label className="label__title">Hình ảnh</label>
+            <UploadImage getImageURL={setImageUrl} />
             <label className="label__title">Mô tả:</label>
             <textarea
               type="text"
