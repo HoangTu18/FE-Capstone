@@ -157,7 +157,6 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
       resetForm({ values: "" });
     },
   });
-  console.log(formik.values.image ?? FoodImage);
   return (
     <div className="popup">
       <form
@@ -170,7 +169,11 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
         <div className="food__title unselectable">Thông tin mâm tiệc</div>
         <div className="left">
           <div className="img__item">
-            <img className="image" src={formik.values.image} alt="" />
+            <img
+              className="image"
+              src={imageUrl !== "" ? imageUrl : formik.values.image}
+              alt=""
+            />
           </div>
           <div className="listitem">
             <label className="label__title">
