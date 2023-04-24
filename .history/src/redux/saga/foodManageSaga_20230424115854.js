@@ -181,7 +181,7 @@ function* insertComboFood(action) {
     yield put(getComboFoodRequest());
     openNotification("success", "Thành Công", "Thao tác của bạn đã thành công");
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     if (error.response.data) {
       console.log(error.response.data);
     }

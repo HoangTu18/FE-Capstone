@@ -161,7 +161,7 @@ function Dashboard() {
       <div className="dashboard__left">
         <div className="dashboard__left__logo">
           <img src="/images/logo-header.jpg" alt="" />
-          <h3>TFS System</h3>
+          <h3>Hệ thống TFS</h3>
         </div>
         {renderByAuth()}
         <div

@@ -229,8 +229,6 @@ function EventAdd({ closeModel }) {
                 <span>{formik.errors.toDate}</span>
               </div>
             ) : null}
-            {/* <label className="label__title">Hình ảnh</label>
-            <UploadImage getImageURL={setImageUrl} /> */}
             <label className="label__title">Mô tả:</label>
             <textarea
               type="text"

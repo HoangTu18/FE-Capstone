@@ -3,11 +3,12 @@ import { useCallback, useEffect, useState } from "react";
 import "../Food/food.style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryRequest } from "../../pages/CategoryManager/CategoryManageSlice";
-import { insertEventRequest } from "../../pages/EventManager/eventManagerSlice";
+import { updateEventRequest } from "../../pages/EventManager/eventManagerSlice";
 import UploadImage from "../../ultil/UploadImage";
+import moment from "moment";
 import * as Yup from "yup";
 
-function EventAdd({ closeModel }) {
+function EventEdit({ closeModel, data }) {
   const dispatch = useDispatch();
   const listCate = useSelector((state) => state.categoryManage.listCategory);
   const [imageUrl, setImageUrl] = useState("");
@@ -20,7 +21,21 @@ function EventAdd({ closeModel }) {
   }, [dispatch]);
 
   useEffect(() => {
-    if (listFood.length === 0) {
+    if (
+      data.foodList !== [] &&
+      selected.length === 0 &&
+      listFood.length === 0
+    ) {
+      data.foodList.forEach((item) => {
+        setSelected((prev) => [
+          ...prev,
+          {
+            id: item.id,
+            label: item.foodName,
+            isChecked: true,
+          },
+        ]);
+      });
       handleChangeCate(1);
     }
   }, []);
@@ -107,34 +122,30 @@ function EventAdd({ closeModel }) {
         image_url: imageUrl,
         fromDate: values.fromDate,
         toDate: values.toDate,
-        status: true,
+        status: values.status,
         foodList: dataSelected,
       };
-      console.log("Event Insert: ", event);
-      dispatch(insertEventRequest(event));
+      dispatch(updateEventRequest(event));
       closeModel(false);
     },
     [closeModel, dataSelected, dispatch, imageUrl]
   );
 
   const getFooddetail = (id) => {
-    let result = [];
-    listCate.forEach((item) => {
-      const newData = item.foodList.find((food) => food.id === id);
-      if (newData !== undefined) result.push(newData);
-    });
-    return result[0];
+    return listCate.find((item) => {
+      return item.id === id;
+    }).foodList[0];
   };
 
   const initialValues = {
-    eventId: 0,
-    eventName: "",
-    description: "",
-    image_url: "",
-    fromDate: "",
-    toDate: "",
-    status: true,
-    foodList: [],
+    eventId: data.eventId,
+    eventName: data.eventName,
+    description: data.description,
+    image_url: data.image_url,
+    fromDate: data.fromDate,
+    toDate: data.toDate,
+    status: data.status,
+    foodList: data.foodList,
   };
 
   const validation = Yup.object().shape({
@@ -151,11 +162,11 @@ function EventAdd({ closeModel }) {
       selected.forEach((item, index) => {
         dataSelected.push({
           id: selected[index].id,
-          foodName: selected[index].label,
-          description: getFooddetail(selected[index].id)["description"] ?? "",
-          price: +getFooddetail(selected[index].id)["price"],
-          imgUrl: getFooddetail(selected[index].id)["imgUrl"],
-          listComment: getFooddetail(selected[index].id)["listComment"],
+          foodName: "", //selected[index].label
+          description: "",
+          price: 0,
+          imgUrl: "",
+          listComment: "",
         });
       });
       handleUpdateEvent(values);
@@ -175,11 +186,8 @@ function EventAdd({ closeModel }) {
         <div className="food__title unselectable">Thông tin sự kiện</div>
         <div className="left">
           <div className="listitem">
-            <label hidden className="label__title">
-              Mã sự kiện:
-            </label>
+            <label className="label__title">Mã sự kiện:</label>
             <input
-              hidden
               disabled
               type="text"
               id="eventId"
@@ -207,7 +215,7 @@ function EventAdd({ closeModel }) {
             <input
               type="date"
               id="fromDate"
-              value={formik.values.fromDate}
+              value={moment(formik.values.fromDate).format("yyyy-MM-DD")}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
@@ -220,7 +228,7 @@ function EventAdd({ closeModel }) {
             <input
               type="date"
               id="toDate"
-              value={formik.values.toDate}
+              value={moment(formik.values.toDate).format("yyyy-MM-DD")}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
@@ -251,8 +259,8 @@ function EventAdd({ closeModel }) {
               type="checkbox"
               id="status"
               name="status"
-              value={true}
-              checked={true}
+              value={formik.values.status}
+              checked={formik.values.status}
               onChange={formik.handleChange}
             />
           </div>
@@ -327,4 +335,4 @@ function EventAdd({ closeModel }) {
   );
 }
 
-export default EventAdd;
+export default EventEdit;
