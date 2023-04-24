@@ -161,7 +161,7 @@ function ComboFoodEdit({ closeModel, data, listCate }) {
     <div className="popup">
       <form
         className="form-up"
-        style={{ width: "1100px" }}
+        style={{ width: "1100px", height: "650px" }}
         noValidate
         autoComplete="off"
         onSubmit={formik.handleSubmit}
