@@ -2,7 +2,7 @@ import { BaseService } from "./BaseService";
 
 class FoodService extends BaseService {
   getFood = () => {
-    return this.get(`foods/purefood`);
+    return this.get(`foods`);
   };
   insertFood = (model) => {
     return this.post(`foods`, model);
