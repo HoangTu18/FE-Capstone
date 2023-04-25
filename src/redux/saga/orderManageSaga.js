@@ -77,19 +77,18 @@ export function* followActionUpdateOrder() {
 function* refundOrder(action) {
   try {
     yield put(showLoading());
-    console.log("a", action);
     const checkStatus = yield call(() => {
       return orderService.checkPayment(action.payload.infoUpdate.orderId);
     });
-    if (checkStatus.data.returnCode === 1) {
+    if (checkStatus.returnCode === 1) {
       const order = yield call(() => {
         return orderService.refundPaymentZalo(action.payload.refundInfo);
       });
       if (order.status === STATUS_CODE.SUCCESS) {
         const orderCheckRefund = yield call(() => {
-          return orderService.refundPaymentStatus(order.data.mrefundid);
+          return orderService.refundPaymentStatus(order.mrefundid);
         });
-        if (orderCheckRefund.data.returnCode === 1) {
+        if (orderCheckRefund.returnCode === 1) {
           const orderUpdateDeny = yield call(() => {
             return orderService.updateOrder(action.payload.infoUpdate);
           });
