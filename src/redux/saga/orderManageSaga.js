@@ -80,15 +80,15 @@ function* refundOrder(action) {
     const checkStatus = yield call(() => {
       return orderService.checkPayment(action.payload.infoUpdate.orderId);
     });
-    if (checkStatus.returnCode === 1) {
+    if (checkStatus.data.returnCode === 1) {
       const order = yield call(() => {
         return orderService.refundPaymentZalo(action.payload.refundInfo);
       });
       if (order.status === STATUS_CODE.SUCCESS) {
         const orderCheckRefund = yield call(() => {
-          return orderService.refundPaymentStatus(order.mrefundid);
+          return orderService.refundPaymentStatus(order.data.mrefundid);
         });
-        if (orderCheckRefund.returnCode === 1) {
+        if (orderCheckRefund.data.returnCode === 1) {
           const orderUpdateDeny = yield call(() => {
             return orderService.updateOrder(action.payload.infoUpdate);
           });

@@ -172,9 +172,10 @@ function OrderDetail({ closeModel }) {
     if (paymentType && paymentType === "cash") {
       dispatch(updateOrderRequest(requestInfo));
     } else {
+      console.log(orderItem.totalPrice >= 10000000);
       requestInfo.refundInfo = {
         amount:
-          +orderItem.totalPrice >= 10000000
+          orderItem.totalPrice >= 10000000
             ? orderItem.totalPrice * 0.1
             : orderItem.totalPrice,
         orderId: +orderItem.id,
