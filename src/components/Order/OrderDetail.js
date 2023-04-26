@@ -8,10 +8,13 @@ import {
   updateOrderRequest,
 } from "../../pages/OrderManage/OrderManageSlice";
 import { formatToVND } from "../../ultil/numberUltil";
+import OrderSubView from "./subView/OrderSubView";
 function OrderDetail({ closeModel }) {
   const dispatch = useDispatch();
   const orderItem = useSelector((state) => state.orderManage.orderItem);
   const [mergeData, setMergeData] = useState([]);
+  const [showReason, setShowReason] = useState(false);
+  const [reason, setReason] = useState("");
   const restaurantDetail = JSON.parse(localStorage.getItem(RESTAURANT_INFO));
   const handleListStaff = () => {
     if (restaurantDetail !== undefined) {
@@ -158,17 +161,22 @@ function OrderDetail({ closeModel }) {
     //   );
     // }
   };
+
+  const handleDenyGetReason = () => {
+    setShowReason(true);
+  };
+
   const handleDenyOrder = () => {
     const paymentType = orderItem.paymentMethod;
-    let requestInfo = {
+    const requestInfo = {
       infoUpdate: {
         staffId: +staffId,
         status: "deny",
         orderId: +orderItem.id,
+        reason: reason,
       },
       restaurantId: restaurantId,
     };
-
     if (paymentType && paymentType === "cash") {
       dispatch(updateOrderRequest(requestInfo));
     } else {
@@ -182,9 +190,13 @@ function OrderDetail({ closeModel }) {
       };
       dispatch(refundPaymentRequest(requestInfo));
     }
-
     closeModel(false);
   };
+
+  if (reason !== "") {
+    setReason("");
+    handleDenyOrder();
+  }
 
   const filterStatus = (status) => {
     switch (status) {
@@ -202,119 +214,128 @@ function OrderDetail({ closeModel }) {
   };
 
   return (
-    <div className="popup">
-      <div className="model_order_detail">
-        <div className="top_model_right">
-          <div style={{ display: "flex" }}>
-            <div
-              className="top_model_right_item"
-              style={{
-                backgroundColor: "#04AA6D",
-                display: `${orderItem.status !== "pending" ? "none" : ""}`,
-              }}
-              onClick={() => handleApproveOrder()}
-            >
-              Xác nhận
-            </div>
-            <div
-              className="top_model_right_item"
-              style={{
-                backgroundColor: "#ff0000",
-                display: `${orderItem.status !== "pending" ? "none" : ""}`,
-              }}
-              onClick={() => handleDenyOrder()}
-            >
-              Từ chối
+    <>
+      <div className="popup">
+        {showReason ? (
+          <OrderSubView getReason={setReason} onClose={setShowReason} />
+        ) : (
+          <></>
+        )}
+        <div className="model_order_detail">
+          <div className="top_model_right">
+            <div style={{ display: "flex" }}>
+              <div
+                className="top_model_right_item"
+                style={{
+                  backgroundColor: "#04AA6D",
+                  display: `${orderItem.status !== "pending" ? "none" : ""}`,
+                }}
+                onClick={() => handleApproveOrder()}
+              >
+                Xác nhận
+              </div>
+              <div
+                className="top_model_right_item"
+                style={{
+                  backgroundColor: "#ff0000",
+                  display: `${orderItem.status !== "pending" ? "none" : ""}`,
+                }}
+                onClick={() => handleDenyGetReason()}
+              >
+                Từ chối
+              </div>
             </div>
           </div>
-        </div>
-        <div className="body_model_detail">
-          <div className="row">
-            <div className="col-4">
-              <div className="body_model_detail_item">
-                Ngày bán:<span>{formatDate(orderItem.orderDate)}</span>
-              </div>
-              <div className="body_model_detail_item">
-                Mã hóa đơn:<span>#{orderItem.id}</span>
-              </div>
-              <div className="body_model_detail_item">
-                Phương thức thanh toán:{" "}
-                <span>
-                  {orderItem.paymentMethod === "cash" ? "Tiền mặt" : "ZaloPay"}
-                </span>
-              </div>
-              <div className="body_model_detail_item">
-                Nhân viên phụ trách:
-                {orderItem.status === "pending" ? (
-                  <div className="selected_staff">
-                    <select onChange={(e) => setStaffId(e.target.value)}>
-                      {handleListStaff()?.map((item, index) => {
-                        return (
-                          <option key={index} value={item.staffId}>
-                            {item.staffFullName}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  </div>
-                ) : (
+          <div className="body_model_detail">
+            <div className="row">
+              <div className="col-4">
+                <div className="body_model_detail_item">
+                  Ngày bán:<span>{formatDate(orderItem.orderDate)}</span>
+                </div>
+                <div className="body_model_detail_item">
+                  Mã hóa đơn:<span>#{orderItem.id}</span>
+                </div>
+                <div className="body_model_detail_item">
+                  Phương thức thanh toán:{" "}
                   <span>
-                    {handleStaffDetail(orderItem.staffId)?.staffFullName}
+                    {orderItem.paymentMethod === "cash"
+                      ? "Tiền mặt"
+                      : "ZaloPay"}
                   </span>
-                )}
+                </div>
+                <div className="body_model_detail_item">
+                  Nhân viên phụ trách:
+                  {orderItem.status === "pending" ? (
+                    <div className="selected_staff">
+                      <select onChange={(e) => setStaffId(e.target.value)}>
+                        {handleListStaff()?.map((item, index) => {
+                          return (
+                            <option key={index} value={item.staffId}>
+                              {item.staffFullName}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                  ) : (
+                    <span>
+                      {handleStaffDetail(orderItem.staffId)?.staffFullName}
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="col-8">
-              <div className="body_model_detail_item">
-                Cửa hàng: {restaurantDetail.restaurantName}
-              </div>
-              <div className="body_model_detail_item">
-                SĐT cửa hàng: {restaurantDetail.restaurantNumber}
-              </div>
-              <div className="body_model_detail_item">
-                Địa chỉ:<span>{orderItem.deliveryAddress}</span>
-              </div>
-              <div className="body_model_detail_item">
-                Trạng thái đơn:<span>{filterStatus(orderItem.status)}</span>
+              <div className="col-8">
+                <div className="body_model_detail_item">
+                  Cửa hàng: {restaurantDetail.restaurantName}
+                </div>
+                <div className="body_model_detail_item">
+                  SĐT cửa hàng: {restaurantDetail.restaurantNumber}
+                </div>
+                <div className="body_model_detail_item">
+                  Địa chỉ:<span>{orderItem.deliveryAddress}</span>
+                </div>
+                <div className="body_model_detail_item">
+                  Trạng thái đơn:<span>{filterStatus(orderItem.status)}</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="body_model_table">
-          <TableOrderDetail
-            headData={staffTableHead}
-            renderHead={(item, index) => renderHead(item, index)}
-            bodyData={mergeData}
-            renderBody={(item, index) => renderBody(item, index)}
-          />
-        </div>
-        <div
-          style={{ display: "flex", float: "right" }}
-          className="footer_model"
-        >
-          <div
-            type="button"
-            className="btn unselectable"
-            style={{
-              fontWeight: "bold",
-              position: "absolute",
-              left: 0,
-              backgroundColor: "transparent",
-              color: "black",
-            }}
-          >
-            Tổng tiền: {formatToVND(orderItem.totalPrice)} VNĐ
+          <div className="body_model_table">
+            <TableOrderDetail
+              headData={staffTableHead}
+              renderHead={(item, index) => renderHead(item, index)}
+              bodyData={mergeData}
+              renderBody={(item, index) => renderBody(item, index)}
+            />
           </div>
           <div
-            type="button"
-            className="btn cancel"
-            onClick={() => closeModel(false)}
+            style={{ display: "flex", float: "right" }}
+            className="footer_model"
           >
-            Đóng
+            <div
+              type="button"
+              className="btn unselectable"
+              style={{
+                fontWeight: "bold",
+                position: "absolute",
+                left: 0,
+                backgroundColor: "transparent",
+                color: "black",
+              }}
+            >
+              Tổng tiền: {formatToVND(orderItem.totalPrice)} VNĐ
+            </div>
+            <div
+              type="button"
+              className="btn cancel"
+              onClick={() => closeModel(false)}
+            >
+              Đóng
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -34,7 +34,6 @@ function EventManager() {
   return (
     <div>
       {createPopup ? <EventAdd closeModel={setCreatePopup} /> : <></>}
-
       <AdminPage>
         <div className="toptable">
           <h1 style={{ marginLeft: "30px" }}>Danh sách sự kiện</h1>
