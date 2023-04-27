@@ -101,14 +101,13 @@ td {
     font: bold 12px/32px Verdana;
     color: white;
   }
-}
-
-:checked {
-  padding-left: 8px;
-  background-color: rgb(25, 207, 65);
-  background-position: 65px;
-  &::before {
-    content: "Đang hoạt động";
+  &:checked {
+    padding-left: 8px;
+    background-color: rgb(25, 207, 65);
+    background-position: 65px;
+    &::before {
+      content: "Đang hoạt động";
+    }
   }
 }
 
