@@ -76,7 +76,7 @@ export function* followActionUpdateOrder() {
 
 function* refundOrder(action) {
   try {
-    yield put(showLoading());
+    // yield put(showLoading());
     const checkStatus = yield call(() => {
       return orderService.checkPayment(action.payload.infoUpdate.orderId);
     });
@@ -114,10 +114,10 @@ function* refundOrder(action) {
     } else {
       openNotification("error", "Thất bại", checkStatus.data.returnMessage);
     }
-    yield put(hideLoading());
+    // yield put(hideLoading());
   } catch (error) {
     yield put(updateOrderFailure(error));
-    yield put(hideLoading());
+    // yield put(hideLoading());
     openNotification("error", "Thất Bại", "Thao tác của bạn đã thất bại");
   }
 }

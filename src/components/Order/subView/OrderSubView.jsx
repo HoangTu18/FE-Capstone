@@ -3,9 +3,6 @@ import "./orderSubView.scss";
 
 function OrderSubView({ getReason, onClose }) {
   const [message, setMessage] = useState("");
-  const handleMessageChange = (event) => {
-    setMessage(event.target.value);
-  };
   const handleOnSubmit = () => {
     if (message !== "") {
       getReason(message);
@@ -17,18 +14,34 @@ function OrderSubView({ getReason, onClose }) {
     onClose(false);
   };
 
+  const onChangeValue = (event) => {
+    setMessage(event.target.value);
+  };
+
+  const listReason = [
+    "Phát hiện đơn hàng gian lận",
+    "Nguyên liệu hôm nay không đạt tiêu chuẩn",
+    "Đơn hàng quá lớn không thể đáp ứng",
+  ];
+
   return (
     <div className="ordersub-container">
       <div className="header">
-        <h3> Vui lòng điền lý do từ chối đơn</h3>
+        <h3> Vui lòng chọn lý do từ chối đơn</h3>
       </div>
       <div className="content">
-        <textarea
-          id="message"
-          name="message"
-          value={message}
-          onChange={handleMessageChange}
-        />
+        <div onChange={onChangeValue}>
+          {listReason.map((item, index) => {
+            return (
+              <div className="reason" key={item}>
+                <input type="radio" name="reason" value={item} />
+                <span>
+                  {index + 1}. {item}.
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
       <div className="footer">
         <button type="submit" className="btn" onClick={handleOnSubmit}>
