@@ -84,10 +84,11 @@ function* refundOrder(action) {
       const order = yield call(() => {
         return orderService.refundPaymentZalo(action.payload.refundInfo);
       });
-      if (order.data.returncode === 2) {
+      if (order.status.returnCode === 2) {
         const orderCheckRefund = yield call(() => {
           return orderService.refundPaymentStatus(order.data.mrefundid);
         });
+        console.log("orderCheckRefund ", orderCheckRefund.data);
         if (
           orderCheckRefund.data.returnCode === 1 ||
           orderCheckRefund.data.returnCode === 2
