@@ -61,7 +61,7 @@ function CustomerView({ data, closeModel }) {
                 id="status"
                 name="status"
                 disabled
-                checked={data.theAccount.status}
+                Checked={data.status}
               />
               <button
                 type="button"
