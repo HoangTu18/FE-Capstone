@@ -115,10 +115,7 @@ const TableEvent = (props) => {
                       {item.fromDate === null
                         ? ""
                         : moment(item.fromDate).format("DD-MM")}{" "}
-                      đến{" "}
-                      {item.toDate === null
-                        ? ""
-                        : moment(item.toDate).format("DD-MM")}
+                      đến {item.toDate === null ? "" : item.toDate.slice(5, 10)}
                     </td>
                     <td>
                       <Icon
